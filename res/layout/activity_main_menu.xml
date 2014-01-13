@@ -21,5 +21,4 @@
         android:background="@drawable/btn_white_glossy"
         android:text="@string/continue_checklist" />
 
-
 </LinearLayout>

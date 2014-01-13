@@ -1,12 +1,10 @@
 package com.medusa.checkit.android;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.*;
 
-import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 
 public class JSONWriter {
