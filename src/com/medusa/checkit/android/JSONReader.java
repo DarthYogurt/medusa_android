@@ -18,12 +18,9 @@ public class JSONReader {
 
 	Context context;
 	String jsonString;
-	ArrayList<String[]> checklistsArray;
-	ArrayList<String[]> stepsArray;
 	
 	public JSONReader(Context context) {
 		this.context = context;
-		this.checklistsArray = new ArrayList<String[]>();
 	}
 	
 	public void readFromInternal(String filename) throws IOException {
@@ -33,26 +30,24 @@ public class JSONReader {
 			FileInputStream fis = context.openFileInput(filename);
 			InputStreamReader isr = new InputStreamReader(fis);
 			br = new BufferedReader(isr);
-			
 			jsonString = br.readLine();
+			
 			Log.v("readFromJSON", jsonString);
 		} catch (FileNotFoundException e) { e.printStackTrace(); } 
 		finally {
-			try {
-				if (br != null) {
-					br.close();
-				}
+			try { if (br != null) { br.close(); }
 			} catch (IOException e) { e.printStackTrace(); }
 		}
 	}
 	
 	public ArrayList<String[]> getChecklistsArray() {
+		ArrayList<String[]> checklistsArray = new ArrayList<String[]>();
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArray = jObject.getJSONArray("checklist");
             String checklistId = null;
             String checklistName = null;
-
+            
             for (int i = 0; i < jArray.length(); i++) {
             	checklistId = jArray.getJSONObject(i).getString("id");
                 checklistName = jArray.getJSONObject(i).getString("name");
@@ -69,7 +64,7 @@ public class JSONReader {
 	}
 	
 	public ArrayList<String[]> getStepsArray() {
-        stepsArray = new ArrayList<String[]>();
+		ArrayList<String[]> stepsArray = new ArrayList<String[]>();
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArray = jObject.getJSONArray("steps");

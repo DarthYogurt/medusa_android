@@ -89,8 +89,8 @@ public class SplashActivity extends Activity {
 			intent.putExtra("steps", allStepsArray);
 			
 			// Start main menu activity
-			SplashActivity.this.startActivity(intent);
-			SplashActivity.this.finish();
+			startActivity(intent);
+			finish();
 		}
 	}
 
