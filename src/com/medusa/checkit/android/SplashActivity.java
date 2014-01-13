@@ -16,13 +16,6 @@ import android.view.WindowManager;
 public class SplashActivity extends Activity {
 
 	Context context;
-	Intent intent;
-	String allChecklistsJSONString;
-	String allStepsJSONString;
-	ArrayList<String> allStepsJSONStringArray;
-	ArrayList<String[]> checklistsArray;
-	ArrayList<String[]> stepsArray;
-	ArrayList<String[]> allStepsArray;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,34 +36,36 @@ public class SplashActivity extends Activity {
 
 	private class IntentLauncher extends Thread {
 		
+		ArrayList<String[]> checklistsArray;
+		ArrayList<String[]> allStepsArray;
+		
 		@Override
 		public void run() {
 			
-			HTTPGetRequest getRequest = new HTTPGetRequest();
 			try {
+				HTTPGetRequest getRequest = new HTTPGetRequest();
+				String allChecklistsJSONString = getRequest.getChecklists(1);
 				
 				JSONWriter writer = new JSONWriter(context);
-				JSONReader reader = new JSONReader(context);
-				
-				allChecklistsJSONString = getRequest.getChecklists(1);
-				
 				writer.writeToInternal(allChecklistsJSONString);
-				reader.readFromInternal(JSONWriter.FILENAME);
 				
+				JSONReader reader = new JSONReader(context);
+				reader.readFromInternal(JSONWriter.FILENAME);
 				checklistsArray = reader.getChecklistsArray();
 				
-				allStepsJSONStringArray = new ArrayList<String>();
-				allStepsArray = new ArrayList<String[]>();
-				
 				// Adds JSON string of steps for each checklist into ArrayList
-				String[] checklist;
+				String[] checklistHolder;
+				String allStepsJSONString;
+				ArrayList<String> allStepsJSONStringArray = new ArrayList<String>();
 				for (int i = 0; i < checklistsArray.size(); i++) { 
-					checklist = checklistsArray.get(i);
-					allStepsJSONString = getRequest.getSteps(Integer.parseInt(checklist[0]));
+					checklistHolder = checklistsArray.get(i);
+					allStepsJSONString = getRequest.getSteps(Integer.parseInt(checklistHolder[0]));
 					allStepsJSONStringArray.add(allStepsJSONString);
 				}
 				
 				// Adds all steps for all checklists into an ArrayList
+				ArrayList<String[]> stepsArray;
+				allStepsArray = new ArrayList<String[]>();
 				for (int i = 0; i < allStepsJSONStringArray.size(); i++) {
 					writer.writeToInternal(allStepsJSONStringArray.get(i));
 					reader.readFromInternal(JSONWriter.FILENAME); 
@@ -89,7 +84,7 @@ public class SplashActivity extends Activity {
 			catch (IOException e) { e.printStackTrace(); }
 
 			// Passes checklist and step arrays to main menu
-			intent = new Intent(context, MainMenuActivity.class);
+			Intent intent = new Intent(context, MainMenuActivity.class);
 			intent.putExtra("checklists", checklistsArray);
 			intent.putExtra("steps", allStepsArray);
 			
