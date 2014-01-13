@@ -5,5 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="logo_description">Logo</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="new_checklist">New Checklist</string>
+    <string name="continue_checklist">Continue Checklist</string>
 
 </resources>
