@@ -21,7 +21,6 @@ public class SplashActivity extends Activity {
 	String allStepsJSONString;
 	ArrayList<String> allStepsJSONStringArray;
 	ArrayList<String[]> checklistsArray;
-	ArrayList<String> checklistsIdArray;
 	ArrayList<String[]> stepsArray;
 	ArrayList<String[]> allStepsArray;
 	
@@ -59,14 +58,15 @@ public class SplashActivity extends Activity {
 				reader.readFromInternal(JSONWriter.FILENAME);
 				
 				checklistsArray = reader.getChecklistsArray();
-				checklistsIdArray = reader.getChecklistIdsArray();
 				
 				allStepsJSONStringArray = new ArrayList<String>();
 				allStepsArray = new ArrayList<String[]>();
 				
-				// Adds all steps for each checklist into a String array
-				for (int i = 0; i < checklistsIdArray.size(); i++) {
-					allStepsJSONString = getRequest.getSteps(Integer.parseInt(checklistsIdArray.get(i)));
+				// Adds JSON string of steps for each checklist into ArrayList
+				String[] checklist;
+				for (int i = 0; i < checklistsArray.size(); i++) { 
+					checklist = checklistsArray.get(i);
+					allStepsJSONString = getRequest.getSteps(Integer.parseInt(checklist[0]));
 					allStepsJSONStringArray.add(allStepsJSONString);
 				}
 				

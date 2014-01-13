@@ -19,13 +19,11 @@ public class JSONReader {
 	Context context;
 	String jsonString;
 	ArrayList<String[]> checklistsArray;
-	ArrayList<String> checklistsIdArray;
 	ArrayList<String[]> stepsArray;
 	
 	public JSONReader(Context context) {
 		this.context = context;
 		this.checklistsArray = new ArrayList<String[]>();
-        this.checklistsIdArray = new ArrayList<String>();
 	}
 	
 	public void readFromInternal(String filename) throws IOException {
@@ -59,7 +57,6 @@ public class JSONReader {
             	checklistId = jArray.getJSONObject(i).getString("id");
                 checklistName = jArray.getJSONObject(i).getString("name");
                 checklistsArray.add(new String[] {checklistId, checklistName});
-                checklistsIdArray.add(checklistId);
             }
             
             // Shows contents of checklistsArray
@@ -69,14 +66,6 @@ public class JSONReader {
             
         } catch (Exception e) { e.printStackTrace(); }
 		return checklistsArray;
-	}
-	
-	public ArrayList<String> getChecklistIdsArray() {
-//		// Shows contents of checklistsIdArray
-//        for (int i = 0; i < checklistsIdArray.size(); i++) {
-//			Log.v("Checklist Ids", checklistsIdArray.get(i));
-//		}
-		return checklistsIdArray;
 	}
 	
 	public ArrayList<String[]> getStepsArray() {
