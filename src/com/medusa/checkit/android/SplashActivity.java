@@ -36,8 +36,8 @@ public class SplashActivity extends Activity {
 
 	private class IntentLauncher extends Thread {
 		
-		ArrayList<String[]> checklistsArray;
-		ArrayList<String[]> allStepsArray;
+		ArrayList<Checklist> checklistsArray;
+		ArrayList<Step> allStepsArray;
 		
 		@Override
 		public void run() {
@@ -53,44 +53,46 @@ public class SplashActivity extends Activity {
 				reader.readFromInternal(JSONWriter.FILENAME);
 				checklistsArray = reader.getChecklistsArray();
 				
-				// Adds JSON string of steps for each checklist into ArrayList
-				String[] checklistHolder;
-				String allStepsJSONString;
+				// Adds JSON string of steps for each checklist into ArrayList<Checklist>
+				Checklist checklistHolder;
+				String stepsJSONString;
 				ArrayList<String> allStepsJSONStringArray = new ArrayList<String>();
 				for (int i = 0; i < checklistsArray.size(); i++) { 
 					checklistHolder = checklistsArray.get(i);
-					allStepsJSONString = getRequest.getSteps(Integer.parseInt(checklistHolder[0]));
-					allStepsJSONStringArray.add(allStepsJSONString);
+					stepsJSONString = getRequest.getSteps(checklistHolder.getId());
+					allStepsJSONStringArray.add(stepsJSONString);
 				}
 				
-				// Adds all steps for all checklists into an ArrayList
-				ArrayList<String[]> stepsArray;
-				allStepsArray = new ArrayList<String[]>();
+				// Adds all steps for all checklists into an ArrayList<Step>
+				Step stepHolder;
+				ArrayList<Step> stepsArray;
+				allStepsArray = new ArrayList<Step>();
 				for (int i = 0; i < allStepsJSONStringArray.size(); i++) {
 					writer.writeToInternal(allStepsJSONStringArray.get(i));
 					reader.readFromInternal(JSONWriter.FILENAME); 
 					stepsArray = reader.getStepsArray();
 					
 					for (int s = 0; s < stepsArray.size(); s++) {
-						allStepsArray.add(stepsArray.get(s));
+						stepHolder = stepsArray.get(s);
+						allStepsArray.add(stepHolder);
 					}
 				}
 				
 				for (int i = 0; i < allStepsArray.size(); i++) {
-					Log.v("Checklist Steps", Arrays.toString(allStepsArray.get(i)));
+					Step holder = allStepsArray.get(i);
+					Log.v("ALL Steps", holder.getName());
 				}
-				
 			} catch (MalformedURLException e) { e.printStackTrace(); } 
 			catch (IOException e) { e.printStackTrace(); }
 
-			// Passes checklist and step arrays to main menu
-			Intent intent = new Intent(context, MainMenuActivity.class);
-			intent.putExtra("checklists", checklistsArray);
-			intent.putExtra("steps", allStepsArray);
-			
-			// Start main menu activity
-			startActivity(intent);
-			finish();
+//			// Passes checklist and step arrays to main menu
+//			Intent intent = new Intent(context, MainMenuActivity.class);
+//			intent.putExtra("checklists", checklistsArray);
+//			intent.putExtra("steps", allStepsArray);
+//			
+//			// Start main menu activity
+//			startActivity(intent);
+//			finish();
 		}
 	}
 
