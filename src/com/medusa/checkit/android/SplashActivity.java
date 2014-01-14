@@ -71,6 +71,9 @@ public class SplashActivity extends Activity {
 					reader.readFromInternal(JSONWriter.FILENAME); 
 					stepsArray = reader.getStepsArray();
 					
+					checklistHolder = checklistsArray.get(i);
+					checklistHolder.setNumOfSteps(stepsArray.size());
+					
 					for (int s = 0; s < stepsArray.size(); s++) {
 						stepHolder = stepsArray.get(s);
 						allStepsArray.add(stepHolder);

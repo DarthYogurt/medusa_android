@@ -49,7 +49,7 @@ public class ChecklistAdapter extends ArrayAdapter<Checklist> {
 
 		String id = Integer.toString(checklists.get(position).getId()); 
 		String name = checklists.get(position).getName();
-		String numOfSteps = Integer.toString(5);
+		String numOfSteps = Integer.toString(checklists.get(position).getNumOfSteps());
 		
 		holder.checklistId.setText(id);
         holder.checklistName.setText(name);

@@ -8,6 +8,7 @@ public class Checklist implements Serializable {
 	private int id;
 	private String name;
 	private int groupId;
+	private int numOfSteps;
 	
 	public Checklist(int id, String name, int groupId) {
 		this.id = id;
@@ -25,5 +26,13 @@ public class Checklist implements Serializable {
 	
 	public int getGroupId() {
 		return groupId;
+	}
+	
+	public void setNumOfSteps(int i) {
+		this.numOfSteps = i; 
+	}
+	
+	public int getNumOfSteps() {
+		return numOfSteps;
 	}
 }
