@@ -26,11 +26,6 @@ public class MainMenuActivity extends Activity {
 		checklistsArray = (ArrayList<Checklist>) getIntent().getSerializableExtra("checklists");
         stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
         
-        for (int i = 0; i < checklistsArray.size(); i++) {
-        	Checklist holder = checklistsArray.get(i);
-        	Log.v("in main activity", holder.getName());
-        }
-        
         ListView listView = (ListView)findViewById(R.id.checklist_listview);
         ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
         listView.setAdapter(adapter);
