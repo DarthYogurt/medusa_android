@@ -9,8 +9,8 @@
         android:id="@+id/checklist_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:textSize="20sp"
         android:textStyle="bold" />
     
@@ -18,14 +18,32 @@
         android:id="@+id/checklist_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/checklist_name" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+	
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/checklist_id"
+        android:layout_toLeftOf="@id/checklist_id"
+        android:text="@string/id_label" />
     
+	<TextView
+	    android:id="@+id/num_of_steps_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/num_of_steps_label" />
+	
     <TextView
         android:id="@+id/num_of_steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignBaseline="@id/num_of_steps_label"
+        android:layout_toRightOf="@id/num_of_steps_label" />
+    
+    
     
     
 

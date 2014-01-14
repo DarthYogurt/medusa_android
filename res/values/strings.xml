@@ -7,5 +7,7 @@
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="new_checklist">New Checklist</string>
     <string name="continue_checklist">Continue Checklist</string>
+    <string name="id_label">ID:</string>
+    <string name="num_of_steps_label">Number of Steps: </string>
 
 </resources>
