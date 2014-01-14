@@ -3,7 +3,6 @@ package com.medusa.checkit.android;
 import java.util.ArrayList;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -17,23 +16,19 @@ public class StepsFragmentActivity extends FragmentActivity {
 
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
+	private ArrayList<Step> stepsArray;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_steps_fragment);
 		
+		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		
 		mPager = (ViewPager)findViewById(R.id.steps_pager);
         mPagerAdapter = new StepsPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        
-        @SuppressWarnings("unchecked")
-		ArrayList<Step> stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
-        
-        for (int i = 0; i < stepsArray.size(); i++) {
-        	Step step = stepsArray.get(i);
-        	Log.v("this checklist steps", step.getName());
-        }
 		
 	}
 	
@@ -49,7 +44,7 @@ public class StepsFragmentActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return stepsArray.size();
         }
     }
 

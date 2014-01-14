@@ -4,20 +4,16 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 public class MainMenuActivity extends Activity {
 	
-	private final static String KEY_CHECKLIST_ID = "Checklist Id";
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
 	

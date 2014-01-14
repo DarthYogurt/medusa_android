@@ -28,11 +28,8 @@ public class StepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_step, container, false);
 		
+		name = (TextView) view.findViewById(R.id.step_name);
 		
-		
-		name = (TextView) view.findViewById(R.id.checklist_name);
-		
-        // Inflate the layout for this fragment
         return view;
     }
 }

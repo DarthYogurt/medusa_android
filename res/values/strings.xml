@@ -9,6 +9,6 @@
     <string name="id_label">ID:</string>
     <string name="num_of_steps_label">Number of Steps: </string>
     <string name="title_activity_steps_fragment">StepsFragmentActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="step_order_label">Step #</string>
 
 </resources>
