@@ -13,10 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class MainMenuActivity extends Activity {
 	
 	private final static String KEY_CHECKLIST_ID = "Checklist Id";
+	ArrayList<Checklist> checklistsArray;
+	ArrayList<Step> stepsArray;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -24,8 +27,8 @@ public class MainMenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
 		
-		final ArrayList<Checklist> checklistsArray = (ArrayList<Checklist>) getIntent().getSerializableExtra("checklists");
-		ArrayList<Step> stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		checklistsArray = (ArrayList<Checklist>) getIntent().getSerializableExtra("checklists");
+		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
         
         ListView listView = (ListView)findViewById(R.id.checklist_listview);
         ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
@@ -34,16 +37,24 @@ public class MainMenuActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Checklist checklist = checklistsArray.get(position);
 				Intent intent = new Intent(getApplicationContext(), StepsFragmentActivity.class);
-				intent.putExtra(KEY_CHECKLIST_ID, checklist.getId());
+				Checklist checklist = checklistsArray.get(position);
+				intent.putExtra("steps", getStepsForChecklist(checklist.getId()));
 				startActivity(intent);
 			}
         });
-        
-//		newChecklistIntent = new Intent(this, NewChecklistActivity.class);
-//		newChecklistIntent.putExtra("checklists", checklistsArray);
-//		newChecklistIntent.putExtra("steps", stepsArray);
+	}
+	
+	private ArrayList<Step> getStepsForChecklist(int checklistId) {
+		ArrayList<Step> stepsForSelectedChecklist = new ArrayList<Step>();
+		
+		for (int i = 0; i < stepsArray.size(); i++) {
+			Step step = stepsArray.get(i);
+			if (checklistId == step.getChecklistId()) {
+				stepsForSelectedChecklist.add(step);
+			}
+		}
+		return stepsForSelectedChecklist;
 	}
 
 //	@Override
