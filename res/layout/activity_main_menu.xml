@@ -1,24 +1,14 @@
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainMenuActivity"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#fff" >
-
-    <Button
-        android:id="@+id/new_checklist_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_white_glossy"
-        android:text="@string/new_checklist" />
-    
-    <Button
-        android:id="@+id/continue_checklist_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_white_glossy"
-        android:text="@string/continue_checklist" />
+	
+	<ListView
+	    android:id="@+id/checklist_listview"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" />
 
 </LinearLayout>

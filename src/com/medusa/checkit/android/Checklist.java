@@ -1,6 +1,8 @@
 package com.medusa.checkit.android;
 
-public class Checklist {
+import java.io.Serializable;
+
+public class Checklist implements Serializable {
 
 	private int id;
 	private String name;

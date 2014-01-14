@@ -3,7 +3,6 @@ package com.medusa.checkit.android;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -85,14 +84,12 @@ public class SplashActivity extends Activity {
 			} catch (MalformedURLException e) { e.printStackTrace(); } 
 			catch (IOException e) { e.printStackTrace(); }
 
-//			// Passes checklist and step arrays to main menu
-//			Intent intent = new Intent(context, MainMenuActivity.class);
-//			intent.putExtra("checklists", checklistsArray);
-//			intent.putExtra("steps", allStepsArray);
-//			
-//			// Start main menu activity
-//			startActivity(intent);
-//			finish();
+			Intent intent = new Intent(context, MainMenuActivity.class);
+			intent.putExtra("checklists", checklistsArray);
+			intent.putExtra("steps", allStepsArray);
+			
+			startActivity(intent);
+			finish();
 		}
 	}
 

@@ -1,6 +1,8 @@
 package com.medusa.checkit.android;
 
-public class Step {
+import java.io.Serializable;
+
+public class Step implements Serializable {
 
 	private int order;
 	private String name;
