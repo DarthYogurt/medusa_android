@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Step implements Serializable {
 
+	private static final long serialVersionUID = -1830210019061594179L;
 	private int order;
 	private String name;
 	private String type;

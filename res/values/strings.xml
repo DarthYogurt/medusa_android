@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CheckIt</string>
+    <string name="app_name">Check It</string>
     <string name="action_settings">Settings</string>
     <string name="logo_description">Logo</string>
-    <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="new_checklist">New Checklist</string>
     <string name="continue_checklist">Continue Checklist</string>
     <string name="id_label">ID:</string>

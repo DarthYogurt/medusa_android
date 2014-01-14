@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Checklist implements Serializable {
 
+	private static final long serialVersionUID = 6306794285994296143L;
 	private int id;
 	private String name;
 	private int groupId;
