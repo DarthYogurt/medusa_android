@@ -11,6 +11,9 @@ public class Step implements Serializable {
 	private int id;
 	private int checklistId;
 	private String checklistName;
+	private boolean finished;
+	private double value;
+	private String text;
 	
 	public Step(int order, String name, String type, int id, int checklistId, String checklistName) {
 		this.order = order;
@@ -43,6 +46,30 @@ public class Step implements Serializable {
 	
 	public String getChecklistName() {
 		return checklistName;
+	}
+	
+	public boolean getFinished() {
+		return finished;
+	}
+	
+	public void setFinished(boolean b) {
+		this.finished = b;
+	}
+	
+	public double getValue() {
+		return value;
+	}
+	
+	public void setValue(double d) {
+		this.value = d;
+	}
+	
+	public String getText() {
+		return text;
+	}
+	
+	public void setText(String s) {
+		this.text = s;
 	}
 	
 }
