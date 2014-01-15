@@ -36,8 +36,8 @@ public class StepFragment extends Fragment {
 		mButtonYes = (Button) view.findViewById(R.id.button_yes);
 		mButtonNo = (Button) view.findViewById(R.id.button_no);
 		
-		setOrder();
-		setName();
+		mOrder.setText(Integer.toString(mStep.getOrder()));
+		mName.setText(mStep.getName());
 		
 		if (mStep.getType().equalsIgnoreCase("bool")) {
 			showYesNoButtons();
@@ -64,14 +64,6 @@ public class StepFragment extends Fragment {
 	
 	private void setStep(Step step) {
 		mStep = step;
-	}
-	
-	private void setOrder() {
-		mOrder.setText(Integer.toString(mStep.getOrder()));
-	}
-	
-	private void setName() {
-		mName.setText(mStep.getName());
 	}
 	
 	private void showYesNoButtons() {

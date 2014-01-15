@@ -1,5 +1,28 @@
-<android.support.v4.view.ViewPager
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/steps_pager"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent" >
+
+	<android.support.v4.view.ViewPager
+	    android:id="@+id/steps_pager"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_alignParentTop="true" />
+
+	<LinearLayout
+	    android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+        
+	    <Button
+	        android:id="@+id/finish_checklist_btn"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/btn_white_glossy"
+	        android:layout_margin="20dp"
+	        android:text="@string/finish_checklist" />
+    
+    </LinearLayout>
+    
+</RelativeLayout>
