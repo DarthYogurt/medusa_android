@@ -9,5 +9,7 @@
     <string name="id_label">ID:</string>
     <string name="num_of_steps_label">Number of Steps: </string>
     <string name="step_order_label">Step #</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
 
 </resources>
