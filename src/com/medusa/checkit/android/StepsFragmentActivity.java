@@ -36,11 +36,12 @@ public class StepsFragmentActivity extends FragmentActivity {
         public StepsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
+        
         @Override
-        public Fragment getItem(int position) {
-            return StepFragment.newInstance(position);
-        }
+      public Fragment getItem(int position) {
+        	Step step = stepsArray.get(position);
+        	return StepFragment.newInstance(position, step);
+      }
 
         @Override
         public int getCount() {

@@ -23,6 +23,7 @@ public class MainMenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
 		
+		// TODO: change to parcelable instead of serializable
 		checklistsArray = (ArrayList<Checklist>) getIntent().getSerializableExtra("checklists");
 		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
         

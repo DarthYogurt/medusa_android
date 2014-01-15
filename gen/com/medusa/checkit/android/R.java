@@ -56,8 +56,7 @@ public final class R {
         public static final int logo_description=0x7f050002;
         public static final int num_of_steps_label=0x7f050006;
         public static final int start_new_checklist=0x7f050003;
-        public static final int step_order_label=0x7f050008;
-        public static final int title_activity_steps_fragment=0x7f050007;
+        public static final int step_order_label=0x7f050007;
     }
     public static final class style {
         /** 

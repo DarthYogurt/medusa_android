@@ -22,6 +22,9 @@ public class Step implements Serializable {
 		this.id = id;
 		this.checklistId = checklistId;
 		this.checklistName = checklistName;
+		this.finished = false;
+		this.value = 0;
+		this.text = "";
 	}
 	
 	public int getOrder() {
