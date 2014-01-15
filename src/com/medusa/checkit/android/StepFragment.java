@@ -6,13 +6,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StepFragment extends Fragment {
 	
 	private TextView mOrder;
 	private TextView mName;
+	private TextView mResult;
 	private Button mButtonYes;
 	private Button mButtonNo;
 	private Step mStep;
@@ -29,6 +32,7 @@ public class StepFragment extends Fragment {
 		
 		mOrder = (TextView) view.findViewById(R.id.step_order);
 		mName = (TextView) view.findViewById(R.id.step_name);
+		mResult = (TextView) view.findViewById(R.id.result);
 		mButtonYes = (Button) view.findViewById(R.id.button_yes);
 		mButtonNo = (Button) view.findViewById(R.id.button_no);
 		
@@ -39,7 +43,21 @@ public class StepFragment extends Fragment {
 			showYesNoButtons();
 		}
 		
+		mButtonYes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mResult.setText("Yes");
+				mStep.setYesOrNo(true);
+			}
+		});
 		
+		mButtonNo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mResult.setText("No");
+				mStep.setYesOrNo(false);
+			}
+		});
 		
         return view;
     }

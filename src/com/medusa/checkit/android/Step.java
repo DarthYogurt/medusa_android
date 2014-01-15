@@ -11,7 +11,8 @@ public class Step implements Serializable {
 	private int id;
 	private int checklistId;
 	private String checklistName;
-	private boolean finished;
+	private boolean isStepFinished;
+	private boolean yesOrNo;
 	private double value;
 	private String text;
 	
@@ -22,7 +23,8 @@ public class Step implements Serializable {
 		this.id = id;
 		this.checklistId = checklistId;
 		this.checklistName = checklistName;
-		this.finished = false;
+		this.isStepFinished = false;
+		this.yesOrNo = false;
 		this.value = 0;
 		this.text = "";
 	}
@@ -51,12 +53,20 @@ public class Step implements Serializable {
 		return checklistName;
 	}
 	
-	public boolean getFinished() {
-		return finished;
+	public boolean getIsStepFinished() {
+		return isStepFinished;
 	}
 	
-	public void setFinished(boolean b) {
-		this.finished = b;
+	public void setIsStepFinished(boolean b) {
+		this.isStepFinished = b;
+	}
+	
+	public boolean getYesOrNo() {
+		return yesOrNo;
+	}
+	
+	public void setYesOrNo(boolean b) {
+		this.yesOrNo = b;
 	}
 	
 	public double getValue() {

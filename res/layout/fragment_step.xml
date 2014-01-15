@@ -39,9 +39,25 @@
 	        android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 	    	android:paddingTop="10dp"
+	    	android:paddingBottom="10dp"
 	    	android:textSize="26sp" />
+	    
+	    <TextView
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:paddingTop="40dp"
+	    	android:textSize="20sp"
+	    	android:text="@string/result_label" />
+	    
+	    <TextView
+	        android:id="@+id/result"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textSize="20sp" />
+	    
     </LinearLayout>
     
+    <!-- YES/NO BUTTONS -->
     <Button
         android:id="@+id/button_no"
         android:layout_width="fill_parent"
@@ -62,7 +78,7 @@
         android:layout_marginBottom="30dp"
         android:visibility="gone"
         android:text="@string/button_yes" />
-    
+    <!-- END YES/NO BUTTONS -->
     
 
 </RelativeLayout>

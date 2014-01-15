@@ -26,14 +26,15 @@ public final class R {
         public static final int splash_screen_logo=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000a;
+        public static final int action_settings=0x7f08000b;
         public static final int button_no=0x7f080005;
-        public static final int button_yes=0x7f080004;
-        public static final int checklist_id=0x7f080007;
+        public static final int button_yes=0x7f080006;
+        public static final int checklist_id=0x7f080008;
         public static final int checklist_listview=0x7f080000;
-        public static final int checklist_name=0x7f080006;
-        public static final int num_of_steps=0x7f080009;
-        public static final int num_of_steps_label=0x7f080008;
+        public static final int checklist_name=0x7f080007;
+        public static final int num_of_steps=0x7f08000a;
+        public static final int num_of_steps_label=0x7f080009;
+        public static final int result=0x7f080004;
         public static final int step_name=0x7f080003;
         public static final int step_order=0x7f080002;
         public static final int steps_pager=0x7f080001;
@@ -53,12 +54,13 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
-        public static final int button_no=0x7f050009;
-        public static final int button_yes=0x7f050008;
+        public static final int button_no=0x7f05000a;
+        public static final int button_yes=0x7f050009;
         public static final int continue_checklist=0x7f050004;
         public static final int id_label=0x7f050005;
         public static final int logo_description=0x7f050002;
         public static final int num_of_steps_label=0x7f050006;
+        public static final int result_label=0x7f050008;
         public static final int start_new_checklist=0x7f050003;
         public static final int step_order_label=0x7f050007;
     }
