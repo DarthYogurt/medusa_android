@@ -16,5 +16,8 @@
     <string name="text_hint">Type Message Here</string>
     <string name="button_submit">Submit</string>
     <string name="finish_checklist">Finish Checklist</string>
+    <string name="title_activity_finish_checklist">FinishChecklistActivity</string>
+    <string name="title_activity_step">StepActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

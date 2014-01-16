@@ -1,5 +1,9 @@
 package com.medusa.checkit.android;
 
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,6 +24,7 @@ public class StepFragment extends Fragment {
 	private TextView mOrder;
 	private TextView mName;
 	private TextView mResult;
+	private Button mButtonFinishChecklist;
 	private Step mStep;
 	
 	static StepFragment newInstance(int position, Step step) {
@@ -35,6 +40,7 @@ public class StepFragment extends Fragment {
 		mOrder = (TextView) view.findViewById(R.id.step_order);
 		mName = (TextView) view.findViewById(R.id.step_name);
 		mResult = (TextView) view.findViewById(R.id.result);
+		mButtonFinishChecklist = (Button) view.findViewById(R.id.btn_finish_checklist);
 
 		mOrder.setText(Integer.toString(mStep.getOrder()));
 		mName.setText(mStep.getName());
@@ -42,6 +48,13 @@ public class StepFragment extends Fragment {
 		if (mStep.getType().equalsIgnoreCase("bool")) { showBoolElements(); }
 		if (mStep.getType().equalsIgnoreCase("double")) { showDoubleElements(); }
 		if (mStep.getType().equalsIgnoreCase("text")) { showTextElements(); }
+		
+		mButtonFinishChecklist.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+			}
+		});
 		
         return view;
     }
@@ -76,15 +89,15 @@ public class StepFragment extends Fragment {
 	private void showDoubleElements() {
 		LinearLayout mDoubleContainer = (LinearLayout) view.findViewById(R.id.double_container);
 		final EditText mDoubleInput = (EditText) view.findViewById(R.id.double_input);
-		Button mButtonSubmitDouble = (Button) view.findViewById(R.id.btn_submit_double);
+		Button mButtonSubmit = (Button) view.findViewById(R.id.btn_submit_double);
 		mDoubleContainer.setVisibility(View.VISIBLE);
 		
-		mButtonSubmitDouble.setOnClickListener(new OnClickListener() {
+		mButtonSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				String input = mDoubleInput.getText().toString();
 				mResult.setText(input);
-				mStep.setText(input);
+				mStep.setValue(Double.parseDouble(input));
 			}
 		});
 	}
@@ -92,10 +105,10 @@ public class StepFragment extends Fragment {
 	private void showTextElements() {
 		LinearLayout mTextContainer = (LinearLayout) view.findViewById(R.id.text_container);
 		final EditText mTextInput = (EditText) view.findViewById(R.id.text_input);
-		Button mButtonSubmitText = (Button) view.findViewById(R.id.btn_submit_text);
+		Button mButtonSubmit = (Button) view.findViewById(R.id.btn_submit_text);
 		mTextContainer.setVisibility(View.VISIBLE);
 		
-		mButtonSubmitText.setOnClickListener(new OnClickListener() {
+		mButtonSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				String input = mTextInput.getText().toString();
@@ -104,4 +117,5 @@ public class StepFragment extends Fragment {
 			}
 		});
 	}
+	
 }

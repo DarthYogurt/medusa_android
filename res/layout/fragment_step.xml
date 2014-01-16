@@ -157,7 +157,7 @@
     <!-- END TEXT CONTAINER -->
     
     <Button
-        android:id="@+id/finish_checklist_btn"
+        android:id="@+id/btn_finish_checklist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
