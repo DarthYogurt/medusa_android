@@ -21,10 +21,7 @@ import android.widget.Toast;
 public class StepFragment extends Fragment {
 	
 	private View view;
-	private TextView mOrder;
-	private TextView mName;
 	private TextView mResult;
-	private Button mButtonFinishChecklist;
 	private Step mStep;
 	
 	static StepFragment newInstance(int position, Step step) {
@@ -37,10 +34,10 @@ public class StepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_step, container, false);
 		
-		mOrder = (TextView) view.findViewById(R.id.step_order);
-		mName = (TextView) view.findViewById(R.id.step_name);
+		TextView mOrder = (TextView) view.findViewById(R.id.step_order);
+		TextView mName = (TextView) view.findViewById(R.id.step_name);
 		mResult = (TextView) view.findViewById(R.id.result);
-		mButtonFinishChecklist = (Button) view.findViewById(R.id.btn_finish_checklist);
+		Button mButtonFinishChecklist = (Button) view.findViewById(R.id.btn_finish_checklist);
 
 		mOrder.setText(Integer.toString(mStep.getOrder()));
 		mName.setText(mStep.getName());

@@ -1,16 +1,168 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".StepActivity" >
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#fff" >
+    
+    <!-- TOP CONTAINER -->
+    <LinearLayout
+        android:id="@+id/top_container"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        
+		    <TextView
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:textSize="26sp"
+		    	android:text="@string/step_order_label" />
+		    
+		    <TextView
+		        android:id="@+id/step_order"
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:textSize="26sp" />
+	    </LinearLayout>
+	    
+	    <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="12dp"
+		    android:layout_marginBottom="12dp"
+		    android:background="#000" />
+	    
+	    <TextView
+	        android:id="@+id/step_name"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textSize="26sp" />
+	    
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:layout_marginTop="30dp"
+	    	android:padding="10dp"
+	    	android:background="@drawable/rounded_corners" >
+	    
+		    <TextView
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:textSize="20sp"
+		    	android:text="@string/result_label" />
+		    
+		    <TextView
+		        android:id="@+id/result"
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:textSize="20sp" />
+	    </LinearLayout>
+	    
+    </LinearLayout>
+    <!-- END TOP CONTAINER -->
+    
+    <!-- BOOL CONTAINER -->
+    <RelativeLayout
+        android:id="@+id/bool_container"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_below="@id/top_container"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:paddingTop="30dp" >
+	    
+	    <Button
+	        android:id="@+id/button_yes"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:background="@drawable/btn_white_glossy"
+	        android:padding="26dp"
+	        android:text="@string/button_yes" />
+	    
+	    <Button
+	        android:id="@+id/button_no"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:background="@drawable/btn_white_glossy"
+	        android:padding="26dp"
+	        android:text="@string/button_no" />
+	        
+    </RelativeLayout>
+    <!-- END BOOL CONTAINER -->
+    
+    <!-- DOUBLE CONTAINER -->
+    <LinearLayout 
+        android:id="@+id/double_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_container"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="30dp" >
+	    
+        <EditText
+            android:id="@+id/double_input"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number|numberDecimal|numberSigned"
+            android:hint="@string/double_hint" />
+        
+        <Button
+	        android:id="@+id/btn_submit_double"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:background="@drawable/btn_white_glossy"
+	        android:text="@string/button_submit" />
+        
+    </LinearLayout>
+    <!-- END DOUBLE CONTAINER -->
+    
+    <!-- TEXT CONTAINER -->
+    <LinearLayout 
+        android:id="@+id/text_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_container"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="30dp" >
+	    
+        <EditText
+            android:id="@+id/text_input"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/text_hint" />
+        
+        <Button
+	        android:id="@+id/btn_submit_text"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:background="@drawable/btn_white_glossy"
+	        android:text="@string/button_submit" />
+        
+    </LinearLayout>
+    <!-- END TEXT CONTAINER -->
+    
+    <Button
+        android:id="@+id/btn_finish_checklist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_green_matte"
+        android:textColor="#fff"
+        android:text="@string/finish_checklist" />
 
 </RelativeLayout>
