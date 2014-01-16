@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,8 @@ public class StepFragment extends Fragment {
 	private TextView mOrder;
 	private TextView mName;
 	private TextView mResult;
+	private RelativeLayout mButtonContainer;
+	private LinearLayout mEditTextContainer;
 	private Button mButtonYes;
 	private Button mButtonNo;
 	private Step mStep;
@@ -33,14 +37,19 @@ public class StepFragment extends Fragment {
 		mOrder = (TextView) view.findViewById(R.id.step_order);
 		mName = (TextView) view.findViewById(R.id.step_name);
 		mResult = (TextView) view.findViewById(R.id.result);
+		mButtonContainer = (RelativeLayout) view.findViewById(R.id.button_container);
+		mEditTextContainer = (LinearLayout) view.findViewById(R.id.edit_text_container);
 		mButtonYes = (Button) view.findViewById(R.id.button_yes);
 		mButtonNo = (Button) view.findViewById(R.id.button_no);
 		
 		mOrder.setText(Integer.toString(mStep.getOrder()));
 		mName.setText(mStep.getName());
 		
-		if (mStep.getType().equalsIgnoreCase("bool")) {
-			showYesNoButtons();
+		if (mStep.getType().equalsIgnoreCase("bool")) { 
+			mButtonContainer.setVisibility(View.VISIBLE);
+		}
+		if (mStep.getType().equalsIgnoreCase("text")) { 
+			mEditTextContainer.setVisibility(View.VISIBLE);
 		}
 		
 		mButtonYes.setOnClickListener(new OnClickListener() {
@@ -64,11 +73,6 @@ public class StepFragment extends Fragment {
 	
 	private void setStep(Step step) {
 		mStep = step;
-	}
-	
-	private void showYesNoButtons() {
-		mButtonYes.setVisibility(View.VISIBLE);
-		mButtonNo.setVisibility(View.VISIBLE);
 	}
 	
 }
