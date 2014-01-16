@@ -12,7 +12,8 @@
     <string name="result_label">Result:</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
-    <string name="edit_text_hint">Type Your Message Here</string>
+    <string name="double_hint">Enter Number Here</string>
+    <string name="text_hint">Type Message Here</string>
     <string name="button_submit">Submit</string>
     <string name="finish_checklist">Finish Checklist</string>
 

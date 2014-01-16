@@ -70,9 +70,9 @@
     </LinearLayout>
     <!-- END TOP CONTAINER -->
     
-    <!-- BUTTON CONTAINER -->
+    <!-- BOOL CONTAINER -->
     <RelativeLayout
-        android:id="@+id/button_container"
+        android:id="@+id/bool_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top_container"
@@ -99,11 +99,11 @@
 	        android:text="@string/button_no" />
 	        
     </RelativeLayout>
-    <!-- END BUTTON CONTAINER -->
+    <!-- END BOOL CONTAINER -->
     
-    <!-- EDIT TEXT CONTAINER -->
+    <!-- DOUBLE CONTAINER -->
     <LinearLayout 
-        android:id="@+id/edit_text_container"
+        android:id="@+id/double_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top_container"
@@ -112,13 +112,14 @@
         android:paddingTop="30dp" >
 	    
         <EditText
-            android:id="@+id/edit_text_input"
+            android:id="@+id/double_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/edit_text_hint" />
+            android:inputType="number"
+            android:hint="@string/double_hint" />
         
         <Button
-	        android:id="@+id/btn_submit"
+	        android:id="@+id/btn_submit_double"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="10dp"
@@ -126,7 +127,34 @@
 	        android:text="@string/button_submit" />
         
     </LinearLayout>
-    <!-- END EDIT TEXT CONTAINER -->
+    <!-- END DOUBLE CONTAINER -->
+    
+    <!-- TEXT CONTAINER -->
+    <LinearLayout 
+        android:id="@+id/text_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_container"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="30dp" >
+	    
+        <EditText
+            android:id="@+id/text_input"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/text_hint" />
+        
+        <Button
+	        android:id="@+id/btn_submit_text"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:background="@drawable/btn_white_glossy"
+	        android:text="@string/button_submit" />
+        
+    </LinearLayout>
+    <!-- END TEXT CONTAINER -->
     
     <Button
         android:id="@+id/finish_checklist_btn"
