@@ -46,7 +46,7 @@ public class StepActivity extends Activity {
 		
 		if (mStepNum == 0) { showNextButton(); }
 		if (mStepNum > 0 && mStepNum < mStepsArray.size() - 1) { showNextButton(); showPrevButton(); }
-		if (mStepNum == mStepsArray.size() - 1) { showFinishedButton(); }
+		if (mStepNum == mStepsArray.size() - 1) { showPrevButton(); showFinishedButton(); }
 	}
 	
 	private void showBoolElements() {
@@ -60,6 +60,7 @@ public class StepActivity extends Activity {
 			public void onClick(View view) {
 				mResult.setText("Yes");
 				mStep.setYesOrNo(true);
+				mStep.setIsStepFinished(true);
 			}
 		});
 		
@@ -68,6 +69,7 @@ public class StepActivity extends Activity {
 			public void onClick(View view) {
 				mResult.setText("No");
 				mStep.setYesOrNo(false);
+				mStep.setIsStepFinished(true);
 			}
 		});
 	}
@@ -84,6 +86,7 @@ public class StepActivity extends Activity {
 				String input = mDoubleInput.getText().toString();
 				mResult.setText(input);
 				mStep.setValue(Double.parseDouble(input));
+				mStep.setIsStepFinished(true);
 			}
 		});
 	}
@@ -100,6 +103,7 @@ public class StepActivity extends Activity {
 				String input = mTextInput.getText().toString();
 				mResult.setText(input);
 				mStep.setText(input);
+				mStep.setIsStepFinished(true);
 			}
 		});
 	}

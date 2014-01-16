@@ -15,6 +15,7 @@
     <string name="double_hint">Enter Number Here</string>
     <string name="text_hint">Type Message Here</string>
     <string name="button_submit">Submit</string>
+    <string name="nav_btn_desc">Nav Button</string>
     <string name="finish_checklist">Finish Checklist</string>
 
 

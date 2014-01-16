@@ -79,9 +79,10 @@ public final class R {
         public static final int button_yes=0x7f050009;
         public static final int continue_checklist=0x7f050004;
         public static final int double_hint=0x7f05000b;
-        public static final int finish_checklist=0x7f05000e;
+        public static final int finish_checklist=0x7f05000f;
         public static final int id_label=0x7f050005;
         public static final int logo_description=0x7f050002;
+        public static final int nav_btn_desc=0x7f05000e;
         public static final int num_of_steps_label=0x7f050006;
         public static final int result_label=0x7f050008;
         public static final int start_new_checklist=0x7f050003;

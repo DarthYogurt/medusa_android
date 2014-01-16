@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -156,7 +155,6 @@
     </LinearLayout>
     <!-- END TEXT CONTAINER -->
     
-    <!-- NAV BUTTONS -->
     <ImageButton
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
@@ -164,6 +162,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:visibility="gone"
+        android:contentDescription="@string/nav_btn_desc"
         android:background="@drawable/btn_arrow_right" />
     
     <ImageButton
@@ -173,14 +172,16 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:visibility="gone"
+        android:contentDescription="@string/nav_btn_desc"
         android:background="@drawable/btn_arrow_left" />
-    <!-- END NAV BUTTONS -->
-    
+
     <Button
         android:id="@+id/btn_finish_checklist"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
         android:background="@drawable/btn_green_matte"
         android:visibility="gone"
         android:textColor="#fff"
