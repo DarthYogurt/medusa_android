@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +20,7 @@ public class StepActivity extends Activity {
 	private ArrayList<Step> mStepsArray;
 	private Step mStep;
 	private TextView mResult;
-	private int mCurrentStepNum;
+	private int mStepNum;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -29,15 +30,12 @@ public class StepActivity extends Activity {
 		
 		// TODO: change to parcelable instead of serializable
 		mStepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
-		mCurrentStepNum = getIntent().getIntExtra("initialStepNum", 0);
-		mStep = mStepsArray.get(mCurrentStepNum);
+		mStepNum = getIntent().getIntExtra("stepNum", 0);
+		mStep = mStepsArray.get(mStepNum);
 		
 		TextView mOrder = (TextView) findViewById(R.id.step_order);
 		TextView mName = (TextView) findViewById(R.id.step_name);
 		mResult = (TextView) findViewById(R.id.result);
-		ImageButton mNavBtnNext = (ImageButton) findViewById(R.id.btn_next);
-		ImageButton mNavBtnPrev = (ImageButton) findViewById(R.id.btn_prev);
-		Button mButtonFinishChecklist = (Button) findViewById(R.id.btn_finish_checklist);
 		
 		mOrder.setText(Integer.toString(mStep.getOrder()));
 		mName.setText(mStep.getName());
@@ -46,15 +44,9 @@ public class StepActivity extends Activity {
 		if (mStep.getType().equalsIgnoreCase("double")) { showDoubleElements(); }
 		if (mStep.getType().equalsIgnoreCase("text")) { showTextElements(); }
 		
-		mNavBtnNext.setVisibility(View.VISIBLE);
-		mNavBtnPrev.setVisibility(View.VISIBLE);
-		
-		mButtonFinishChecklist.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-
-			}
-		});
+		if (mStepNum == 0) { showNextButton(); }
+		if (mStepNum > 0 && mStepNum < mStepsArray.size() - 1) { showNextButton(); showPrevButton(); }
+		if (mStepNum == mStepsArray.size() - 1) { showFinishedButton(); }
 	}
 	
 	private void showBoolElements() {
@@ -108,6 +100,50 @@ public class StepActivity extends Activity {
 				String input = mTextInput.getText().toString();
 				mResult.setText(input);
 				mStep.setText(input);
+			}
+		});
+	}
+	
+	private void showNextButton() {
+		ImageButton mBtnNext = (ImageButton) findViewById(R.id.btn_next);
+		mBtnNext.setVisibility(View.VISIBLE);
+		mBtnNext.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+				intent.putExtra("steps", mStepsArray);
+				intent.putExtra("stepNum", mStepNum + 1);
+				startActivity(intent);
+				finish();
+			}
+		});
+	}
+	
+	private void showPrevButton() {
+		ImageButton mBtnPrev = (ImageButton) findViewById(R.id.btn_prev);
+		mBtnPrev.setVisibility(View.VISIBLE);
+		mBtnPrev.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+				intent.putExtra("steps", mStepsArray);
+				intent.putExtra("stepNum", mStepNum - 1);
+				startActivity(intent);
+				finish();
+			}
+		});
+	}
+	
+	private void showFinishedButton() {
+		Button mBtnFinishChecklist = (Button) findViewById(R.id.btn_finish_checklist);
+		mBtnFinishChecklist.setVisibility(View.VISIBLE);
+		mBtnFinishChecklist.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
+				intent.putExtra("steps", mStepsArray);
+				startActivity(intent);
+				finish();
 			}
 		});
 	}
