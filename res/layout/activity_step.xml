@@ -156,12 +156,33 @@
     </LinearLayout>
     <!-- END TEXT CONTAINER -->
     
+    <!-- NAV BUTTONS -->
+    <ImageButton
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        android:background="@drawable/btn_arrow_right" />
+    
+    <ImageButton
+        android:id="@+id/btn_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"
+        android:background="@drawable/btn_arrow_left" />
+    <!-- END NAV BUTTONS -->
+    
     <Button
         android:id="@+id/btn_finish_checklist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_green_matte"
+        android:visibility="gone"
         android:textColor="#fff"
         android:text="@string/finish_checklist" />
 

@@ -34,10 +34,12 @@ public class MainMenuActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(getApplicationContext(), StepsFragmentActivity.class);
+				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
 				intent.putExtra("steps", getStepsForChecklist(checklist.getId()));
+				intent.putExtra("initialStepNum", 0);
 				startActivity(intent);
+				finish();
 			}
         });
 	}

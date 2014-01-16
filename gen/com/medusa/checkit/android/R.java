@@ -21,34 +21,39 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int btn_green_matte=0x7f020000;
-        public static final int btn_white_glossy=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int rounded_corners=0x7f020003;
-        public static final int splash_screen_logo=0x7f020004;
+        public static final int btn_arrow_left=0x7f020000;
+        public static final int btn_arrow_right=0x7f020001;
+        public static final int btn_green_matte=0x7f020002;
+        public static final int btn_white_glossy=0x7f020003;
+        public static final int btn_white_matte=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int rounded_corners=0x7f020006;
+        public static final int splash_screen_logo=0x7f020007;
     }
     public static final class id {
-        public static final int action_settings=0x7f080014;
-        public static final int bool_container=0x7f080006;
-        public static final int btn_finish_checklist=0x7f08000f;
-        public static final int btn_submit_double=0x7f08000b;
-        public static final int btn_submit_text=0x7f08000e;
-        public static final int button_no=0x7f080008;
-        public static final int button_yes=0x7f080007;
-        public static final int checklist_id=0x7f080011;
+        public static final int action_settings=0x7f080016;
+        public static final int bool_container=0x7f080005;
+        public static final int btn_finish_checklist=0x7f080010;
+        public static final int btn_next=0x7f08000e;
+        public static final int btn_prev=0x7f08000f;
+        public static final int btn_submit_double=0x7f08000a;
+        public static final int btn_submit_text=0x7f08000d;
+        public static final int button_no=0x7f080007;
+        public static final int button_yes=0x7f080006;
+        public static final int checklist_id=0x7f080013;
         public static final int checklist_listview=0x7f080000;
-        public static final int checklist_name=0x7f080010;
-        public static final int double_container=0x7f080009;
-        public static final int double_input=0x7f08000a;
-        public static final int num_of_steps=0x7f080013;
-        public static final int num_of_steps_label=0x7f080012;
-        public static final int result=0x7f080005;
-        public static final int step_name=0x7f080004;
-        public static final int step_order=0x7f080003;
-        public static final int steps_pager=0x7f080001;
-        public static final int text_container=0x7f08000c;
-        public static final int text_input=0x7f08000d;
-        public static final int top_container=0x7f080002;
+        public static final int checklist_name=0x7f080012;
+        public static final int double_container=0x7f080008;
+        public static final int double_input=0x7f080009;
+        public static final int num_of_steps=0x7f080015;
+        public static final int num_of_steps_label=0x7f080014;
+        public static final int result=0x7f080004;
+        public static final int step_name=0x7f080003;
+        public static final int step_order=0x7f080002;
+        public static final int steps_pager=0x7f080011;
+        public static final int text_container=0x7f08000b;
+        public static final int text_input=0x7f08000c;
+        public static final int top_container=0x7f080001;
     }
     public static final class layout {
         public static final int activity_finish_checklist=0x7f030000;
@@ -75,7 +80,6 @@ public final class R {
         public static final int continue_checklist=0x7f050004;
         public static final int double_hint=0x7f05000b;
         public static final int finish_checklist=0x7f05000e;
-        public static final int hello_world=0x7f050011;
         public static final int id_label=0x7f050005;
         public static final int logo_description=0x7f050002;
         public static final int num_of_steps_label=0x7f050006;
@@ -83,8 +87,6 @@ public final class R {
         public static final int start_new_checklist=0x7f050003;
         public static final int step_order_label=0x7f050007;
         public static final int text_hint=0x7f05000c;
-        public static final int title_activity_finish_checklist=0x7f05000f;
-        public static final int title_activity_step=0x7f050010;
     }
     public static final class style {
         /** 

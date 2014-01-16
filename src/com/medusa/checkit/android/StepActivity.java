@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,11 +29,14 @@ public class StepActivity extends Activity {
 		
 		// TODO: change to parcelable instead of serializable
 		mStepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		mCurrentStepNum = getIntent().getIntExtra("initialStepNum", 0);
 		mStep = mStepsArray.get(mCurrentStepNum);
 		
 		TextView mOrder = (TextView) findViewById(R.id.step_order);
 		TextView mName = (TextView) findViewById(R.id.step_name);
 		mResult = (TextView) findViewById(R.id.result);
+		ImageButton mNavBtnNext = (ImageButton) findViewById(R.id.btn_next);
+		ImageButton mNavBtnPrev = (ImageButton) findViewById(R.id.btn_prev);
 		Button mButtonFinishChecklist = (Button) findViewById(R.id.btn_finish_checklist);
 		
 		mOrder.setText(Integer.toString(mStep.getOrder()));
@@ -41,6 +45,9 @@ public class StepActivity extends Activity {
 		if (mStep.getType().equalsIgnoreCase("bool")) { showBoolElements(); }
 		if (mStep.getType().equalsIgnoreCase("double")) { showDoubleElements(); }
 		if (mStep.getType().equalsIgnoreCase("text")) { showTextElements(); }
+		
+		mNavBtnNext.setVisibility(View.VISIBLE);
+		mNavBtnPrev.setVisibility(View.VISIBLE);
 		
 		mButtonFinishChecklist.setOnClickListener(new OnClickListener() {
 			@Override
