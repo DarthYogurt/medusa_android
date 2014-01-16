@@ -17,9 +17,12 @@ import android.widget.TextView;
 
 public class StepActivity extends Activity {
 	
+	private static final String TYPE_BOOL = "bool";
+	private static final String TYPE_DOUBLE = "double";
+	private static final String TYPE_TEXT = "text";
+	
 	private ArrayList<Step> mStepsArray;
 	private Step mStep;
-	private TextView mResult;
 	private int mStepNum;
 
 	@SuppressWarnings("unchecked")
@@ -35,18 +38,42 @@ public class StepActivity extends Activity {
 		
 		TextView mOrder = (TextView) findViewById(R.id.step_order);
 		TextView mName = (TextView) findViewById(R.id.step_name);
-		mResult = (TextView) findViewById(R.id.result);
 		
 		mOrder.setText(Integer.toString(mStep.getOrder()));
 		mName.setText(mStep.getName());
 		
-		if (mStep.getType().equalsIgnoreCase("bool")) { showBoolElements(); }
-		if (mStep.getType().equalsIgnoreCase("double")) { showDoubleElements(); }
-		if (mStep.getType().equalsIgnoreCase("text")) { showTextElements(); }
+		if (mStep.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
+		if (mStep.getType().equalsIgnoreCase(TYPE_DOUBLE)) { showDoubleElements(); }
+		if (mStep.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		
 		if (mStepNum == 0) { showNextButton(); }
 		if (mStepNum > 0 && mStepNum < mStepsArray.size() - 1) { showNextButton(); showPrevButton(); }
 		if (mStepNum == mStepsArray.size() - 1) { showPrevButton(); showFinishedButton(); }
+	}
+	
+	private void showResult() {
+		TextView mResult = (TextView) findViewById(R.id.result);
+		
+		if (mStep.getType().equalsIgnoreCase(TYPE_BOOL)) { 
+			if (mStep.getIsStepFinished()) { 
+				if (mStep.getYesOrNo() == true) { mResult.setText("Yes"); }
+				else { mResult.setText("No"); }
+			}
+			else { mResult.setText(""); }
+		}
+		
+		if (mStep.getType().equalsIgnoreCase(TYPE_DOUBLE)) { 
+			if (mStep.getIsStepFinished()) {
+				mResult.setText(Double.toString(mStep.getValue()));
+			}
+			else { mResult.setText(""); }
+		}
+		if (mStep.getType().equalsIgnoreCase(TYPE_TEXT)) { 
+			if (mStep.getIsStepFinished()) {
+				mResult.setText(mStep.getText());
+			}
+			else { mResult.setText(""); }
+		}
 	}
 	
 	private void showBoolElements() {
@@ -54,22 +81,23 @@ public class StepActivity extends Activity {
 		Button mButtonYes = (Button) findViewById(R.id.button_yes);
 		Button mButtonNo = (Button) findViewById(R.id.button_no);
 		mBoolContainer.setVisibility(View.VISIBLE);
+		showResult();
 		
 		mButtonYes.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mResult.setText("Yes");
 				mStep.setYesOrNo(true);
 				mStep.setIsStepFinished(true);
+				showResult();
 			}
 		});
 		
 		mButtonNo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mResult.setText("No");
 				mStep.setYesOrNo(false);
 				mStep.setIsStepFinished(true);
+				showResult();
 			}
 		});
 	}
@@ -79,14 +107,15 @@ public class StepActivity extends Activity {
 		final EditText mDoubleInput = (EditText) findViewById(R.id.double_input);
 		Button mButtonSubmit = (Button) findViewById(R.id.btn_submit_double);
 		mDoubleContainer.setVisibility(View.VISIBLE);
+		showResult();
 		
 		mButtonSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				String input = mDoubleInput.getText().toString();
-				mResult.setText(input);
 				mStep.setValue(Double.parseDouble(input));
 				mStep.setIsStepFinished(true);
+				showResult();
 			}
 		});
 	}
@@ -96,14 +125,15 @@ public class StepActivity extends Activity {
 		final EditText mTextInput = (EditText) findViewById(R.id.text_input);
 		Button mButtonSubmit = (Button) findViewById(R.id.btn_submit_text);
 		mTextContainer.setVisibility(View.VISIBLE);
+		showResult();
 		
 		mButtonSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				String input = mTextInput.getText().toString();
-				mResult.setText(input);
 				mStep.setText(input);
 				mStep.setIsStepFinished(true);
+				showResult();
 			}
 		});
 	}
