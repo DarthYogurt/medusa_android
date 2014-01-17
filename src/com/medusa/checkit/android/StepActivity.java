@@ -38,19 +38,20 @@ public class StepActivity extends Activity {
 		mStep = mStepsArray.get(mStepNum);
 		
 		TextView mOrder = (TextView) findViewById(R.id.step_order);
+		TextView mOrderMax = (TextView) findViewById(R.id.step_order_max);
 		TextView mName = (TextView) findViewById(R.id.step_name);
 		mResult = (TextView) findViewById(R.id.result);
 		
 		mOrder.setText(Integer.toString(mStep.getOrder()));
+		mOrderMax.setText(Integer.toString(mStepsArray.size()));
 		mName.setText(mStep.getName());
 		
 		if (mStep.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
 		if (mStep.getType().equalsIgnoreCase(TYPE_DOUBLE)) { showDoubleElements(); }
 		if (mStep.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		
-		if (mStepNum == 0) { showNextButton(); }
-		if (mStepNum > 0 && mStepNum < mStepsArray.size() - 1) { showNextButton(); showPrevButton(); }
-		if (mStepNum == mStepsArray.size() - 1) { showPrevButton(); showFinishedButton(); }
+		showNextButton();
+		if (mStepNum > 0 && mStepNum < mStepsArray.size() - 1) { showPrevButton(); }
 	}
 	
 	private void showResult() {
@@ -144,11 +145,18 @@ public class StepActivity extends Activity {
 		mBtnNext.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-				intent.putExtra("steps", mStepsArray);
-				intent.putExtra("stepNum", mStepNum + 1);
-				startActivity(intent);
-				finish();
+				if (mStepNum == mStepsArray.size() - 1) {
+					Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
+					intent.putExtra("steps", mStepsArray);
+					startActivity(intent);
+					finish();
+				} else {
+					Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+					intent.putExtra("steps", mStepsArray);
+					intent.putExtra("stepNum", mStepNum + 1);
+					startActivity(intent);
+					finish();
+				}	
 			}
 		});
 	}
@@ -162,20 +170,6 @@ public class StepActivity extends Activity {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				intent.putExtra("steps", mStepsArray);
 				intent.putExtra("stepNum", mStepNum - 1);
-				startActivity(intent);
-				finish();
-			}
-		});
-	}
-	
-	private void showFinishedButton() {
-		Button mBtnFinishChecklist = (Button) findViewById(R.id.btn_finish_checklist);
-		mBtnFinishChecklist.setVisibility(View.VISIBLE);
-		mBtnFinishChecklist.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
-				intent.putExtra("steps", mStepsArray);
 				startActivity(intent);
 				finish();
 			}

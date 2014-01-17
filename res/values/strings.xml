@@ -8,7 +8,8 @@
     <string name="continue_checklist">Continue Checklist</string>
     <string name="id_label">ID:</string>
     <string name="num_of_steps_label">Number of Steps: </string>
-    <string name="step_order_label">Step #</string>
+    <string name="step_order_label">Step</string>
+    <string name="out_of_label">out of</string>
     <string name="result_label">Result:</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
