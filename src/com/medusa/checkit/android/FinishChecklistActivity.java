@@ -29,8 +29,7 @@ public class FinishChecklistActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_finish_checklist);
 		
-		// TODO: change to parcelable instead of serializable
-		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		stepsArray = getIntent().getParcelableArrayListExtra("steps");
 		
 		TextView mChecklistName = (TextView) findViewById(R.id.checklist_name);
 		Button mBtnFinishChecklist = (Button) findViewById(R.id.finish_checklist);

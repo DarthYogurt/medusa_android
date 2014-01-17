@@ -24,8 +24,7 @@ public class StepsFragmentActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_steps_fragment);
 		
-		// TODO: change to parcelable instead of serializable
-		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		stepsArray = getIntent().getParcelableArrayListExtra("steps");
 		
 		pager = (ViewPager)findViewById(R.id.steps_pager);
 		pagerAdapter = new StepsPagerAdapter(getSupportFragmentManager());

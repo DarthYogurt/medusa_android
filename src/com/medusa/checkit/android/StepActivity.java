@@ -32,8 +32,7 @@ public class StepActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_step);
 		
-		// TODO: change to parcelable instead of serializable
-		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		stepsArray = getIntent().getParcelableArrayListExtra("steps");
 		stepNum = getIntent().getIntExtra("stepNum", 0);
 		step = stepsArray.get(stepNum);
 		

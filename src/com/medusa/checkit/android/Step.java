@@ -1,10 +1,10 @@
 package com.medusa.checkit.android;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Step implements Serializable {
+public class Step implements Parcelable {
 
-	private static final long serialVersionUID = -1830210019061594179L;
 	private int order;
 	private String name;
 	private String type;
@@ -27,6 +27,10 @@ public class Step implements Serializable {
 		this.yesOrNo = false;
 		this.value = 0;
 		this.text = "";
+	}
+	
+	public Step(Parcel in) {
+		readFromParcel(in);
 	}
 	
 	public int getOrder() {
@@ -84,5 +88,47 @@ public class Step implements Serializable {
 	public void setText(String s) {
 		this.text = s;
 	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(order);
+		dest.writeString(name);
+		dest.writeString(type);
+		dest.writeInt(id);
+		dest.writeInt(checklistId);
+		dest.writeString(checklistName);
+		dest.writeByte((byte)(isStepFinished ? 1 : 0));
+		dest.writeByte((byte)(yesOrNo ? 1 : 0));
+		dest.writeDouble(value);
+		dest.writeString(text);
+	}
+	
+	private void readFromParcel(Parcel in) {
+		order = in.readInt();
+		name = in.readString();
+		type = in.readString();
+		id = in.readInt();
+		checklistId = in.readInt();
+		checklistName = in.readString();
+		isStepFinished = in.readByte() != 0;
+		yesOrNo = in.readByte() != 0;
+		value = in.readDouble();
+		text = in.readString();
+	}
+	
+	public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
+		public Step createFromParcel(Parcel in) {
+			return new Step(in);
+		}
+		
+		public Step[] newArray(int size) {
+			return new Step[size];
+		}
+	};
 	
 }

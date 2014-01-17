@@ -1,10 +1,10 @@
 package com.medusa.checkit.android;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Checklist implements Serializable {
+public class Checklist implements Parcelable {
 
-	private static final long serialVersionUID = 6306794285994296143L;
 	private int id;
 	private String name;
 	private int groupId;
@@ -14,6 +14,10 @@ public class Checklist implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.groupId = groupId;
+	}
+	
+	public Checklist(Parcel in) {
+		readFromParcel(in);
 	}
 	
 	public int getId() {
@@ -35,4 +39,34 @@ public class Checklist implements Serializable {
 	public int getNumOfSteps() {
 		return numOfSteps;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeString(name);
+		dest.writeInt(groupId);
+		dest.writeInt(numOfSteps);
+	}
+	
+	private void readFromParcel(Parcel in) {
+		id = in.readInt();
+		name = in.readString();
+		groupId = in.readInt();
+		numOfSteps = in.readInt();
+	}
+	
+	public static final Parcelable.Creator<Checklist> CREATOR = new Parcelable.Creator<Checklist>() {
+		public Checklist createFromParcel(Parcel in) {
+			return new Checklist(in);
+		}
+		
+		public Checklist[] newArray(int size) {
+			return new Checklist[size];
+		}
+	};
 }
