@@ -40,5 +40,14 @@
         android:layout_toRightOf="@id/result_label"
         android:textSize="20sp"
         android:textColor="#29a629" />
+	
+	<ImageView
+	    android:id="@+id/finished_step_image"
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        android:src="@drawable/checkmark_icon" />
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class StepAdapter extends ArrayAdapter<Step> {
@@ -30,6 +31,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
 	private static class ViewHolder {
 		private TextView stepOrder;
 		private TextView result;
+		private ImageView finishedStepImage;
 	}
 	
 	@Override
@@ -41,8 +43,9 @@ public class StepAdapter extends ArrayAdapter<Step> {
 			convertView = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
-            holder.stepOrder = (TextView)convertView.findViewById(R.id.step_order);
-            holder.result = (TextView)convertView.findViewById(R.id.result);
+            holder.stepOrder = (TextView) convertView.findViewById(R.id.step_order);
+            holder.result = (TextView) convertView.findViewById(R.id.result);
+            holder.finishedStepImage = (ImageView) convertView.findViewById(R.id.finished_step_image);
 
             convertView.setTag(holder);
         } else {
@@ -67,6 +70,8 @@ public class StepAdapter extends ArrayAdapter<Step> {
 		
 		holder.stepOrder.setText(stepOrder);
         holder.result.setText(result);
+        
+        if (steps.get(position).getIsStepFinished()) { holder.finishedStepImage.setVisibility(View.VISIBLE); }
 
         return convertView;
 	}
