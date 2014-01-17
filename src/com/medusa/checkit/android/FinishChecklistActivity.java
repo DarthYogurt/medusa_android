@@ -7,7 +7,13 @@ import org.apache.http.client.ClientProtocolException;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 public class FinishChecklistActivity extends Activity {
 	
@@ -22,6 +28,13 @@ public class FinishChecklistActivity extends Activity {
 		
 		// TODO: change to parcelable instead of serializable
 		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		
+		TextView checklistName = (TextView) findViewById(R.id.checklist_name);
+		checklistName.setText(getChecklistName());
+		
+		ListView listView = (ListView)findViewById(R.id.finished_steps_listview);
+        StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, stepsArray);
+        listView.setAdapter(adapter);
 		
 		try {
         	jsonWriter = new JSONWriter(this);
@@ -43,6 +56,11 @@ public class FinishChecklistActivity extends Activity {
 	private int getChecklistId() {
 		Step step = stepsArray.get(0);
 		return step.getChecklistId();
+	}
+	
+	private String getChecklistName() {
+		Step step = stepsArray.get(0);
+		return step.getChecklistName();
 	}
 	
 	private void writeAllStepsToJSON() {

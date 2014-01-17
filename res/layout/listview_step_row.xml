@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp" >
+    
+    <TextView
+        android:id="@+id/step_order_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="20sp"
+		android:text="@string/step_order_label" />
+    
+	<TextView
+        android:id="@+id/step_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/step_order_label"
+        android:layout_toRightOf="@id/step_order_label"
+        android:textSize="20sp" />
+	
+	<TextView
+        android:id="@+id/result_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step_order_label"
+        android:layout_marginRight="4sp"
+        android:textSize="20sp"
+		android:text="@string/result_label" />
+    
+	<TextView
+	    android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/result_label"
+        android:layout_toRightOf="@id/result_label"
+        android:textSize="20sp"
+        android:textColor="#29a629" />
+
+</RelativeLayout>

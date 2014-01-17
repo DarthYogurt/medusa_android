@@ -42,9 +42,5 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/num_of_steps_label"
         android:layout_toRightOf="@id/num_of_steps_label" />
-    
-    
-    
-    
 
 </RelativeLayout>

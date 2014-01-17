@@ -24,6 +24,7 @@ public class StepActivity extends Activity {
 	private ArrayList<Step> mStepsArray;
 	private Step mStep;
 	private int mStepNum;
+	private TextView mResult;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -38,6 +39,7 @@ public class StepActivity extends Activity {
 		
 		TextView mOrder = (TextView) findViewById(R.id.step_order);
 		TextView mName = (TextView) findViewById(R.id.step_name);
+		mResult = (TextView) findViewById(R.id.result);
 		
 		mOrder.setText(Integer.toString(mStep.getOrder()));
 		mName.setText(mStep.getName());
@@ -52,8 +54,6 @@ public class StepActivity extends Activity {
 	}
 	
 	private void showResult() {
-		TextView mResult = (TextView) findViewById(R.id.result);
-		
 		if (mStep.getType().equalsIgnoreCase(TYPE_BOOL)) { 
 			if (mStep.getIsStepFinished()) { 
 				if (mStep.getYesOrNo() == true) { mResult.setText("Yes"); }

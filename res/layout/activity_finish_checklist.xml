@@ -1,9 +1,45 @@
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FinishChecklistActivity"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#fff" >
+        
+    <TextView
+        android:id="@+id/checklist_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#ccc"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+    
+    <TextView
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingTop="3dp"
+	    android:paddingBottom="3dp"
+	    android:paddingLeft="6dp"
+	    android:textSize="14sp"
+	    android:textStyle="italic"
+	    android:textColor="#ff0000"
+	    android:text="@string/click_step_to_edit" />
+	    
+	<ListView
+	    android:id="@+id/finished_steps_listview"
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:dividerHeight="1dp" />
 
+	<Button
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="6dp"
+	    android:background="@drawable/btn_green_matte"
+	    android:text="@string/finish_checklist" />
 
-</RelativeLayout>
+</LinearLayout>

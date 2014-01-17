@@ -17,6 +17,7 @@
     <string name="button_submit">Submit</string>
     <string name="nav_btn_desc">Nav Button</string>
     <string name="finish_checklist">Finish Checklist</string>
+    <string name="click_step_to_edit">*** click on step to edit ***</string>
 
 
 </resources>
