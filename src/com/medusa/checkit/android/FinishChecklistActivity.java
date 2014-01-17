@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class FinishChecklistActivity extends Activity {
 	
 	private JSONWriter jsonWriter;
-	private ArrayList<Step> mStepsArray;
+	private ArrayList<Step> stepsArray;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -30,21 +30,21 @@ public class FinishChecklistActivity extends Activity {
 		setContentView(R.layout.activity_finish_checklist);
 		
 		// TODO: change to parcelable instead of serializable
-		mStepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
 		
 		TextView mChecklistName = (TextView) findViewById(R.id.checklist_name);
 		Button mBtnFinishChecklist = (Button) findViewById(R.id.finish_checklist);
 		mChecklistName.setText(getChecklistName());
 		
 		ListView listView = (ListView)findViewById(R.id.finished_steps_listview);
-        StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, mStepsArray);
+        StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, stepsArray);
         listView.setAdapter(adapter);
         
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-				intent.putExtra("steps", mStepsArray);
+				intent.putExtra("steps", stepsArray);
 				intent.putExtra("stepNum", position);
 				startActivity(intent);
 				finish();
@@ -68,20 +68,20 @@ public class FinishChecklistActivity extends Activity {
 //	}
 	
 	private int getChecklistId() {
-		Step step = mStepsArray.get(0);
+		Step step = stepsArray.get(0);
 		return step.getChecklistId();
 	}
 	
 	private String getChecklistName() {
-		Step step = mStepsArray.get(0);
+		Step step = stepsArray.get(0);
 		return step.getChecklistName();
 	}
 	
 	private void writeAllStepsToJSON() {
 		Step step;
 		
-		for (int i = 0; i < mStepsArray.size(); i++) {
-			step = mStepsArray.get(i);
+		for (int i = 0; i < stepsArray.size(); i++) {
+			step = stepsArray.get(i);
 			
 			if (step.getType().equalsIgnoreCase("bool")) {
 				try { jsonWriter.writeStepBoolean(step.getId(), step.getYesOrNo()); } 

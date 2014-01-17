@@ -21,10 +21,10 @@ public class StepActivity extends Activity {
 	private static final String TYPE_DOUBLE = "double";
 	private static final String TYPE_TEXT = "text";
 	
-	private ArrayList<Step> mStepsArray;
-	private Step mStep;
-	private int mStepNum;
-	private TextView mResult;
+	private ArrayList<Step> stepsArray;
+	private Step step;
+	private int stepNum;
+	private TextView result;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -33,127 +33,128 @@ public class StepActivity extends Activity {
 		setContentView(R.layout.activity_step);
 		
 		// TODO: change to parcelable instead of serializable
-		mStepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
-		mStepNum = getIntent().getIntExtra("stepNum", 0);
-		mStep = mStepsArray.get(mStepNum);
+		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
+		stepNum = getIntent().getIntExtra("stepNum", 0);
+		step = stepsArray.get(stepNum);
 		
-		TextView mOrder = (TextView) findViewById(R.id.step_order);
-		TextView mOrderMax = (TextView) findViewById(R.id.step_order_max);
-		TextView mName = (TextView) findViewById(R.id.step_name);
-		mResult = (TextView) findViewById(R.id.result);
+		TextView order = (TextView) findViewById(R.id.step_order);
+		TextView orderMax = (TextView) findViewById(R.id.step_order_max);
+		TextView name = (TextView) findViewById(R.id.step_name);
+		result = (TextView) findViewById(R.id.result);
 		
-		mOrder.setText(Integer.toString(mStep.getOrder()));
-		mOrderMax.setText(Integer.toString(mStepsArray.size()));
-		mName.setText(mStep.getName());
+		order.setText(Integer.toString(step.getOrder()));
+		orderMax.setText(Integer.toString(stepsArray.size()));
+		name.setText(step.getName());
 		
-		if (mStep.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
-		if (mStep.getType().equalsIgnoreCase(TYPE_DOUBLE)) { showDoubleElements(); }
-		if (mStep.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
+		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
+		if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) { showDoubleElements(); }
+		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		
 		showNextButton();
-		if (mStepNum > 0 && mStepNum < mStepsArray.size() - 1) { showPrevButton(); }
+		if (stepNum > 0 && stepNum < stepsArray.size() - 1) { showPrevButton(); }
 	}
 	
 	private void showResult() {
-		if (mStep.getType().equalsIgnoreCase(TYPE_BOOL)) { 
-			if (mStep.getIsStepFinished()) { 
-				if (mStep.getYesOrNo() == true) { mResult.setText("Yes"); }
-				else { mResult.setText("No"); }
+		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
+			if (step.getIsStepFinished()) { 
+				if (step.getYesOrNo() == true) { result.setText("Yes"); }
+				else { result.setText("No"); }
 			}
-			else { mResult.setText(""); }
+			else { result.setText(""); }
 		}
 		
-		if (mStep.getType().equalsIgnoreCase(TYPE_DOUBLE)) { 
-			if (mStep.getIsStepFinished()) {
-				mResult.setText(Double.toString(mStep.getValue()));
+		if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) { 
+			if (step.getIsStepFinished()) {
+				result.setText(Double.toString(step.getValue()));
 			}
-			else { mResult.setText(""); }
+			else { result.setText(""); }
 		}
-		if (mStep.getType().equalsIgnoreCase(TYPE_TEXT)) { 
-			if (mStep.getIsStepFinished()) {
-				mResult.setText(mStep.getText());
+		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { 
+			if (step.getIsStepFinished()) {
+				result.setText(step.getText());
 			}
-			else { mResult.setText(""); }
+			else { result.setText(""); }
 		}
 	}
 	
 	private void showBoolElements() {
-		RelativeLayout mBoolContainer = (RelativeLayout) findViewById(R.id.bool_container);
-		Button mButtonYes = (Button) findViewById(R.id.button_yes);
-		Button mButtonNo = (Button) findViewById(R.id.button_no);
-		mBoolContainer.setVisibility(View.VISIBLE);
+		RelativeLayout boolContainer = (RelativeLayout) findViewById(R.id.bool_container);
+		Button btnYes = (Button) findViewById(R.id.button_yes);
+		Button btnNo = (Button) findViewById(R.id.button_no);
+		boolContainer.setVisibility(View.VISIBLE);
 		showResult();
 		
-		mButtonYes.setOnClickListener(new OnClickListener() {
+		btnYes.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mStep.setYesOrNo(true);
-				mStep.setIsStepFinished(true);
+				step.setYesOrNo(true);
+				step.setIsStepFinished(true);
 				showResult();
 			}
 		});
 		
-		mButtonNo.setOnClickListener(new OnClickListener() {
+		btnNo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mStep.setYesOrNo(false);
-				mStep.setIsStepFinished(true);
+				step.setYesOrNo(false);
+				step.setIsStepFinished(true);
 				showResult();
 			}
 		});
 	}
 	
 	private void showDoubleElements() {
-		LinearLayout mDoubleContainer = (LinearLayout) findViewById(R.id.double_container);
-		final EditText mDoubleInput = (EditText) findViewById(R.id.double_input);
-		Button mButtonSubmit = (Button) findViewById(R.id.btn_submit_double);
-		mDoubleContainer.setVisibility(View.VISIBLE);
+		LinearLayout doubleContainer = (LinearLayout) findViewById(R.id.double_container);
+		final EditText doubleInput = (EditText) findViewById(R.id.double_input);
+		Button btnSubmit = (Button) findViewById(R.id.btn_submit_double);
+		doubleContainer.setVisibility(View.VISIBLE);
 		showResult();
 		
-		mButtonSubmit.setOnClickListener(new OnClickListener() {
+		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String input = mDoubleInput.getText().toString();
-				mStep.setValue(Double.parseDouble(input));
-				mStep.setIsStepFinished(true);
+				String input = doubleInput.getText().toString();
+				step.setValue(Double.parseDouble(input));
+				step.setIsStepFinished(true);
 				showResult();
 			}
 		});
 	}
 	
 	private void showTextElements() {
-		LinearLayout mTextContainer = (LinearLayout) findViewById(R.id.text_container);
-		final EditText mTextInput = (EditText) findViewById(R.id.text_input);
-		Button mButtonSubmit = (Button) findViewById(R.id.btn_submit_text);
-		mTextContainer.setVisibility(View.VISIBLE);
+		LinearLayout textContainer = (LinearLayout) findViewById(R.id.text_container);
+		final EditText textInput = (EditText) findViewById(R.id.text_input);
+		Button btnSubmit = (Button) findViewById(R.id.btn_submit_text);
+		textContainer.setVisibility(View.VISIBLE);
 		showResult();
 		
-		mButtonSubmit.setOnClickListener(new OnClickListener() {
+		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String input = mTextInput.getText().toString();
-				mStep.setText(input);
-				mStep.setIsStepFinished(true);
+				String input = textInput.getText().toString();
+				step.setText(input);
+				step.setIsStepFinished(true);
 				showResult();
 			}
 		});
 	}
 	
 	private void showNextButton() {
-		ImageButton mBtnNext = (ImageButton) findViewById(R.id.btn_next);
-		mBtnNext.setVisibility(View.VISIBLE);
-		mBtnNext.setOnClickListener(new OnClickListener() {
+		ImageButton btnNext = (ImageButton) findViewById(R.id.btn_next);
+		btnNext.setVisibility(View.VISIBLE);
+		
+		btnNext.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (mStepNum == mStepsArray.size() - 1) {
+				if (stepNum == stepsArray.size() - 1) {
 					Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
-					intent.putExtra("steps", mStepsArray);
+					intent.putExtra("steps", stepsArray);
 					startActivity(intent);
 					finish();
 				} else {
 					Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-					intent.putExtra("steps", mStepsArray);
-					intent.putExtra("stepNum", mStepNum + 1);
+					intent.putExtra("steps", stepsArray);
+					intent.putExtra("stepNum", stepNum + 1);
 					startActivity(intent);
 					finish();
 				}	
@@ -162,14 +163,14 @@ public class StepActivity extends Activity {
 	}
 	
 	private void showPrevButton() {
-		ImageButton mBtnPrev = (ImageButton) findViewById(R.id.btn_prev);
-		mBtnPrev.setVisibility(View.VISIBLE);
-		mBtnPrev.setOnClickListener(new OnClickListener() {
+		ImageButton btnPrev = (ImageButton) findViewById(R.id.btn_prev);
+		btnPrev.setVisibility(View.VISIBLE);
+		btnPrev.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-				intent.putExtra("steps", mStepsArray);
-				intent.putExtra("stepNum", mStepNum - 1);
+				intent.putExtra("steps", stepsArray);
+				intent.putExtra("stepNum", stepNum - 1);
 				startActivity(intent);
 				finish();
 			}

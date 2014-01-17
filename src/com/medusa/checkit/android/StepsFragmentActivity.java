@@ -14,8 +14,8 @@ import android.view.Menu;
 
 public class StepsFragmentActivity extends FragmentActivity {
 
-	private ViewPager mPager;
-	private PagerAdapter mPagerAdapter;
+	private ViewPager pager;
+	private PagerAdapter pagerAdapter;
 	private ArrayList<Step> stepsArray;
 	
 	@SuppressWarnings("unchecked")
@@ -27,9 +27,9 @@ public class StepsFragmentActivity extends FragmentActivity {
 		// TODO: change to parcelable instead of serializable
 		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
 		
-		mPager = (ViewPager)findViewById(R.id.steps_pager);
-        mPagerAdapter = new StepsPagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+		pager = (ViewPager)findViewById(R.id.steps_pager);
+		pagerAdapter = new StepsPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
 		
 	}
 	

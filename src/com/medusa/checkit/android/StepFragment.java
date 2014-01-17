@@ -21,8 +21,8 @@ import android.widget.Toast;
 public class StepFragment extends Fragment {
 	
 	private View view;
-	private TextView mResult;
-	private Step mStep;
+	private TextView result;
+	private Step step;
 	
 	static StepFragment newInstance(int position, Step step) {
 		StepFragment fragment = new StepFragment();
@@ -34,19 +34,19 @@ public class StepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_step, container, false);
 		
-		TextView mOrder = (TextView) view.findViewById(R.id.step_order);
-		TextView mName = (TextView) view.findViewById(R.id.step_name);
-		mResult = (TextView) view.findViewById(R.id.result);
-		Button mButtonFinishChecklist = (Button) view.findViewById(R.id.btn_finish_checklist);
+		TextView order = (TextView) view.findViewById(R.id.step_order);
+		TextView name = (TextView) view.findViewById(R.id.step_name);
+		result = (TextView) view.findViewById(R.id.result);
+		Button btnFinishedChecklist = (Button) view.findViewById(R.id.btn_finish_checklist);
 
-		mOrder.setText(Integer.toString(mStep.getOrder()));
-		mName.setText(mStep.getName());
+		order.setText(Integer.toString(step.getOrder()));
+		name.setText(step.getName());
 		
-		if (mStep.getType().equalsIgnoreCase("bool")) { showBoolElements(); }
-		if (mStep.getType().equalsIgnoreCase("double")) { showDoubleElements(); }
-		if (mStep.getType().equalsIgnoreCase("text")) { showTextElements(); }
+		if (step.getType().equalsIgnoreCase("bool")) { showBoolElements(); }
+		if (step.getType().equalsIgnoreCase("double")) { showDoubleElements(); }
+		if (step.getType().equalsIgnoreCase("text")) { showTextElements(); }
 		
-		mButtonFinishChecklist.setOnClickListener(new OnClickListener() {
+		btnFinishedChecklist.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 
@@ -56,61 +56,61 @@ public class StepFragment extends Fragment {
         return view;
     }
 	
-	private void setStep(Step step) {
-		mStep = step;
+	private void setStep(Step s) {
+		step = s;
 	}
 	
 	private void showBoolElements() {
-		RelativeLayout mBoolContainer = (RelativeLayout) view.findViewById(R.id.bool_container);
-		Button mButtonYes = (Button) view.findViewById(R.id.button_yes);
-		Button mButtonNo = (Button) view.findViewById(R.id.button_no);
-		mBoolContainer.setVisibility(View.VISIBLE);
+		RelativeLayout boolContainer = (RelativeLayout) view.findViewById(R.id.bool_container);
+		Button btnYes = (Button) view.findViewById(R.id.button_yes);
+		Button btnNo = (Button) view.findViewById(R.id.button_no);
+		boolContainer.setVisibility(View.VISIBLE);
 		
-		mButtonYes.setOnClickListener(new OnClickListener() {
+		btnYes.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mResult.setText("Yes");
-				mStep.setYesOrNo(true);
+				result.setText("Yes");
+				step.setYesOrNo(true);
 			}
 		});
 		
-		mButtonNo.setOnClickListener(new OnClickListener() {
+		btnNo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mResult.setText("No");
-				mStep.setYesOrNo(false);
+				result.setText("No");
+				step.setYesOrNo(false);
 			}
 		});
 	}
 	
 	private void showDoubleElements() {
-		LinearLayout mDoubleContainer = (LinearLayout) view.findViewById(R.id.double_container);
-		final EditText mDoubleInput = (EditText) view.findViewById(R.id.double_input);
-		Button mButtonSubmit = (Button) view.findViewById(R.id.btn_submit_double);
-		mDoubleContainer.setVisibility(View.VISIBLE);
+		LinearLayout doubleContainer = (LinearLayout) view.findViewById(R.id.double_container);
+		final EditText doubleInput = (EditText) view.findViewById(R.id.double_input);
+		Button btnSubmit = (Button) view.findViewById(R.id.btn_submit_double);
+		doubleContainer.setVisibility(View.VISIBLE);
 		
-		mButtonSubmit.setOnClickListener(new OnClickListener() {
+		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String input = mDoubleInput.getText().toString();
-				mResult.setText(input);
-				mStep.setValue(Double.parseDouble(input));
+				String input = doubleInput.getText().toString();
+				result.setText(input);
+				step.setValue(Double.parseDouble(input));
 			}
 		});
 	}
 	
 	private void showTextElements() {
-		LinearLayout mTextContainer = (LinearLayout) view.findViewById(R.id.text_container);
-		final EditText mTextInput = (EditText) view.findViewById(R.id.text_input);
-		Button mButtonSubmit = (Button) view.findViewById(R.id.btn_submit_text);
-		mTextContainer.setVisibility(View.VISIBLE);
+		LinearLayout textContainer = (LinearLayout) view.findViewById(R.id.text_container);
+		final EditText textInput = (EditText) view.findViewById(R.id.text_input);
+		Button btnSubmit = (Button) view.findViewById(R.id.btn_submit_text);
+		textContainer.setVisibility(View.VISIBLE);
 		
-		mButtonSubmit.setOnClickListener(new OnClickListener() {
+		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String input = mTextInput.getText().toString();
-				mResult.setText(input);
-				mStep.setText(input);
+				String input = textInput.getText().toString();
+				result.setText(input);
+				step.setText(input);
 			}
 		});
 	}
