@@ -23,6 +23,7 @@
 	    android:paddingTop="3dp"
 	    android:paddingBottom="3dp"
 	    android:paddingLeft="6dp"
+	    android:background="#ccc"
 	    android:textSize="14sp"
 	    android:textStyle="italic"
 	    android:textColor="#ff0000"
@@ -36,10 +37,13 @@
 	    android:dividerHeight="1dp" />
 
 	<Button
+	    android:id="@+id/finish_checklist"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_margin="10dp"
 	    android:padding="6dp"
 	    android:background="@drawable/btn_green_matte"
+	    android:textColor="#fff"
 	    android:text="@string/finish_checklist" />
 
 </LinearLayout>

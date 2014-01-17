@@ -10,10 +10,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FinishChecklistActivity extends Activity {
 	
@@ -29,21 +30,21 @@ public class FinishChecklistActivity extends Activity {
 		// TODO: change to parcelable instead of serializable
 		stepsArray = (ArrayList<Step>) getIntent().getSerializableExtra("steps");
 		
-		TextView checklistName = (TextView) findViewById(R.id.checklist_name);
-		checklistName.setText(getChecklistName());
+		TextView mChecklistName = (TextView) findViewById(R.id.checklist_name);
+		Button mBtnFinishChecklist = (Button) findViewById(R.id.finish_checklist);
+		mChecklistName.setText(getChecklistName());
 		
 		ListView listView = (ListView)findViewById(R.id.finished_steps_listview);
         StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, stepsArray);
         listView.setAdapter(adapter);
 		
-		try {
-        	jsonWriter = new JSONWriter(this);
-			jsonWriter.startNewChecklist(getChecklistId());
-			writeAllStepsToJSON();
-			jsonWriter.finishNewChecklist();
-			HTTPPostThread post = new HTTPPostThread();
-			post.start();
-		} catch (IOException e) { e.printStackTrace(); }
+        mBtnFinishChecklist.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				PostToServerThread post = new PostToServerThread();
+				post.start();
+			}
+		});
 	}
 
 //	@Override
@@ -84,13 +85,24 @@ public class FinishChecklistActivity extends Activity {
 		}
 	}
 	
-	private class HTTPPostThread extends Thread {
+	private class PostToServerThread extends Thread {
 		@Override
 		public void run() {
+			try {
+	        	jsonWriter = new JSONWriter(getApplicationContext());
+				jsonWriter.startNewChecklist(getChecklistId());
+				writeAllStepsToJSON();
+				jsonWriter.finishNewChecklist();
+			} catch (IOException e) { e.printStackTrace(); }
+			
 			HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
 			try { post.multipartPost(JSONWriter.CHECKLIST_FILENAME); } 
 			catch (ClientProtocolException e) { e.printStackTrace(); } 
 			catch (IOException e) { e.printStackTrace(); }
+			
+			Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+			startActivity(intent);
+			finish();
 		}
 	}
 

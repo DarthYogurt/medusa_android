@@ -31,32 +31,33 @@ public final class R {
         public static final int splash_screen_logo=0x7f020007;
     }
     public static final class id {
-        public static final int action_settings=0x7f080019;
-        public static final int bool_container=0x7f080007;
-        public static final int btn_finish_checklist=0x7f080012;
-        public static final int btn_next=0x7f080010;
-        public static final int btn_prev=0x7f080011;
-        public static final int btn_submit_double=0x7f08000c;
-        public static final int btn_submit_text=0x7f08000f;
-        public static final int button_no=0x7f080009;
-        public static final int button_yes=0x7f080008;
-        public static final int checklist_id=0x7f080014;
-        public static final int checklist_listview=0x7f080002;
+        public static final int action_settings=0x7f08001a;
+        public static final int bool_container=0x7f080008;
+        public static final int btn_finish_checklist=0x7f080013;
+        public static final int btn_next=0x7f080011;
+        public static final int btn_prev=0x7f080012;
+        public static final int btn_submit_double=0x7f08000d;
+        public static final int btn_submit_text=0x7f080010;
+        public static final int button_no=0x7f08000a;
+        public static final int button_yes=0x7f080009;
+        public static final int checklist_id=0x7f080015;
+        public static final int checklist_listview=0x7f080003;
         public static final int checklist_name=0x7f080000;
-        public static final int double_container=0x7f08000a;
-        public static final int double_input=0x7f08000b;
+        public static final int double_container=0x7f08000b;
+        public static final int double_input=0x7f08000c;
+        public static final int finish_checklist=0x7f080002;
         public static final int finished_steps_listview=0x7f080001;
-        public static final int num_of_steps=0x7f080016;
-        public static final int num_of_steps_label=0x7f080015;
-        public static final int result=0x7f080006;
-        public static final int result_label=0x7f080018;
-        public static final int step_name=0x7f080005;
-        public static final int step_order=0x7f080004;
-        public static final int step_order_label=0x7f080017;
-        public static final int steps_pager=0x7f080013;
-        public static final int text_container=0x7f08000d;
-        public static final int text_input=0x7f08000e;
-        public static final int top_container=0x7f080003;
+        public static final int num_of_steps=0x7f080017;
+        public static final int num_of_steps_label=0x7f080016;
+        public static final int result=0x7f080007;
+        public static final int result_label=0x7f080019;
+        public static final int step_name=0x7f080006;
+        public static final int step_order=0x7f080005;
+        public static final int step_order_label=0x7f080018;
+        public static final int steps_pager=0x7f080014;
+        public static final int text_container=0x7f08000e;
+        public static final int text_input=0x7f08000f;
+        public static final int top_container=0x7f080004;
     }
     public static final class layout {
         public static final int activity_finish_checklist=0x7f030000;
