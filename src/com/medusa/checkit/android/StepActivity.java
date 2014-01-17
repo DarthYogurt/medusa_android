@@ -1,16 +1,22 @@
 package com.medusa.checkit.android;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +26,8 @@ public class StepActivity extends Activity {
 	private static final String TYPE_BOOL = "bool";
 	private static final String TYPE_DOUBLE = "double";
 	private static final String TYPE_TEXT = "text";
+	private static final String TYPE_IMAGE = "image";
+	private static final int REQUEST_PICTURE = 1;
 	
 	private ArrayList<Step> stepsArray;
 	private Step step;
@@ -48,6 +56,7 @@ public class StepActivity extends Activity {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) { showDoubleElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
+		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 		
 		showNextButton();
 		if (stepNum > 0 && stepNum < stepsArray.size() - 1) { showPrevButton(); }
@@ -138,6 +147,22 @@ public class StepActivity extends Activity {
 		});
 	}
 	
+	private void showImageElements() {
+		LinearLayout imageContainer = (LinearLayout) findViewById(R.id.image_container);
+		Button btnTakePicture = (Button) findViewById(R.id.btn_take_picture);
+		imageContainer.setVisibility(View.VISIBLE);
+		showResult();
+		
+		btnTakePicture.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				takePicture();
+				step.setIsStepFinished(true);
+				showResult();
+			}
+		});
+	}
+	
 	private void showNextButton() {
 		ImageButton btnNext = (ImageButton) findViewById(R.id.btn_next);
 		btnNext.setVisibility(View.VISIBLE);
@@ -174,6 +199,47 @@ public class StepActivity extends Activity {
 				finish();
 			}
 		});
+	}
+	
+	private void takePicture() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (intent.resolveActivity(getPackageManager()) != null) {
+			startActivityForResult(intent, REQUEST_PICTURE);
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		String spokenText;
+		
+		// Handles picture taking after finished
+	    if (requestCode == REQUEST_PICTURE && resultCode == RESULT_OK) {
+	    	ImageView imageResult = (ImageView) findViewById(R.id.result_image);
+	    	Bundle extras = data.getExtras();
+	    	Bitmap image = (Bitmap) extras.get("data");
+	    	imageResult.setImageBitmap(image);
+	    }
+		
+//		// Handles speech recording to text after finished
+//	    if (requestCode == SPEECH_REQUEST && resultCode == RESULT_OK) {
+//	        List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+//	        spokenText = results.get(0);
+//	        
+//	        if (currentStepType.equalsIgnoreCase(STEPTYPE_TEXT)) {
+//	        	stepValues[currentStepOrder] = spokenText;
+//	        	currentCard.setFootnote("Result: " + spokenText);
+//				adapter.notifyDataSetChanged();
+//	        }
+//	        
+//	        if (currentStepType.equalsIgnoreCase(STEPTYPE_DOUBLE)) {
+//	        	spokenText.replaceAll(" ", "");
+//	        	Double converted = Double.parseDouble(spokenText);
+//	        	stepValues[currentStepOrder] = converted;
+//	        	currentCard.setFootnote("Result: " + spokenText);
+//				adapter.notifyDataSetChanged();
+//	        }
+//	    }
 	}
 
 //	@Override
