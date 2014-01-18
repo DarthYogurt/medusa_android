@@ -176,6 +176,7 @@ public class StepActivity extends Activity {
 				step.setText(input);
 				finishStep();
 				showResult();
+				goToNextStep();
 			}
 		});
 	}
@@ -234,6 +235,9 @@ public class StepActivity extends Activity {
 	    	Bundle extras = data.getExtras();
 	    	Bitmap image = (Bitmap) extras.get("data");
 	    	imageResult.setImageBitmap(image);
+	    	
+	    	ImageHandler imageHandler = new ImageHandler(this);
+	    	Log.v("image dir", imageHandler.getImageDir());
 	    }
 		
 //		// Handles speech recording to text after finished

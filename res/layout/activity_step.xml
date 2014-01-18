@@ -182,6 +182,7 @@
             android:id="@+id/text_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:background="@drawable/edit_text_box"
             android:hint="@string/text_hint" />
         
@@ -189,7 +190,7 @@
 	        android:id="@+id/btn_submit_text"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="30dp"
 	        android:background="@drawable/btn_white_glossy"
 	        android:text="@string/button_submit" />
         
