@@ -45,7 +45,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
             holder = new ViewHolder();
             holder.stepOrder = (TextView) convertView.findViewById(R.id.step_order);
             holder.result = (TextView) convertView.findViewById(R.id.result);
-            holder.finishedStepImage = (ImageView) convertView.findViewById(R.id.finished_step_image);
+            holder.finishedStepImage = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
             convertView.setTag(holder);
         } else {

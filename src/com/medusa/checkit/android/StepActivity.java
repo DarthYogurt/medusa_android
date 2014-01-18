@@ -86,6 +86,12 @@ public class StepActivity extends Activity {
 		finish();
 	}
 	
+	private void finishStep() {
+		step.setIsStepFinished(true);
+		ImageView finishedStepImg = (ImageView) findViewById(R.id.finished_step_img);
+		finishedStepImg.setVisibility(View.VISIBLE);
+	}
+	
 	private void showResult() {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
 			if (step.getIsStepFinished()) { 
@@ -120,7 +126,7 @@ public class StepActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				step.setYesOrNo(true);
-				step.setIsStepFinished(true);
+				finishStep();
 				showResult();
 				goToNextStep();
 			}
@@ -130,7 +136,7 @@ public class StepActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				step.setYesOrNo(false);
-				step.setIsStepFinished(true);
+				finishStep();
 				showResult();
 				goToNextStep();
 			}
@@ -149,8 +155,9 @@ public class StepActivity extends Activity {
 			public void onClick(View view) {
 				String input = doubleInput.getText().toString();
 				step.setValue(Double.parseDouble(input));
-				step.setIsStepFinished(true);
+				finishStep();
 				showResult();
+				goToNextStep();
 			}
 		});
 	}
@@ -167,7 +174,7 @@ public class StepActivity extends Activity {
 			public void onClick(View view) {
 				String input = textInput.getText().toString();
 				step.setText(input);
-				step.setIsStepFinished(true);
+				finishStep();
 				showResult();
 			}
 		});
@@ -183,7 +190,7 @@ public class StepActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				takePicture();
-				step.setIsStepFinished(true);
+				finishStep();
 				showResult();
 			}
 		});

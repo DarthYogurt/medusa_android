@@ -17,7 +17,8 @@
     <string name="text_hint">Type Message Here</string>
     <string name="button_submit">Submit</string>
     <string name="btn_take_picture">Take Picture</string>
-    <string name="taken_image_desc">Image Taken</string>
+    <string name="taken_img_desc">Image Taken</string>
+    <string name="finished_step_img_desc">Finished Step</string>
     <string name="nav_btn_desc">Nav Button</string>
     <string name="finish_checklist">Finish Checklist</string>
     <string name="click_step_to_edit">*** click on step to edit ***</string>

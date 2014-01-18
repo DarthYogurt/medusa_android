@@ -7,6 +7,16 @@
     android:padding="20dp"
     android:background="#fff" >
     
+    <ImageView 
+        android:id="@+id/finished_step_img"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentTop="true"
+    	android:layout_alignParentRight="true"
+    	android:contentDescription="@string/finished_step_img_desc"
+    	android:visibility="gone"
+    	android:src="@drawable/checkmark_icon" />
+    
     <!-- TOP CONTAINER -->
     <LinearLayout
         android:id="@+id/top_container"
@@ -90,7 +100,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_gravity="center"
-		        android:contentDescription="@string/taken_image_desc" />
+		        android:contentDescription="@string/taken_img_desc" />
 		    
 	    </LinearLayout>
 	    
@@ -151,7 +161,7 @@
 	        android:id="@+id/btn_submit_double"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="30dp"
 	        android:background="@drawable/btn_white_glossy"
 	        android:text="@string/button_submit" />
         

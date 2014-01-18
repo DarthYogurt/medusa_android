@@ -42,11 +42,12 @@
         android:textColor="#29a629" />
 	
 	<ImageView
-	    android:id="@+id/finished_step_image"
+	    android:id="@+id/finished_step_img"
 	    android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentRight="true"
+        android:contentDescription="@string/finished_step_img_desc"
         android:visibility="gone"
         android:src="@drawable/checkmark_icon" />
 
