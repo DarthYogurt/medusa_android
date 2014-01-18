@@ -10,34 +10,38 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 public class ImageHandler {
-
+	
 	Context context;
-	File imageDir;
-	File file;
+	File directory;
+	String filename;
 	
 	public ImageHandler(Context context) {
 		this.context = context;
+		createDirectory();
 	}
 	
-	public void setImageDir() {
-		imageDir = new File(context.getFilesDir() + "/images/");
-		imageDir.mkdirs();
+	private void createDirectory() {
+		directory = new File(context.getFilesDir() + "/images/");
+		if (!(directory.exists() && directory.isDirectory())) {
+			directory.mkdirs();
+		}
 	}
 	
-	public String getImageDir() {
+	public String getPath() {
 		return context.getFilesDir() + "/images/";
 	}
 	
-	public void setImageFile(int checklistId, int stepOrder) {
-		String filename = "cid" + Integer.toString(checklistId) + "_sid" + Integer.toString(stepOrder) + ".jpg"; 
-		file = new File(imageDir, filename);
+	public void setFilename(int checklistId, int stepOrder) {
+		filename = "cid" + Integer.toString(checklistId) + "_sid" + Integer.toString(stepOrder) + ".jpg"; 
 	}
 	
-	public String getImageFile(int checklistId, int stepOrder) {
+	public String getFilename(int checklistId, int stepOrder) {
 		return "cid" + Integer.toString(checklistId) + "_sid" + Integer.toString(stepOrder) + ".jpg";
 	}
 	
 	public void writeToFile(Bitmap b) {
+		File file = new File(directory, filename);
+		
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
 			b.compress(Bitmap.CompressFormat.JPEG, 100, fos);

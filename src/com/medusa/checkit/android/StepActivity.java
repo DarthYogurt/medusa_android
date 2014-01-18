@@ -231,13 +231,13 @@ public class StepActivity extends Activity {
 		
 		// Handles picture taking after finished
 	    if (requestCode == REQUEST_PICTURE && resultCode == RESULT_OK) {
-	    	ImageView imageResult = (ImageView) findViewById(R.id.result_image);
-	    	Bundle extras = data.getExtras();
-	    	Bitmap image = (Bitmap) extras.get("data");
-	    	imageResult.setImageBitmap(image);
-	    	
 	    	ImageHandler imageHandler = new ImageHandler(this);
-	    	Log.v("image dir", imageHandler.getImageDir());
+	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+	    	
+	    	ImageView imageResult = (ImageView) findViewById(R.id.result_image);
+//	    	Bundle extras = data.getExtras();
+//	    	Bitmap image = (Bitmap) extras.get("data");
+//	    	imageResult.setImageBitmap(image);
 	    }
 		
 //		// Handles speech recording to text after finished

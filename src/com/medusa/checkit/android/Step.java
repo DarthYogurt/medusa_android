@@ -15,6 +15,7 @@ public class Step implements Parcelable {
 	private boolean yesOrNo;
 	private double value;
 	private String text;
+	private String imageFilename;
 	
 	public Step(int order, String name, String type, int id, int checklistId, String checklistName) {
 		this.order = order;
@@ -27,6 +28,7 @@ public class Step implements Parcelable {
 		this.yesOrNo = false;
 		this.value = 0;
 		this.text = "";
+		this.imageFilename = "";
 	}
 	
 	public Step(Parcel in) {
@@ -89,6 +91,14 @@ public class Step implements Parcelable {
 		this.text = s;
 	}
 	
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	
+	public void setImageFilename(String s) {
+		this.imageFilename = s;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -106,6 +116,7 @@ public class Step implements Parcelable {
 		dest.writeByte((byte)(yesOrNo ? 1 : 0));
 		dest.writeDouble(value);
 		dest.writeString(text);
+		dest.writeString(imageFilename);
 	}
 	
 	private void readFromParcel(Parcel in) {
@@ -119,6 +130,7 @@ public class Step implements Parcelable {
 		yesOrNo = in.readByte() != 0;
 		value = in.readDouble();
 		text = in.readString();
+		imageFilename = in.readString();
 	}
 	
 	public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
