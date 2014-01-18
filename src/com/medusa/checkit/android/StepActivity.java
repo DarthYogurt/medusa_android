@@ -61,6 +61,29 @@ public class StepActivity extends Activity {
 		if (stepNum > 0 && stepNum < stepsArray.size()) { showPrevButton(); }
 	}
 	
+	private void goToNextStep() {
+		Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+		intent.putExtra("steps", stepsArray);
+		intent.putExtra("stepNum", stepNum + 1);
+		startActivity(intent);
+		finish();
+	}
+	
+	private void goToPrevStep() {
+		Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+		intent.putExtra("steps", stepsArray);
+		intent.putExtra("stepNum", stepNum - 1);
+		startActivity(intent);
+		finish();
+	}
+	
+	private void goToFinishChecklist() {
+		Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
+		intent.putExtra("steps", stepsArray);
+		startActivity(intent);
+		finish();
+	}
+	
 	private void showResult() {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
 			if (step.getIsStepFinished()) { 
@@ -169,18 +192,8 @@ public class StepActivity extends Activity {
 		btnNext.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (stepNum == stepsArray.size() - 1) {
-					Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
-					intent.putExtra("steps", stepsArray);
-					startActivity(intent);
-					finish();
-				} else {
-					Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-					intent.putExtra("steps", stepsArray);
-					intent.putExtra("stepNum", stepNum + 1);
-					startActivity(intent);
-					finish();
-				}	
+				if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
+				else { goToNextStep(); }	
 			}
 		});
 	}
@@ -188,15 +201,10 @@ public class StepActivity extends Activity {
 	private void showPrevButton() {
 		ImageButton btnPrev = (ImageButton) findViewById(R.id.btn_prev);
 		btnPrev.setVisibility(View.VISIBLE);
+		
 		btnPrev.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-				intent.putExtra("steps", stepsArray);
-				intent.putExtra("stepNum", stepNum - 1);
-				startActivity(intent);
-				finish();
-			}
+			public void onClick(View view) { goToPrevStep(); }
 		});
 	}
 	
