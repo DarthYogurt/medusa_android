@@ -27,9 +27,10 @@ public final class R {
         public static final int btn_white_glossy=0x7f020003;
         public static final int btn_white_matte=0x7f020004;
         public static final int checkmark_icon=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int rounded_corners=0x7f020007;
-        public static final int splash_screen_logo=0x7f020008;
+        public static final int edit_text_box=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int rounded_corners=0x7f020008;
+        public static final int splash_screen_logo=0x7f020009;
     }
     public static final class id {
         public static final int action_settings=0x7f08001f;

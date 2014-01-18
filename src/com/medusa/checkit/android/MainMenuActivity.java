@@ -17,7 +17,6 @@ public class MainMenuActivity extends Activity {
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

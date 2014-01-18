@@ -142,6 +142,8 @@
             android:id="@+id/double_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/edit_text_box"
             android:inputType="number|numberDecimal|numberSigned"
             android:hint="@string/double_hint" />
         
@@ -170,6 +172,7 @@
             android:id="@+id/text_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_box"
             android:hint="@string/text_hint" />
         
         <Button

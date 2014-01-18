@@ -18,7 +18,6 @@ public class StepsFragmentActivity extends FragmentActivity {
 	private PagerAdapter pagerAdapter;
 	private ArrayList<Step> stepsArray;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

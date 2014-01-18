@@ -23,7 +23,6 @@ public class FinishChecklistActivity extends Activity {
 	private JSONWriter jsonWriter;
 	private ArrayList<Step> stepsArray;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

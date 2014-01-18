@@ -34,7 +34,6 @@ public class StepActivity extends Activity {
 	private int stepNum;
 	private TextView result;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,7 +58,7 @@ public class StepActivity extends Activity {
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 		
 		showNextButton();
-		if (stepNum > 0 && stepNum < stepsArray.size() - 1) { showPrevButton(); }
+		if (stepNum > 0 && stepNum < stepsArray.size()) { showPrevButton(); }
 	}
 	
 	private void showResult() {
