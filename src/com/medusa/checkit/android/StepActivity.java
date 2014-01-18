@@ -1,7 +1,6 @@
 package com.medusa.checkit.android;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -62,11 +61,14 @@ public class StepActivity extends Activity {
 	}
 	
 	private void goToNextStep() {
-		Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-		intent.putExtra("steps", stepsArray);
-		intent.putExtra("stepNum", stepNum + 1);
-		startActivity(intent);
-		finish();
+		if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
+		else {
+			Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+			intent.putExtra("steps", stepsArray);
+			intent.putExtra("stepNum", stepNum + 1);
+			startActivity(intent);
+			finish();
+		}	
 	}
 	
 	private void goToPrevStep() {
@@ -120,6 +122,7 @@ public class StepActivity extends Activity {
 				step.setYesOrNo(true);
 				step.setIsStepFinished(true);
 				showResult();
+				goToNextStep();
 			}
 		});
 		
@@ -129,6 +132,7 @@ public class StepActivity extends Activity {
 				step.setYesOrNo(false);
 				step.setIsStepFinished(true);
 				showResult();
+				goToNextStep();
 			}
 		});
 	}
@@ -191,10 +195,7 @@ public class StepActivity extends Activity {
 		
 		btnNext.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View view) {
-				if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
-				else { goToNextStep(); }	
-			}
+			public void onClick(View view) { goToNextStep(); }
 		});
 	}
 	
