@@ -9,6 +9,18 @@ import com.google.gson.stream.JsonWriter;
 
 public class JSONWriter {
 
+	private static final String KEY_USER_ID = "userId";
+	private static final String KEY_GROUP_ID = "groupId";
+	private static final String KEY_CHECKLIST_ID = "checklistId";
+	private static final String KEY_STEP_ID = "stepId";
+	private static final String KEY_STEP_TYPE = "stepType";
+	private static final String KEY_VALUE = "value";
+	private static final String KEY_STEPS = "steps";
+	private static final String TYPE_BOOL = "bool";
+	private static final String TYPE_DOUBLE = "double";
+	private static final String TYPE_TEXT = "text";
+	private static final String TYPE_IMAGE = "image";
+	
 	static final String FILENAME = "temp.json";
 	static final String CHECKLIST_FILENAME = "new_checklist.json";
 	
@@ -41,10 +53,10 @@ public class JSONWriter {
 		
 		try {
 			checklistWriter.beginObject();
-			checklistWriter.name("userId").value(1);
-			checklistWriter.name("groupId").value(1);
-			checklistWriter.name("checklistId").value(checklistId);
-			checklistWriter.name("steps");
+			checklistWriter.name(KEY_USER_ID).value(1);
+			checklistWriter.name(KEY_GROUP_ID).value(1);
+			checklistWriter.name(KEY_CHECKLIST_ID).value(checklistId);
+			checklistWriter.name(KEY_STEPS);
 			checklistWriter.beginArray();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
@@ -61,10 +73,10 @@ public class JSONWriter {
 	public void writeStepBoolean(int stepId, boolean result) throws IOException {
 		try {
 			checklistWriter.beginObject();
-			checklistWriter.name("stepId").value(stepId);
-			checklistWriter.name("stepType").value("bool");
-			if (result == true) { checklistWriter.name("value").value("true"); }
-			else { checklistWriter.name("value").value("false"); }
+			checklistWriter.name(KEY_STEP_ID).value(stepId);
+			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_BOOL);
+			if (result == true) { checklistWriter.name(KEY_VALUE).value("true"); }
+			else { checklistWriter.name(KEY_VALUE).value("false"); }
 			checklistWriter.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
@@ -72,9 +84,9 @@ public class JSONWriter {
 	public void writeStepDouble(int stepId, double result) throws IOException {
 		try {
 			checklistWriter.beginObject();
-			checklistWriter.name("stepId").value(stepId);
-			checklistWriter.name("stepType").value("double");
-			checklistWriter.name("value").value(result);
+			checklistWriter.name(KEY_STEP_ID).value(stepId);
+			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_DOUBLE);
+			checklistWriter.name(KEY_VALUE).value(result);
 			checklistWriter.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
@@ -82,11 +94,20 @@ public class JSONWriter {
 	public void writeStepText(int stepId, String result) throws IOException {
 		try {
 			checklistWriter.beginObject();
-			checklistWriter.name("stepId").value(stepId);
-			checklistWriter.name("stepType").value("text");
-			checklistWriter.name("value").value(result);
+			checklistWriter.name(KEY_STEP_ID).value(stepId);
+			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_TEXT);
+			checklistWriter.name(KEY_VALUE).value(result);
 			checklistWriter.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
+	public void writeStepImage(int stepId, String result) throws IOException {
+		try {
+			checklistWriter.beginObject();
+			checklistWriter.name(KEY_STEP_ID).value(stepId);
+			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_IMAGE);
+			checklistWriter.name(KEY_VALUE).value(result);
+			checklistWriter.endObject();
+		} catch (IOException e) { e.printStackTrace(); }
+	}
 }

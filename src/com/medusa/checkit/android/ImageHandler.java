@@ -21,7 +21,7 @@ public class ImageHandler {
 	}
 	
 	private void createDirectory() {
-		directory = new File(context.getFilesDir() + "/images/");
+		directory = new File(getPath());
 		if (!(directory.exists() && directory.isDirectory())) {
 			directory.mkdirs();
 		}
@@ -32,11 +32,11 @@ public class ImageHandler {
 	}
 	
 	public void setFilename(int checklistId, int stepOrder) {
-		filename = "cid" + Integer.toString(checklistId) + "_sid" + Integer.toString(stepOrder) + ".jpg"; 
+		filename = "cid" + Integer.toString(checklistId) + "_so" + Integer.toString(stepOrder) + ".jpg"; 
 	}
 	
 	public String getFilename(int checklistId, int stepOrder) {
-		return "cid" + Integer.toString(checklistId) + "_sid" + Integer.toString(stepOrder) + ".jpg";
+		return "cid" + Integer.toString(checklistId) + "_so" + Integer.toString(stepOrder) + ".jpg";
 	}
 	
 	public void writeToFile(Bitmap b) {
@@ -50,4 +50,5 @@ public class ImageHandler {
 		catch (FileNotFoundException e) { Log.d("ERROR", "File not found: " + e.getMessage()); }
 		catch (IOException e) { Log.d("ERROR", "Error accessing file: " + e.getMessage()); }
 	}
+	
 }

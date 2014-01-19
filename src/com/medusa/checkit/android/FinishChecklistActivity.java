@@ -20,6 +20,11 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FinishChecklistActivity extends Activity {
 	
+	private static final String TYPE_BOOL = "bool";
+	private static final String TYPE_DOUBLE = "double";
+	private static final String TYPE_TEXT = "text";
+	private static final String TYPE_IMAGE = "image";
+	
 	private JSONWriter jsonWriter;
 	private ArrayList<Step> stepsArray;
 
@@ -81,15 +86,19 @@ public class FinishChecklistActivity extends Activity {
 		for (int i = 0; i < stepsArray.size(); i++) {
 			step = stepsArray.get(i);
 			
-			if (step.getType().equalsIgnoreCase("bool")) {
+			if (step.getType().equalsIgnoreCase(TYPE_BOOL)) {
 				try { jsonWriter.writeStepBoolean(step.getId(), step.getYesOrNo()); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
-			if (step.getType().equalsIgnoreCase("double")) {
+			if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) {
 				try { jsonWriter.writeStepDouble(step.getId(), step.getValue()); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
-			if (step.getType().equalsIgnoreCase("text")) {
+			if (step.getType().equalsIgnoreCase(TYPE_TEXT)) {
+				try { jsonWriter.writeStepText(step.getId(), step.getText()); } 
+				catch (IOException e) { e.printStackTrace(); }
+			}
+			if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) {
 				try { jsonWriter.writeStepText(step.getId(), step.getText()); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}

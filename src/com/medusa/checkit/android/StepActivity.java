@@ -1,5 +1,8 @@
 package com.medusa.checkit.android;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import android.os.Bundle;
@@ -8,6 +11,7 @@ import android.speech.RecognizerIntent;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -231,13 +235,26 @@ public class StepActivity extends Activity {
 		
 		// Handles picture taking after finished
 	    if (requestCode == REQUEST_PICTURE && resultCode == RESULT_OK) {
+	    	Bundle extras = data.getExtras();
+	    	Bitmap image = (Bitmap) extras.get("data");
+	    	
 	    	ImageHandler imageHandler = new ImageHandler(this);
+	    	imageHandler.setFilename(step.getChecklistId(), step.getOrder());
+	    	imageHandler.writeToFile(image);
+	    	
 	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
 	    	
 	    	ImageView imageResult = (ImageView) findViewById(R.id.result_image);
-//	    	Bundle extras = data.getExtras();
-//	    	Bitmap image = (Bitmap) extras.get("data");
-//	    	imageResult.setImageBitmap(image);
+	    	try {
+	    		File file = new File(imageHandler.getPath() + imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+				FileInputStream fis = new FileInputStream(file);
+				Bitmap decoded = BitmapFactory.decodeStream(fis);
+				imageResult.setImageBitmap(decoded);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+	    	
+	    	Log.v("pic filename", imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
 	    }
 		
 //		// Handles speech recording to text after finished
