@@ -101,12 +101,12 @@ public class JSONWriter {
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public void writeStepImage(int stepId, String result) throws IOException {
+	public void writeStepImage(int stepId, String filename) throws IOException {
 		try {
 			checklistWriter.beginObject();
 			checklistWriter.name(KEY_STEP_ID).value(stepId);
 			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_IMAGE);
-			checklistWriter.name(KEY_VALUE).value(result);
+			checklistWriter.name(KEY_VALUE).value(filename);
 			checklistWriter.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}

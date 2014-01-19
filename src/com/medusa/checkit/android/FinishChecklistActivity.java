@@ -8,6 +8,7 @@ import org.apache.http.client.ClientProtocolException;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ public class FinishChecklistActivity extends Activity {
 	private static final String TYPE_IMAGE = "image";
 	
 	private JSONWriter jsonWriter;
+	private ImageHandler imageHandler;
 	private ArrayList<Step> stepsArray;
 
 	@Override
@@ -34,6 +36,8 @@ public class FinishChecklistActivity extends Activity {
 		setContentView(R.layout.activity_finish_checklist);
 		
 		stepsArray = getIntent().getParcelableArrayListExtra("steps");
+		
+		imageHandler = new ImageHandler(this);
 		
 		TextView mChecklistName = (TextView) findViewById(R.id.checklist_name);
 		Button mBtnFinishChecklist = (Button) findViewById(R.id.finish_checklist);
@@ -101,6 +105,7 @@ public class FinishChecklistActivity extends Activity {
 			if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) {
 				try { jsonWriter.writeStepImage(step.getId(), step.getImageFilename()); } 
 				catch (IOException e) { e.printStackTrace(); }
+				imageHandler.addFilenameToArray(step.getChecklistId(), step.getOrder());
 			}
 		}
 	}
@@ -116,9 +121,10 @@ public class FinishChecklistActivity extends Activity {
 			} catch (IOException e) { e.printStackTrace(); }
 			
 			HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
-			try { post.multipartPost(JSONWriter.CHECKLIST_FILENAME); } 
-			catch (ClientProtocolException e) { e.printStackTrace(); } 
-			catch (IOException e) { e.printStackTrace(); }
+			post.createNewPost(); 
+			post.addJSON(JSONWriter.CHECKLIST_FILENAME);
+			if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
+			post.sendPost();
 			
 			Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
 			startActivity(intent);

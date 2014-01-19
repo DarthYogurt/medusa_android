@@ -14,11 +14,11 @@ public class ImageHandler {
 	
 	Context context;
 	File directory;
-	ArrayList<Bitmap> imagesArray;
+	ArrayList<String> imageFilenamesArray;
 	
 	public ImageHandler(Context context) {
 		this.context = context;
-		this.imagesArray = null;
+		this.imageFilenamesArray = null;
 	}
 	
 	public void writeToFile(Bitmap b, int checklistId, int stepOrder) {
@@ -28,6 +28,7 @@ public class ImageHandler {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 			fos.close();
+			Log.v("FILE WRITTEN", filename);
 		} 
 		catch (FileNotFoundException e) { Log.d("ERROR", "File not found: " + e.getMessage()); }
 		catch (IOException e) { Log.d("ERROR", "Error accessing file: " + e.getMessage()); }
@@ -37,7 +38,14 @@ public class ImageHandler {
 		return "cid" + Integer.toString(checklistId) + "_so" + Integer.toString(stepOrder) + ".jpg";
 	}
 	
-//	public ArrayList<Bitmap> addToArrayList() {
-//		
-//	}
+	public void addFilenameToArray(int checklistId, int stepOrder) {	
+		if (imageFilenamesArray == null) { imageFilenamesArray = new ArrayList<String>(); }
+		String filename = getFilename(checklistId, stepOrder);
+		imageFilenamesArray.add(filename);
+		Log.v("SUCCESSFULLY ADDED FILE TO ARRAY", filename);
+	}
+	
+	public ArrayList<String> getArrayList() {
+		return imageFilenamesArray;
+	}
 }

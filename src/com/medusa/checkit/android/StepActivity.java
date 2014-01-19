@@ -255,7 +255,7 @@ public class StepActivity extends Activity {
 				imageResult.setImageBitmap(decoded);
 			} 
 	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
-	    	catch (IOException e) { e.printStackTrace(); }	
+	    	catch (IOException e) { e.printStackTrace(); }
 	    }
 		
 //		// Handles speech recording to text after finished
