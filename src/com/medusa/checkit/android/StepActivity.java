@@ -3,8 +3,10 @@ package com.medusa.checkit.android;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
@@ -12,6 +14,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -239,22 +242,20 @@ public class StepActivity extends Activity {
 	    	Bitmap image = (Bitmap) extras.get("data");
 	    	
 	    	ImageHandler imageHandler = new ImageHandler(this);
-	    	imageHandler.setFilename(step.getChecklistId(), step.getOrder());
-	    	imageHandler.writeToFile(image);
+	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
 	    	
 	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
 	    	
 	    	ImageView imageResult = (ImageView) findViewById(R.id.result_image);
-	    	try {
-	    		File file = new File(imageHandler.getPath() + imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
-				FileInputStream fis = new FileInputStream(file);
-				Bitmap decoded = BitmapFactory.decodeStream(fis);
-				imageResult.setImageBitmap(decoded);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
 	    	
-	    	Log.v("pic filename", imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+	    	try {
+				FileInputStream fis = openFileInput(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+				Bitmap decoded = BitmapFactory.decodeStream(fis);
+				fis.close();
+				imageResult.setImageBitmap(decoded);
+			} 
+	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+	    	catch (IOException e) { e.printStackTrace(); }	
 	    }
 		
 //		// Handles speech recording to text after finished

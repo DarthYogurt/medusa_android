@@ -45,11 +45,10 @@ public class HTTPPostRequest {
 		
 		HttpResponse response = client.execute(post);
 		String responseBody = EntityUtils.toString(response.getEntity());
-		Log.v("multiPartPost HTTP Response", responseBody);
+		Log.v("HTTP POST Response", responseBody);
 	}
 	
-	private void postPictures() {
-		MultipartEntity.addPart("image", new FileBody());
+	private void addPictures() {
 	}
 			
 }
