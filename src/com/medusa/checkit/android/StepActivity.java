@@ -192,14 +192,11 @@ public class StepActivity extends Activity {
 		LinearLayout imageContainer = (LinearLayout) findViewById(R.id.image_container);
 		Button btnTakePicture = (Button) findViewById(R.id.btn_take_picture);
 		imageContainer.setVisibility(View.VISIBLE);
-		showResult();
 		
 		btnTakePicture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				takePicture();
-				finishStep();
-				showResult();
 			}
 		});
 	}
@@ -241,21 +238,23 @@ public class StepActivity extends Activity {
 	    	Bundle extras = data.getExtras();
 	    	Bitmap image = (Bitmap) extras.get("data");
 	    	
+	    	ImageView imageResult = (ImageView) findViewById(R.id.result_image);
+	    	imageResult.setImageBitmap(image);
+	    	
 	    	ImageHandler imageHandler = new ImageHandler(this);
 	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
 	    	
 	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+	    	finishStep();
 	    	
-	    	ImageView imageResult = (ImageView) findViewById(R.id.result_image);
-	    	
-	    	try {
-				FileInputStream fis = openFileInput(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
-				Bitmap decoded = BitmapFactory.decodeStream(fis);
-				fis.close();
-				imageResult.setImageBitmap(decoded);
-			} 
-	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
-	    	catch (IOException e) { e.printStackTrace(); }
+//	    	try {
+//				FileInputStream fis = openFileInput(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+//				Bitmap decoded = BitmapFactory.decodeStream(fis);
+//				fis.close();
+//				imageResult.setImageBitmap(decoded);
+//			} 
+//	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+//	    	catch (IOException e) { e.printStackTrace(); }
 	    }
 		
 //		// Handles speech recording to text after finished
