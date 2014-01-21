@@ -1,6 +1,5 @@
 package com.medusa.checkit.android;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -88,6 +87,7 @@ public class StepFragment extends Fragment {
 			}
 			else { result.setText(""); }
 		}
+		
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { 
 			if (step.getIsStepFinished()) {
 				result.setText(step.getText());

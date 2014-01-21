@@ -2,7 +2,7 @@
 <RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:padding="16dp" >
     
     <TextView
@@ -11,9 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:textSize="20sp"
+        android:layout_marginBottom="10dp"
+        android:textSize="24sp"
         android:textStyle="bold" />
     
+    <!--  
 	<TextView
         android:id="@+id/checklist_id"
         android:layout_width="wrap_content"
@@ -27,13 +29,15 @@
         android:layout_alignBaseline="@id/checklist_id"
         android:layout_toLeftOf="@id/checklist_id"
         android:text="@string/id_label" />
+    -->
     
 	<TextView
 	    android:id="@+id/num_of_steps_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@id/checklist_name"
+        android:layout_marginRight="6dp"
+        android:textSize="16sp"
         android:text="@string/num_of_steps_label" />
 	
     <TextView
@@ -41,6 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/num_of_steps_label"
-        android:layout_toRightOf="@id/num_of_steps_label" />
+        android:layout_toRightOf="@id/num_of_steps_label"
+        android:textSize="16sp" />
 
 </RelativeLayout>

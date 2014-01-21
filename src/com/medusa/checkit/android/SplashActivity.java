@@ -13,6 +13,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class SplashActivity extends Activity {
+	
+	static final String KEY_ALL_CHECKLISTS = "allChecklists";
+	static final String KEY_ALL_STEPS = "allSteps";
 
 	Context context;
 	
@@ -88,8 +91,8 @@ public class SplashActivity extends Activity {
 			catch (IOException e) { e.printStackTrace(); }
 
 			Intent intent = new Intent(context, MainMenuActivity.class);
-			intent.putExtra("checklists", checklistsArray);
-			intent.putExtra("steps", allStepsArray);
+			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
+			intent.putExtra(KEY_ALL_STEPS, allStepsArray);
 			
 			startActivity(intent);
 			finish();

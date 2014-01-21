@@ -14,6 +14,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainMenuActivity extends Activity {
 	
+	static final String KEY_SELECTED_STEPS = "selectedSteps";
+	
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
 	
@@ -23,8 +25,8 @@ public class MainMenuActivity extends Activity {
 		setContentView(R.layout.activity_main_menu);
 		getActionBar().setTitle("");
 		
-		checklistsArray = getIntent().getParcelableArrayListExtra("checklists");
-		stepsArray = getIntent().getParcelableArrayListExtra("steps");
+		checklistsArray = getIntent().getParcelableArrayListExtra(SplashActivity.KEY_ALL_CHECKLISTS);
+		stepsArray = getIntent().getParcelableArrayListExtra(SplashActivity.KEY_ALL_STEPS);
         
         ListView listView = (ListView)findViewById(R.id.checklist_listview);
         ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
@@ -35,7 +37,7 @@ public class MainMenuActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
-				intent.putExtra("steps", getStepsForChecklist(checklist.getId()));
+				intent.putExtra(KEY_SELECTED_STEPS, getStepsForChecklist(checklist.getId()));
 				startActivity(intent);
 				finish();
 			}
