@@ -3,9 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
     android:background="#fff" >
+    
+    <ImageView 
+        android:id="@+id/finished_step_img"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentTop="true"
+    	android:layout_alignParentRight="true"
+    	android:contentDescription="@string/finished_step_img_desc"
+    	android:visibility="gone"
+    	android:src="@drawable/checkmark_icon" />
     
     <!-- TOP CONTAINER -->
     <LinearLayout
@@ -23,14 +31,32 @@
 		    <TextView
 		        android:layout_width="wrap_content"
 		    	android:layout_height="wrap_content"
-		    	android:textSize="26sp"
+		    	android:layout_marginRight="16dp"
+		    	android:textSize="20sp"
 		    	android:text="@string/step_order_label" />
 		    
 		    <TextView
 		        android:id="@+id/step_order"
 		        android:layout_width="wrap_content"
 		    	android:layout_height="wrap_content"
+		    	android:textStyle="bold"
 		    	android:textSize="26sp" />
+		    
+		    <TextView 
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginLeft="16dp"
+		    	android:layout_marginRight="16dp"
+		    	android:textSize="20sp"
+		    	android:text="@string/out_of_label" />
+		    
+		    <TextView
+		        android:id="@+id/step_order_max"
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:textStyle="bold"
+		    	android:textSize="26sp" />
+		    
 	    </LinearLayout>
 	    
 	    <View
@@ -64,7 +90,18 @@
 		        android:id="@+id/result"
 		        android:layout_width="wrap_content"
 		    	android:layout_height="wrap_content"
+		    	android:textColor="#29a629"
 		    	android:textSize="20sp" />
+		    
+		    <ImageView 
+		        android:id="@+id/result_image"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:scaleType="fitCenter"
+		        android:adjustViewBounds="true"
+		        android:contentDescription="@string/taken_img_desc" />
+		    
 	    </LinearLayout>
 	    
     </LinearLayout>
@@ -115,6 +152,8 @@
             android:id="@+id/double_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/edit_text_box"
             android:inputType="number|numberDecimal|numberSigned"
             android:hint="@string/double_hint" />
         
@@ -122,7 +161,7 @@
 	        android:id="@+id/btn_submit_double"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="30dp"
 	        android:background="@drawable/btn_white_glossy"
 	        android:text="@string/button_submit" />
         
@@ -143,26 +182,42 @@
             android:id="@+id/text_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/edit_text_box"
             android:hint="@string/text_hint" />
         
         <Button
 	        android:id="@+id/btn_submit_text"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="30dp"
 	        android:background="@drawable/btn_white_glossy"
 	        android:text="@string/button_submit" />
         
     </LinearLayout>
     <!-- END TEXT CONTAINER -->
     
-    <Button
-        android:id="@+id/btn_finish_checklist"
+    <!-- IMAGE CONTAINER -->
+    <LinearLayout 
+        android:id="@+id/image_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/btn_green_matte"
-        android:textColor="#fff"
-        android:text="@string/finish_checklist" />
+        android:layout_below="@id/top_container"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingTop="30dp" >
+        
+        <Button
+	        android:id="@+id/btn_take_picture"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:background="@drawable/btn_white_glossy"
+	        android:text="@string/btn_take_picture" />
+        
+    </LinearLayout>
+    <!-- END IMAGE CONTAINER -->
+    
+    
 
 </RelativeLayout>
