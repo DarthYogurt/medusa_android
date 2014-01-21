@@ -208,12 +208,13 @@ public class StepFragment extends Fragment {
 		String spokenText;
 		
 		// Handles picture taking after finished
-	    if (requestCode == REQUEST_PICTURE && resultCode == Activity.RESULT_OK) {
+	    if (requestCode == REQUEST_PICTURE && resultCode == StepActivity.RESULT_OK) {
 	    	Bundle extras = data.getExtras();
 	    	Bitmap image = (Bitmap) extras.get("data");
 	    	
 	    	ImageView imageResult = (ImageView) view.findViewById(R.id.result_image);
 	    	imageResult.setImageBitmap(image);
+	    	imageResult.invalidate();
 	    	
 	    	ImageHandler imageHandler = new ImageHandler(getActivity());
 	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());

@@ -3,12 +3,15 @@ package com.medusa.checkit.android;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ public class StepActivity extends Activity {
 	
 	DrawerLayout drawerLayout;
 	ListView drawerListView;
+	ActionBarDrawerToggle drawerToggle;
 	FragmentManager fragmentManager;
 	StepFragment fragment;
 	
@@ -41,6 +45,15 @@ public class StepActivity extends Activity {
 		numOfSteps = stepsArray.size();
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 
+												 R.string.drawer_open, R.string.drawer_closed) {
+            public void onDrawerClosed(View view) { super.onDrawerClosed(view); }
+            public void onDrawerOpened(View drawerView) { super.onDrawerOpened(drawerView); }
+		};
+		drawerLayout.setDrawerListener(drawerToggle);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+		
 		drawerListView = (ListView) findViewById(R.id.drawer_listview);
 		StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, stepsArray);
 		drawerListView.setAdapter(adapter);
@@ -54,6 +67,30 @@ public class StepActivity extends Activity {
 	    fragment.setArguments(bundle);
 		fragmentManager.beginTransaction().replace(R.id.content_fragment, fragment).commit();
 	}
+	
+	@Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+	
+	@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (drawerToggle.onOptionsItemSelected(item)) {
+          return true;
+        }
+        // Handle your other action bar items...
+        return super.onOptionsItemSelected(item);
+    }
 	
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 	    @Override
