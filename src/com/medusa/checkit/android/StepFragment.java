@@ -1,10 +1,5 @@
 package com.medusa.checkit.android;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.apache.http.client.ClientProtocolException;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -67,38 +62,10 @@ public class StepFragment extends Fragment {
 		showNextButton();
 		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
 		
+		if (step.getIsStepFinished()) { finishStep(); }
+		
         return view;
     }
-	
-	private void setStep(Step s) {
-		step = s;
-	}
-	
-//	private void goToNextStep() {
-//		if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
-//		else {
-//			Intent intent = new Intent(getActivity(), StepActivity.class);
-//			intent.putExtra("steps", stepsArray);
-//			intent.putExtra("stepNum", stepNum + 1);
-//			startActivity(intent);
-//			finish();
-//		}	
-//	}
-//	
-//	private void goToPrevStep() {
-//		Intent intent = new Intent(getActivity(), StepActivity.class);
-//		intent.putExtra("steps", stepsArray);
-//		intent.putExtra("stepNum", stepNum - 1);
-//		startActivity(intent);
-//		finish();
-//	}
-//	
-//	private void goToFinishChecklist() {
-//		Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
-//		intent.putExtra("steps", stepsArray);
-//		startActivity(intent);
-//		finish();
-//	}
 	
 	private void finishStep() {
 		step.setIsStepFinished(true);
@@ -142,7 +109,7 @@ public class StepFragment extends Fragment {
 				step.setYesOrNo(true);
 				finishStep();
 				showResult();
-//				goToNextStep();
+				((StepActivity)getActivity()).goToNextStep();
 			}
 		});
 		
@@ -152,7 +119,7 @@ public class StepFragment extends Fragment {
 				step.setYesOrNo(false);
 				finishStep();
 				showResult();
-//				goToNextStep();
+				((StepActivity)getActivity()).goToNextStep();
 			}
 		});
 	}
@@ -171,7 +138,7 @@ public class StepFragment extends Fragment {
 				step.setValue(Double.parseDouble(input));
 				finishStep();
 				showResult();
-//				goToNextStep();
+				((StepActivity)getActivity()).goToNextStep();
 			}
 		});
 	}
@@ -190,7 +157,7 @@ public class StepFragment extends Fragment {
 				step.setText(input);
 				finishStep();
 				showResult();
-//				goToNextStep();
+				((StepActivity)getActivity()).goToNextStep();
 			}
 		});
 	}

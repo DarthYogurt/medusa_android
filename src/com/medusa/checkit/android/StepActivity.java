@@ -3,27 +3,15 @@ package com.medusa.checkit.android;
 import java.util.ArrayList;
 
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.speech.RecognizerIntent;
 import android.support.v4.widget.DrawerLayout;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class StepActivity extends Activity {
 	
@@ -94,7 +82,7 @@ public class StepActivity extends Activity {
 	}
 
 	public void goToNextStep() {
-		if (currentStep == stepsArray.size() - 1) { goToFinishChecklist(); } 
+		if (currentStep == numOfSteps - 1) { goToFinishChecklist(); } 
 		else {
 			currentStep++;
 			step = stepsArray.get(currentStep);
