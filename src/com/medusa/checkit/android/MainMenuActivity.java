@@ -35,7 +35,6 @@ public class MainMenuActivity extends Activity {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
 				intent.putExtra("steps", getStepsForChecklist(checklist.getId()));
-				intent.putExtra("stepNum", 0);
 				startActivity(intent);
 				finish();
 			}

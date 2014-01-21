@@ -34,14 +34,11 @@ public class StepFragment extends Fragment {
 	private static final int REQUEST_PICTURE = 1;
 	
 	private View view;
-	private ArrayList<Step> stepsArray;
-	private int stepNum;
 	private TextView result;
 	private Step step;
 	
-	static StepFragment newInstance(int position, Step step) {
+	static StepFragment newInstance() {
 		StepFragment fragment = new StepFragment();
-		fragment.setStep(step);
 		return fragment;
 	}
 	
@@ -49,22 +46,23 @@ public class StepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_step, container, false);
 		
+		Bundle bundle = getArguments();
+		step = bundle.getParcelable(StepActivity.KEY_CURRENT_STEP);
+		int numOfSteps = bundle.getInt(StepActivity.KEY_NUM_OF_STEPS);
+		
 		TextView order = (TextView) view.findViewById(R.id.step_order);
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		result = (TextView) view.findViewById(R.id.result);
 
 		order.setText(Integer.toString(step.getOrder()));
-//		orderMax.setText(Integer.toString(stepsArray.size()));
+		orderMax.setText(Integer.toString(numOfSteps));
 		name.setText(step.getName());
 		
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) { showDoubleElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
-		
-//		showNextButton();
-//		if (stepNum > 0 && stepNum < stepsArray.size()) { showPrevButton(); }
 		
         return view;
     }
@@ -206,26 +204,6 @@ public class StepFragment extends Fragment {
 			}
 		});
 	}
-	
-//	private void showNextButton() {
-//		ImageButton btnNext = (ImageButton) view.findViewById(R.id.btn_next);
-//		btnNext.setVisibility(View.VISIBLE);
-//		
-//		btnNext.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View view) { /* goToNextStep(); */ }
-//		});
-//	}
-//	
-//	private void showPrevButton() {
-//		ImageButton btnPrev = (ImageButton) view.findViewById(R.id.btn_prev);
-//		btnPrev.setVisibility(View.VISIBLE);
-//		
-//		btnPrev.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View view) { /* goToPrevStep(); */ }
-//		});
-//	}
 	
 	private void takePicture() {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -27,14 +27,16 @@ import android.widget.TextView;
 
 public class StepActivity extends Activity {
 	
+	static final String KEY_CURRENT_STEP = "currentStep";
+	static final String KEY_NUM_OF_STEPS = "numOfSteps";
+	
 	DrawerLayout drawerLayout;
 	ListView drawerListView;
 	FragmentManager fragmentManager;
 	StepFragment fragment;
 	
 	private ArrayList<Step> stepsArray;
-	private Step step;
-	private int stepNum;
+	private int numOfSteps;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,8 @@ public class StepActivity extends Activity {
 		setContentView(R.layout.activity_step_navdrawer);
 		
 		stepsArray = getIntent().getParcelableArrayListExtra("steps");
-		stepNum = getIntent().getIntExtra("stepNum", 0);
-		step = stepsArray.get(stepNum);
+		Step firstStep = stepsArray.get(0);
+		numOfSteps = stepsArray.size();
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerListView = (ListView) findViewById(R.id.drawer_listview);
@@ -51,8 +53,12 @@ public class StepActivity extends Activity {
 		drawerListView.setAdapter(adapter);
 		drawerListView.setOnItemClickListener(new DrawerItemClickListener());
 		
-		fragment = StepFragment.newInstance(stepNum, step);
 		fragmentManager = getFragmentManager();
+		fragment = new StepFragment();
+		Bundle bundle = new Bundle();
+		bundle.putParcelable(KEY_CURRENT_STEP, firstStep);
+		bundle.putInt(KEY_NUM_OF_STEPS, numOfSteps);
+	    fragment.setArguments(bundle);
 		fragmentManager.beginTransaction().replace(R.id.content_fragment, fragment).commit();
 	}
 	
@@ -66,16 +72,14 @@ public class StepActivity extends Activity {
 	// Swaps fragments in the main content view
 	private void selectItem(int position) {
 	    // Create a new fragment and specify the step to show based on position
-		
 		Step step = stepsArray.get(position);
-		
-	    StepFragment fragment = StepFragment.newInstance(position, step);
-	    Bundle args = new Bundle();
-	    args.putInt("position", position);
-	    fragment.setArguments(args);
+		StepFragment fragment = new StepFragment();
+	    Bundle bundle = new Bundle();
+	    bundle.putParcelable(KEY_CURRENT_STEP, step);
+	    bundle.putInt(KEY_NUM_OF_STEPS, numOfSteps);
+	    fragment.setArguments(bundle);
 
 	    // Insert the fragment by replacing any existing fragment
-	    fragmentManager = getFragmentManager();
 	    fragmentManager.beginTransaction().replace(R.id.content_fragment, fragment).commit();
 
 	    // Highlight the selected item, update the title, and close the drawer
@@ -90,11 +94,6 @@ public class StepActivity extends Activity {
 //	    getActionBar().setTitle(mTitle);
 //	}
 
-	
-	
-	
-	
-	
 //	private void goToNextStep() {
 //		if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
 //		else {
