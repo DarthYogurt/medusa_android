@@ -34,6 +34,7 @@ public class FinishChecklistActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_finish_checklist);
+		getActionBar().setTitle("");
 		
 		stepsArray = getIntent().getParcelableArrayListExtra("steps");
 		

@@ -36,15 +36,17 @@ public class StepActivity extends Activity {
 	StepFragment fragment;
 	
 	private ArrayList<Step> stepsArray;
+	private Step step;
 	private int numOfSteps;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_step_navdrawer);
+		getActionBar().setTitle("");
 		
 		stepsArray = getIntent().getParcelableArrayListExtra("steps");
-		Step firstStep = stepsArray.get(0);
+		step = stepsArray.get(0);
 		numOfSteps = stepsArray.size();
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -56,7 +58,7 @@ public class StepActivity extends Activity {
 		fragmentManager = getFragmentManager();
 		fragment = new StepFragment();
 		Bundle bundle = new Bundle();
-		bundle.putParcelable(KEY_CURRENT_STEP, firstStep);
+		bundle.putParcelable(KEY_CURRENT_STEP, step);
 		bundle.putInt(KEY_NUM_OF_STEPS, numOfSteps);
 	    fragment.setArguments(bundle);
 		fragmentManager.beginTransaction().replace(R.id.content_fragment, fragment).commit();
@@ -72,7 +74,7 @@ public class StepActivity extends Activity {
 	// Swaps fragments in the main content view
 	private void selectItem(int position) {
 	    // Create a new fragment and specify the step to show based on position
-		Step step = stepsArray.get(position);
+		step = stepsArray.get(position);
 		StepFragment fragment = new StepFragment();
 	    Bundle bundle = new Bundle();
 	    bundle.putParcelable(KEY_CURRENT_STEP, step);
@@ -82,17 +84,10 @@ public class StepActivity extends Activity {
 	    // Insert the fragment by replacing any existing fragment
 	    fragmentManager.beginTransaction().replace(R.id.content_fragment, fragment).commit();
 
-	    // Highlight the selected item, update the title, and close the drawer
+	    // Highlight the selected item and close the drawer
 	    drawerListView.setItemChecked(position, true);
-//	    setTitle(mPlanetTitles[position]);
 	    drawerLayout.closeDrawer(drawerListView);
 	}
-
-//	@Override
-//	public void setTitle(CharSequence title) {
-//	    mTitle = title;
-//	    getActionBar().setTitle(mTitle);
-//	}
 
 //	private void goToNextStep() {
 //		if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
