@@ -29,6 +29,7 @@ public class StepActivity extends Activity {
 	
 	static final String KEY_CURRENT_STEP = "currentStep";
 	static final String KEY_NUM_OF_STEPS = "numOfSteps";
+	static final String KEY_ALL_STEPS = "allSteps";
 	
 	DrawerLayout drawerLayout;
 	ListView drawerListView;
@@ -78,7 +79,7 @@ public class StepActivity extends Activity {
 	    // Create a new fragment and specify the step to show based on position
 		currentStep = position;
 		step = stepsArray.get(currentStep);
-		StepFragment fragment = new StepFragment();
+		fragment = new StepFragment();
 	    Bundle bundle = new Bundle();
 	    bundle.putParcelable(KEY_CURRENT_STEP, step);
 	    bundle.putInt(KEY_NUM_OF_STEPS, numOfSteps);
@@ -92,31 +93,37 @@ public class StepActivity extends Activity {
 	    drawerLayout.closeDrawer(drawerListView);
 	}
 
-//	private void goToNextStep() {
-//		if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
-//		else {
-//			Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-//			intent.putExtra("steps", stepsArray);
-//			intent.putExtra("stepNum", stepNum + 1);
-//			startActivity(intent);
-//			finish();
-//		}	
-//	}
-//	
-//	private void goToPrevStep() {
-//		Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-//		intent.putExtra("steps", stepsArray);
-//		intent.putExtra("stepNum", stepNum - 1);
-//		startActivity(intent);
-//		finish();
-//	}
-//	
-//	private void goToFinishChecklist() {
-//		Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
-//		intent.putExtra("steps", stepsArray);
-//		startActivity(intent);
-//		finish();
-//	}
+	public void goToNextStep() {
+		if (currentStep == stepsArray.size() - 1) { goToFinishChecklist(); } 
+		else {
+			currentStep++;
+			step = stepsArray.get(currentStep);
+			fragment = new StepFragment();
+			Bundle bundle = new Bundle();
+			bundle.putParcelable(KEY_CURRENT_STEP, step);
+			bundle.putInt(KEY_NUM_OF_STEPS, numOfSteps);
+		    fragment.setArguments(bundle);
+			fragmentManager.beginTransaction().replace(R.id.content_fragment, fragment).commit();
+		}	
+	}
+	
+	public void goToPrevStep() {
+		currentStep--;
+		step = stepsArray.get(currentStep);
+		fragment = new StepFragment();
+		Bundle bundle = new Bundle();
+		bundle.putParcelable(KEY_CURRENT_STEP, step);
+		bundle.putInt(KEY_NUM_OF_STEPS, numOfSteps);
+	    fragment.setArguments(bundle);
+		fragmentManager.beginTransaction().replace(R.id.content_fragment, fragment).commit();
+	}
+	
+	private void goToFinishChecklist() {
+		Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
+		intent.putExtra(KEY_ALL_STEPS, stepsArray);
+		startActivity(intent);
+		finish();
+	}
 //	
 //	private void finishStep() {
 //		step.setIsStepFinished(true);

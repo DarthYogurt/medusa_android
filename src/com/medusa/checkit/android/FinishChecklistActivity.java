@@ -36,7 +36,7 @@ public class FinishChecklistActivity extends Activity {
 		setContentView(R.layout.activity_finish_checklist);
 		getActionBar().setTitle("");
 		
-		stepsArray = getIntent().getParcelableArrayListExtra("steps");
+		stepsArray = getIntent().getParcelableArrayListExtra(StepActivity.KEY_ALL_STEPS);
 		
 		imageHandler = new ImageHandler(this);
 		

@@ -214,7 +214,7 @@ public class StepFragment extends Fragment {
 		
 		btnNext.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View view) { /* goToNextStep(); */ }
+			public void onClick(View view) { ((StepActivity)getActivity()).goToNextStep(); }
 		});
 	}
 
@@ -224,7 +224,7 @@ public class StepFragment extends Fragment {
 		
 		btnPrev.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View view) { /* goToPrevStep(); */ }
+			public void onClick(View view) { ((StepActivity)getActivity()).goToPrevStep(); }
 		});
 	}
 	
