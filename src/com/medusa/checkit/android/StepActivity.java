@@ -38,6 +38,7 @@ public class StepActivity extends Activity {
 	private ArrayList<Step> stepsArray;
 	private Step step;
 	private int numOfSteps;
+	private int currentStep;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,8 @@ public class StepActivity extends Activity {
 		getActionBar().setTitle("");
 		
 		stepsArray = getIntent().getParcelableArrayListExtra("steps");
-		step = stepsArray.get(0);
+		currentStep = 0;
+		step = stepsArray.get(currentStep);
 		numOfSteps = stepsArray.size();
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -74,7 +76,8 @@ public class StepActivity extends Activity {
 	// Swaps fragments in the main content view
 	private void selectItem(int position) {
 	    // Create a new fragment and specify the step to show based on position
-		step = stepsArray.get(position);
+		currentStep = position;
+		step = stepsArray.get(currentStep);
 		StepFragment fragment = new StepFragment();
 	    Bundle bundle = new Bundle();
 	    bundle.putParcelable(KEY_CURRENT_STEP, step);

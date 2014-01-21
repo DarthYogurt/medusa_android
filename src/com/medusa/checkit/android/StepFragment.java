@@ -64,6 +64,9 @@ public class StepFragment extends Fragment {
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 		
+		showNextButton();
+		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
+		
         return view;
     }
 	
@@ -202,6 +205,26 @@ public class StepFragment extends Fragment {
 			public void onClick(View view) {
 				takePicture();
 			}
+		});
+	}
+	
+	private void showNextButton() {
+		ImageButton btnNext = (ImageButton) view.findViewById(R.id.btn_next);
+		btnNext.setVisibility(View.VISIBLE);
+		
+		btnNext.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) { /* goToNextStep(); */ }
+		});
+	}
+
+	private void showPrevButton() {
+		ImageButton btnPrev = (ImageButton) view.findViewById(R.id.btn_prev);
+		btnPrev.setVisibility(View.VISIBLE);
+		
+		btnPrev.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) { /* goToPrevStep(); */ }
 		});
 	}
 	

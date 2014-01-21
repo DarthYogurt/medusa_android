@@ -218,4 +218,24 @@
     </LinearLayout>
     <!-- END IMAGE CONTAINER -->
     
+        	<ImageButton
+	        android:id="@+id/btn_next"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentRight="true"
+			android:visibility="gone"
+	        android:contentDescription="@string/nav_btn_desc"
+	        android:background="@drawable/btn_arrow_right" />
+    
+	    <ImageButton
+	        android:id="@+id/btn_prev"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+			android:visibility="gone"
+	        android:contentDescription="@string/nav_btn_desc"
+	        android:background="@drawable/btn_arrow_left" />
+    
 </RelativeLayout>
