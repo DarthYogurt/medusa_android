@@ -5,18 +5,23 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.support.v4.widget.DrawerLayout;
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +33,8 @@ public class StepActivity extends Activity {
 	private static final String TYPE_IMAGE = "image";
 	private static final int REQUEST_PICTURE = 1;
 	
+	DrawerLayout drawerLayout;
+	ListView drawerListView;
 	private ArrayList<Step> stepsArray;
 	private Step step;
 	private int stepNum;
@@ -36,11 +43,17 @@ public class StepActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_step);
+		setContentView(R.layout.activity_step_navdrawer);
 		
 		stepsArray = getIntent().getParcelableArrayListExtra("steps");
 		stepNum = getIntent().getIntExtra("stepNum", 0);
 		step = stepsArray.get(stepNum);
+		
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerListView = (ListView) findViewById(R.id.drawer_listview);
+		StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, stepsArray);
+		drawerListView.setAdapter(adapter);
+		drawerListView.setOnItemClickListener(new DrawerItemClickListener());
 		
 		TextView order = (TextView) findViewById(R.id.step_order);
 		TextView orderMax = (TextView) findViewById(R.id.step_order_max);
@@ -59,6 +72,42 @@ public class StepActivity extends Activity {
 		showNextButton();
 		if (stepNum > 0 && stepNum < stepsArray.size()) { showPrevButton(); }
 	}
+	
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	    @Override
+	    public void onItemClick(AdapterView parent, View view, int position, long id) {
+	        selectItem(position);
+	    }
+	}
+	
+	// Swaps fragments in the main content view
+	private void selectItem(int position) {
+	    // Create a new fragment and specify the step to show based on position
+	    StepFragment fragment = new StepFragment();
+	    Bundle args = new Bundle();
+	    args.putInt("position", position);
+	    fragment.setArguments(args);
+
+	    // Insert the fragment by replacing any existing fragment
+	    FragmentManager fragmentManager = getFragmentManager();
+	    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+	    // Highlight the selected item, update the title, and close the drawer
+	    drawerListView.setItemChecked(position, true);
+//	    setTitle(mPlanetTitles[position]);
+	    drawerLayout.closeDrawer(drawerListView);
+	}
+
+//	@Override
+//	public void setTitle(CharSequence title) {
+//	    mTitle = title;
+//	    getActionBar().setTitle(mTitle);
+//	}
+	
+	
+	
+	
+	
 	
 	private void goToNextStep() {
 		if (stepNum == stepsArray.size() - 1) { goToFinishChecklist(); } 
@@ -277,5 +326,7 @@ public class StepActivity extends Activity {
 //		getMenuInflater().inflate(R.menu.step, menu);
 //		return true;
 //	}
+	
+
 
 }
