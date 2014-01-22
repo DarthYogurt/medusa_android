@@ -85,7 +85,7 @@ public class JSONReader {
             	name = jArraySteps.getJSONObject(i).getString("name");
             	
             	ifValueTrue = changeStringToBool(jArrayReq.getJSONObject(i).getString("ifValueTrue"));
-            	ifValueTrue = changeStringToBool(jArrayReq.getJSONObject(i).getString("ifValueFalse"));
+            	ifValueFalse = changeStringToBool(jArrayReq.getJSONObject(i).getString("ifValueFalse"));
             	ifLessThan = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifLessThan"));
             	ifEqualTo = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifEqualTo"));
             	ifGreaterThan = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifGreaterThan"));
@@ -100,7 +100,9 @@ public class JSONReader {
                 checklistId = Integer.parseInt(jObject.getString("checklistId"));
                 checklistName = jObject.getString("checklistName");
                 
-                Step step = new Step(order, name, type, id, notifyUserId, checklistId, checklistName);
+                Step step = new Step(order, name, type, id, notifyUserId, ifValueTrue, ifValueFalse, 
+                					 ifLessThan, ifEqualTo, ifGreaterThan, reqText, reqImage, 
+                					 checklistId, checklistName);
                 stepsArray.add(step);
             }
         } catch (Exception e) { e.printStackTrace(); }

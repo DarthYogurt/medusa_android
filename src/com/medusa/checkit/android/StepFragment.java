@@ -24,7 +24,7 @@ public class StepFragment extends Fragment {
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final String KEY_NUM_OF_STEPS = "numOfSteps";
 	private static final String TYPE_BOOL = "bool";
-	private static final String TYPE_DOUBLE = "double";
+	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
 	private static final int REQUEST_PICTURE = 1;
@@ -56,7 +56,7 @@ public class StepFragment extends Fragment {
 		name.setText(step.getName());
 		
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
-		if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) { showDoubleElements(); }
+		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { showDoubleElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 		
@@ -83,7 +83,7 @@ public class StepFragment extends Fragment {
 			else { result.setText(""); }
 		}
 		
-		if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) { 
+		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { 
 			if (step.getIsStepFinished()) {
 				result.setText(Double.toString(step.getValue()));
 			}

@@ -24,7 +24,7 @@ public class FinishChecklistActivity extends Activity {
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final String TYPE_BOOL = "bool";
-	private static final String TYPE_DOUBLE = "double";
+	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
 	
@@ -97,7 +97,7 @@ public class FinishChecklistActivity extends Activity {
 				try { jsonWriter.writeStepBoolean(step.getId(), step.getYesOrNo()); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
-			if (step.getType().equalsIgnoreCase(TYPE_DOUBLE)) {
+			if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) {
 				try { jsonWriter.writeStepDouble(step.getId(), step.getValue()); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
