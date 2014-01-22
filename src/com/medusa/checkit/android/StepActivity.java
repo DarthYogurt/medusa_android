@@ -12,7 +12,10 @@ import android.content.res.Configuration;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -47,8 +50,8 @@ public class StepActivity extends Activity {
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 
 												 R.string.drawer_open, R.string.drawer_closed) {
-            public void onDrawerClosed(View view) { super.onDrawerClosed(view); }
-            public void onDrawerOpened(View drawerView) { super.onDrawerOpened(drawerView); }
+			public void onDrawerOpened(View drawerView) { super.onDrawerOpened(drawerView); }
+			public void onDrawerClosed(View view) { super.onDrawerClosed(view); }
 		};
 		drawerLayout.setDrawerListener(drawerToggle);
 		getActionBar().setDisplayHomeAsUpEnabled(true);

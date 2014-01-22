@@ -64,7 +64,6 @@
 			        android:id="@+id/finished_step_img"
 			        android:layout_width="wrap_content"
 			    	android:layout_height="wrap_content"
-			    	android:layout_alignParentTop="true"
 			    	android:layout_alignParentRight="true"
 			    	android:contentDescription="@string/finished_step_img_desc"
 			    	android:visibility="gone"

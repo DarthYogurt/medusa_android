@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class MainMenuActivity extends Activity {
+public class SelectChecklistActivity extends Activity {
 	
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final String KEY_ALL_STEPS = "allSteps";

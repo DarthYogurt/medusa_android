@@ -90,7 +90,7 @@ public class SplashActivity extends Activity {
 			} catch (MalformedURLException e) { e.printStackTrace(); } 
 			catch (IOException e) { e.printStackTrace(); }
 
-			Intent intent = new Intent(context, MainMenuActivity.class);
+			Intent intent = new Intent(context, SelectChecklistActivity.class);
 			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
 			intent.putExtra(KEY_ALL_STEPS, allStepsArray);
 			
