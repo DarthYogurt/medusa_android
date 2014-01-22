@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 public class StepFragment extends Fragment {
 	
+	private static final String KEY_CURRENT_STEP = "currentStep";
+	private static final String KEY_NUM_OF_STEPS = "numOfSteps";
 	private static final String TYPE_BOOL = "bool";
 	private static final String TYPE_DOUBLE = "double";
 	private static final String TYPE_TEXT = "text";
@@ -41,8 +43,8 @@ public class StepFragment extends Fragment {
 		view = inflater.inflate(R.layout.fragment_step, container, false);
 		
 		Bundle bundle = getArguments();
-		step = bundle.getParcelable(StepActivity.KEY_CURRENT_STEP);
-		int numOfSteps = bundle.getInt(StepActivity.KEY_NUM_OF_STEPS);
+		step = bundle.getParcelable(KEY_CURRENT_STEP);
+		int numOfSteps = bundle.getInt(KEY_NUM_OF_STEPS);
 		
 		TextView order = (TextView) view.findViewById(R.id.step_order);
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);

@@ -32,5 +32,7 @@
     <string name="finished_step_img_desc">Finished Step</string>
     <string name="drawer_open">Drawer Open</string>
 	<string name="drawer_closed">Drawer Closed</string>
+	
+	<string name="dummytext">This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. </string>
     
 </resources>
