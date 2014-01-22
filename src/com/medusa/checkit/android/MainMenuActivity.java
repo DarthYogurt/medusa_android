@@ -14,8 +14,10 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainMenuActivity extends Activity {
 	
-	static final String KEY_CHECKLIST_STEPS = "checklistSteps";
-	static final String KEY_CURRENT_STEP = "currentStep";
+	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
+	private static final String KEY_ALL_STEPS = "allSteps";
+	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
+	private static final String KEY_CURRENT_STEP = "currentStep";
 	
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
@@ -26,8 +28,8 @@ public class MainMenuActivity extends Activity {
 		setContentView(R.layout.activity_main_menu);
 		getActionBar().setTitle("");
 		
-		checklistsArray = getIntent().getParcelableArrayListExtra(SplashActivity.KEY_ALL_CHECKLISTS);
-		stepsArray = getIntent().getParcelableArrayListExtra(SplashActivity.KEY_ALL_STEPS);
+		checklistsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_CHECKLISTS);
+		stepsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_STEPS);
         
         ListView listView = (ListView)findViewById(R.id.checklist_listview);
         ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);

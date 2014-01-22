@@ -18,9 +18,9 @@ import android.widget.ListView;
 
 public class StepActivity extends Activity {
 	
-	static final String KEY_CHECKLIST_STEPS = "checklistSteps";
-	static final String KEY_CURRENT_STEP = "currentStep";
-	static final String KEY_NUM_OF_STEPS = "numOfSteps";
+	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
+	private static final String KEY_CURRENT_STEP = "currentStep";
+	private static final String KEY_NUM_OF_STEPS = "numOfSteps";
 	
 	DrawerLayout drawerLayout;
 	ListView drawerListView;

@@ -14,8 +14,8 @@ import android.view.WindowManager;
 
 public class SplashActivity extends Activity {
 	
-	static final String KEY_ALL_CHECKLISTS = "allChecklists";
-	static final String KEY_ALL_STEPS = "allSteps";
+	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
+	private static final String KEY_ALL_STEPS = "allSteps";
 
 	Context context;
 	

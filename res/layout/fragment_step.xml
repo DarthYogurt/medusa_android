@@ -124,7 +124,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentLeft="true"
 	        android:background="@drawable/btn_yes"
-	        android:text="@string/button_yes" />
+	        android:contentDescription="@string/btn_yes_desc" />
 	    
 	    <ImageButton
 	        android:id="@+id/button_no"
@@ -133,7 +133,7 @@
 	        android:layout_alignParentRight="true"
 	        android:background="@drawable/btn_no"
 	        android:padding="26dp"
-	        android:text="@string/button_no" />
+	        android:contentDescription="@string/btn_no_desc" />
 	        
     </RelativeLayout>
     <!-- END BOOL CONTAINER -->

@@ -3,26 +3,34 @@
 
     <string name="app_name">Check It</string>
     <string name="action_settings">Settings</string>
-    <string name="logo_description">Logo</string>
-    <string name="start_new_checklist">Start New Checklist</string>
-    <string name="continue_checklist">Continue Checklist</string>
-    <string name="id_label">ID:</string>
+    
+	<!-- TEXTVIEWS -->
+	<string name="start_new_checklist">Start New Checklist</string>
+	<string name="continue_checklist">Continue Checklist</string>
+	<string name="id_label">ID:</string>
     <string name="num_of_steps_label">Number of Steps:</string>
     <string name="step_order_label">Step</string>
     <string name="out_of_label">out of</string>
     <string name="result_label">Result:</string>
-    <string name="button_yes">Yes</string>
-    <string name="button_no">No</string>
-    <string name="double_hint">Enter Number Here</string>
+    <string name="click_step_to_edit">*** click on step to edit ***</string>
+    
+    <!-- EDITTEXT HINTS -->
+	<string name="double_hint">Enter Number Here</string>
     <string name="text_hint">Type Message Here</string>
+    
+    <!-- BUTTONS -->
     <string name="button_submit">Submit</string>
     <string name="btn_take_picture">Take Picture</string>
-    <string name="taken_img_desc">Image Taken</string>
-    <string name="finished_step_img_desc">Finished Step</string>
-    <string name="nav_btn_desc">Nav Button</string>
     <string name="finish_checklist">Finish Checklist</string>
-    <string name="click_step_to_edit">*** click on step to edit ***</string>
+	
+	<!-- CONTENT DESCRIPTIONS -->
+	<string name="logo_desc">Logo</string>
+	<string name="btn_yes_desc">Yes Button</string>
+    <string name="btn_no_desc">No Button</string>
+    <string name="taken_img_desc">Image Taken</string>
+    <string name="nav_btn_desc">Nav Button</string>
+    <string name="finished_step_img_desc">Finished Step</string>
     <string name="drawer_open">Drawer Open</string>
 	<string name="drawer_closed">Drawer Closed</string>
-
+    
 </resources>

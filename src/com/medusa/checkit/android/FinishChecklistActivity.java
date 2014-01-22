@@ -21,9 +21,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FinishChecklistActivity extends Activity {
 	
-	static final String KEY_CHECKLIST_STEPS = "checklistSteps";
-	static final String KEY_CURRENT_STEP = "currentStep";
-	
+	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
+	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final String TYPE_BOOL = "bool";
 	private static final String TYPE_DOUBLE = "double";
 	private static final String TYPE_TEXT = "text";
