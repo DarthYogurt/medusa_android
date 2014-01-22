@@ -24,10 +24,17 @@
         android:textSize="20sp" />
 	
 	<TextView
-        android:id="@+id/result_label"
+        android:id="@+id/step_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/step_order_label"
+        android:textSize="20sp" />
+	
+	<TextView
+        android:id="@+id/result_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step_name"
         android:layout_marginRight="4dp"
         android:textSize="20sp"
 		android:text="@string/result_label" />
@@ -45,7 +52,7 @@
 	    android:id="@+id/finished_step_img"
 	    android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:contentDescription="@string/finished_step_img_desc"
         android:visibility="gone"

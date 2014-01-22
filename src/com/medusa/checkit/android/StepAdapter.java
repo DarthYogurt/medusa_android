@@ -30,6 +30,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
 	
 	private static class ViewHolder {
 		private TextView stepOrder;
+		private TextView stepName;
 		private TextView result;
 		private ImageView finishedStepImage;
 	}
@@ -44,6 +45,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
 
             holder = new ViewHolder();
             holder.stepOrder = (TextView) convertView.findViewById(R.id.step_order);
+            holder.stepName = (TextView) convertView.findViewById(R.id.step_name);
             holder.result = (TextView) convertView.findViewById(R.id.result);
             holder.finishedStepImage = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
@@ -53,6 +55,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
         }
 
 		String stepOrder = Integer.toString(steps.get(position).getOrder()); 
+		String stepName = steps.get(position).getName();
 		String result = null;
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_BOOL)) {
@@ -69,6 +72,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
 		}
 		
 		holder.stepOrder.setText(stepOrder);
+		holder.stepName.setText(stepName);
         holder.result.setText(result);
         
         if (steps.get(position).getIsStepFinished()) { holder.finishedStepImage.setVisibility(View.VISIBLE); }

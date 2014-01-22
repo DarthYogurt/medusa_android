@@ -63,80 +63,53 @@ public class JSONReader {
 		ArrayList<Step> stepsArray = new ArrayList<Step>();
 		try {
             JSONObject jObject = new JSONObject(jsonString);
-            JSONArray jArray = jObject.getJSONArray("steps");
-            int stepOrder;
-            String stepName;
-            String stepType;
-            int stepId;
+            JSONArray jArraySteps = jObject.getJSONArray("steps");
+            JSONArray jArrayReq = jObject.getJSONArray("require");
+            
+            String name;
+            boolean ifValueTrue;
+            boolean ifValueFalse;
+            double ifLessThan;
+            double ifEqualTo;
+            double ifGreaterThan;
+            boolean reqText;
+            boolean reqImage;
+            int id;
+            int notifyUserId;
+            String type;
+            int order;
             int checklistId;
             String checklistName;
 
-            for (int i = 0; i < jArray.length(); i++) {
-                stepOrder = Integer.parseInt(jArray.getJSONObject(i).getString("order"));
-                stepName = jArray.getJSONObject(i).getString("name");
-                stepType = jArray.getJSONObject(i).getString("type");
-                stepId = Integer.parseInt(jArray.getJSONObject(i).getString("id"));
+            for (int i = 0; i < jArraySteps.length(); i++) {
+            	name = jArraySteps.getJSONObject(i).getString("name");
+            	
+            	ifValueTrue = changeStringToBool(jArrayReq.getJSONObject(i).getString("ifValueTrue"));
+            	ifValueTrue = changeStringToBool(jArrayReq.getJSONObject(i).getString("ifValueFalse"));
+            	ifLessThan = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifLessThan"));
+            	ifEqualTo = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifEqualTo"));
+            	ifGreaterThan = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifGreaterThan"));
+            	reqText = changeStringToBool(jArrayReq.getJSONObject(i).getString("reqText"));
+            	reqImage = changeStringToBool(jArrayReq.getJSONObject(i).getString("reqImage"));
+            	
+            	id = Integer.parseInt(jArraySteps.getJSONObject(i).getString("id"));
+            	notifyUserId = Integer.parseInt(jArraySteps.getJSONObject(i).getString("notifyUserId"));
+                type = jArraySteps.getJSONObject(i).getString("type");
+                order = Integer.parseInt(jArraySteps.getJSONObject(i).getString("order"));
+                
                 checklistId = Integer.parseInt(jObject.getString("checklistId"));
                 checklistName = jObject.getString("checklistName");
-                Step step = new Step(stepOrder, stepName, stepType, stepId, checklistId, checklistName);
+                
+                Step step = new Step(order, name, type, id, notifyUserId, checklistId, checklistName);
                 stepsArray.add(step);
             }
         } catch (Exception e) { e.printStackTrace(); }
 		return stepsArray;
 	}
 	
-//	public ArrayList<String[]> getChecklistsArray() {
-//		ArrayList<String[]> checklistsArray = new ArrayList<String[]>();
-//		try {
-//            JSONObject jObject = new JSONObject(jsonString);
-//            JSONArray jArray = jObject.getJSONArray("checklist");
-//            String checklistId = null;
-//            String checklistName = null;
-//            
-//            for (int i = 0; i < jArray.length(); i++) {
-//            	checklistId = jArray.getJSONObject(i).getString("id");
-//                checklistName = jArray.getJSONObject(i).getString("name");
-//                checklistsArray.add(new String[] {checklistId, checklistName});
-//            }
-//            
-//            // Shows contents of checklistsArray
-//            for (int i = 0; i < checklistsArray.size(); i++) {
-//    			Log.v("Checklists Array", Arrays.toString(checklistsArray.get(i)));
-//    		}
-//            
-//        } catch (Exception e) { e.printStackTrace(); }
-//		return checklistsArray;
-//	}
-//	
-//	public ArrayList<String[]> getStepsArray() {
-//		ArrayList<String[]> stepsArray = new ArrayList<String[]>();
-//		try {
-//            JSONObject jObject = new JSONObject(jsonString);
-//            JSONArray jArray = jObject.getJSONArray("steps");
-//            String stepOrder = null;
-//            String stepName = null;
-//            String stepType = null;
-//            String stepId = null;
-//            String checklistId = null;
-//            String checklistName = null;
-//
-//            for (int i = 0; i < jArray.length(); i++) {
-//                stepOrder = jArray.getJSONObject(i).getString("order");
-//                stepName = jArray.getJSONObject(i).getString("name");
-//                stepType = jArray.getJSONObject(i).getString("type");
-//                stepId = jArray.getJSONObject(i).getString("id");
-//                checklistId = jObject.getString("checklistId");
-//                checklistName = jObject.getString("checklistName");
-//                stepsArray.add(new String[] {stepOrder, stepName, stepType, stepId, checklistName, checklistId});
-//            }
-//            
-//            // Show contents of stepsArray
-//            for (int i = 0; i < stepsArray.size(); i++) {
-//    			Log.v("Steps Array", Arrays.toString(stepsArray.get(i)));
-//    		}
-//            
-//        } catch (Exception e) { e.printStackTrace(); }
-//		return stepsArray;
-//	}
-	
+	private boolean changeStringToBool(String s) {
+		if (s.equalsIgnoreCase("true")) { return true; }
+		else { return false; }
+	}
+
 }
