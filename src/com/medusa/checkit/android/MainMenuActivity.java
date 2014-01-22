@@ -14,7 +14,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainMenuActivity extends Activity {
 	
-	static final String KEY_SELECTED_STEPS = "selectedSteps";
+	static final String KEY_CHECKLIST_STEPS = "checklistSteps";
+	static final String KEY_CURRENT_STEP = "currentStep";
 	
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
@@ -37,7 +38,8 @@ public class MainMenuActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
-				intent.putExtra(KEY_SELECTED_STEPS, getStepsForChecklist(checklist.getId()));
+				intent.putExtra(KEY_CHECKLIST_STEPS, getStepsForChecklist(checklist.getId()));
+				intent.putExtra(KEY_CURRENT_STEP, 0);
 				startActivity(intent);
 				finish();
 			}

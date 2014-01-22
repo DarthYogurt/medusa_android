@@ -21,6 +21,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FinishChecklistActivity extends Activity {
 	
+	static final String KEY_CHECKLIST_STEPS = "checklistSteps";
+	static final String KEY_CURRENT_STEP = "currentStep";
+	
 	private static final String TYPE_BOOL = "bool";
 	private static final String TYPE_DOUBLE = "double";
 	private static final String TYPE_TEXT = "text";
@@ -36,7 +39,7 @@ public class FinishChecklistActivity extends Activity {
 		setContentView(R.layout.activity_finish_checklist);
 		getActionBar().setTitle("");
 		
-		stepsArray = getIntent().getParcelableArrayListExtra(StepActivity.KEY_ALL_STEPS);
+		stepsArray = getIntent().getParcelableArrayListExtra(KEY_CHECKLIST_STEPS);
 		
 		imageHandler = new ImageHandler(this);
 		
@@ -52,8 +55,8 @@ public class FinishChecklistActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
-				intent.putExtra("steps", stepsArray);
-				intent.putExtra("stepNum", position);
+				intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
+				intent.putExtra(KEY_CURRENT_STEP, position);
 				startActivity(intent);
 				finish();
 			}

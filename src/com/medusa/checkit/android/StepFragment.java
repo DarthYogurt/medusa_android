@@ -98,8 +98,8 @@ public class StepFragment extends Fragment {
 	
 	private void showBoolElements() {
 		RelativeLayout boolContainer = (RelativeLayout) view.findViewById(R.id.bool_container);
-		Button btnYes = (Button) view.findViewById(R.id.button_yes);
-		Button btnNo = (Button) view.findViewById(R.id.button_no);
+		ImageButton btnYes = (ImageButton) view.findViewById(R.id.button_yes);
+		ImageButton btnNo = (ImageButton) view.findViewById(R.id.button_no);
 		boolContainer.setVisibility(View.VISIBLE);
 		showResult();
 		
