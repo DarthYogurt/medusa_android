@@ -66,13 +66,13 @@ public class Step implements Parcelable {
 	public Boolean getIfValueFalse() { return ifValueFalse; }
 	public void setIfValueFalse(boolean b) { this.ifValueFalse = b; }
 	
-	public double getIfLessThan() { return ifLessThan; }
+	public Double getIfLessThan() { return ifLessThan; }
 	public void setIfLessThan(double d) { this.ifLessThan = d; }
 	
-	public double getIfEqualTo() { return ifEqualTo; }
+	public Double getIfEqualTo() { return ifEqualTo; }
 	public void setIfEqualTo(double d) { this.ifEqualTo = d; }
 	
-	public double getIfGreaterThan() { return ifGreaterThan; }
+	public Double getIfGreaterThan() { return ifGreaterThan; }
 	public void setIfGreaterThan(double d) { this.ifGreaterThan = d; }
 	
 	public boolean getIsStepFinished() { return isStepFinished; }

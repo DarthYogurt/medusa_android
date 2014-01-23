@@ -88,6 +88,7 @@ public class JSONWriter {
 			writer.name(KEY_STEP_ID).value(step.getId());
 			writer.name(KEY_STEP_TYPE).value(TYPE_NUMBER);
 			writer.name(KEY_VALUE).value(step.getNumber());
+			if (checkToNotifyNumber(step)) { writer.name(KEY_NOTIFY_USER_ID).value(step.getNotifyUserId()); }
 			writer.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
@@ -122,8 +123,18 @@ public class JSONWriter {
 		return false;
 	}
 	
-//	private boolean checkToNotifyNumber(Step step) {
-//		if (step.getNumber() < )
-//	}
+	private boolean checkToNotifyNumber(Step step) {
+		Log.v("getIfGreaterThan", Double.toString(step.getIfGreaterThan()));
+		if (step.getIfLessThan() != null && step.getNumber() < Double.valueOf(step.getIfLessThan())) {
+			return true;
+		}
+		if (step.getIfEqualTo() != null && step.getNumber() == Double.valueOf(step.getIfEqualTo())) {
+			return true;
+		}
+		if (step.getIfGreaterThan() != null && step.getNumber() > Double.valueOf(step.getIfGreaterThan())) {
+			return true;
+		}
+		return false;
+	}
 	
 }
