@@ -142,11 +142,18 @@ public class StepFragment extends Fragment {
 		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String input = doubleInput.getText().toString();
-				step.setNumber(Double.parseDouble(input));
-				finishStep();
-				showResult();
-				((StepActivity)getActivity()).goToNextStep();
+				try {
+					String input = doubleInput.getText().toString();
+					step.setNumber(Double.parseDouble(input));
+					finishStep();
+					showResult();
+					((StepActivity)getActivity()).goToNextStep();
+				} catch (NumberFormatException e) {
+					Toast error;
+					error = Toast.makeText(getActivity(), "No number entered", Toast.LENGTH_SHORT);
+					error.show();
+				}
+				
 			}
 		});
 	}

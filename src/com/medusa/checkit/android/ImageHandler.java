@@ -28,7 +28,7 @@ public class ImageHandler {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 			fos.close();
-			Log.v("FILE WRITTEN", filename);
+			Log.v("IMAGE FILE WRITTEN", filename);
 		} 
 		catch (FileNotFoundException e) { Log.d("ERROR", "File not found: " + e.getMessage()); }
 		catch (IOException e) { Log.d("ERROR", "Error accessing file: " + e.getMessage()); }
