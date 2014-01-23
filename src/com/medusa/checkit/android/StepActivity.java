@@ -58,7 +58,7 @@ public class StepActivity extends Activity {
         getActionBar().setHomeButtonEnabled(true);
 		
 		drawerListView = (ListView) findViewById(R.id.drawer_listview);
-		StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, stepsArray);
+		DrawerListViewAdapter adapter = new DrawerListViewAdapter(this, R.layout.listview_drawer_row, stepsArray);
 		drawerListView.setAdapter(adapter);
 		drawerListView.setOnItemClickListener(new DrawerItemClickListener());
 		
