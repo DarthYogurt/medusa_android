@@ -64,7 +64,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
 		}
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_DOUBLE)) {
-			result = Double.toString(steps.get(position).getValue());
+			result = Double.toString(steps.get(position).getNumber());
 		}
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_TEXT)) {

@@ -20,7 +20,7 @@ public class Step implements Parcelable {
 	private Double ifEqualTo;
 	private Double ifGreaterThan;
 	private boolean yesOrNo;
-	private double value;
+	private double number;
 	private String text;
 	private String imageFilename;
 	private boolean isStepFinished;
@@ -42,7 +42,7 @@ public class Step implements Parcelable {
 		this.ifEqualTo = null;
 		this.ifGreaterThan = null;
 		this.yesOrNo = false;
-		this.value = 0;
+		this.number = 0;
 		this.text = "";
 		this.imageFilename = "";
 		this.isStepFinished = false;
@@ -60,10 +60,10 @@ public class Step implements Parcelable {
 	public boolean getReqText() { return reqText; }
 	public boolean getReqImage() { return reqImage; }
 	
-	public boolean getIfValueTrue() { return ifValueTrue; }
+	public Boolean getIfValueTrue() { return ifValueTrue; }
 	public void setIfValueTrue(boolean b) { this.ifValueTrue = b; }
 	
-	public boolean getIfValueFalse() { return ifValueFalse; }
+	public Boolean getIfValueFalse() { return ifValueFalse; }
 	public void setIfValueFalse(boolean b) { this.ifValueFalse = b; }
 	
 	public double getIfLessThan() { return ifLessThan; }
@@ -81,8 +81,8 @@ public class Step implements Parcelable {
 	public boolean getYesOrNo() { return yesOrNo; }
 	public void setYesOrNo(boolean b) { this.yesOrNo = b; }
 	
-	public double getValue() { return value; }
-	public void setValue(double d) { this.value = d; }
+	public double getNumber() { return number; }
+	public void setNumber(double d) { this.number = d; }
 	
 	public String getText() { return text; }
 	public void setText(String s) {	this.text = s; }
@@ -114,7 +114,7 @@ public class Step implements Parcelable {
 		dest.writeValue(ifGreaterThan);
 		
 		dest.writeByte((byte)(yesOrNo ? 1 : 0));
-		dest.writeDouble(value);
+		dest.writeDouble(number);
 		dest.writeString(text);
 		dest.writeString(imageFilename);
 		dest.writeByte((byte)(isStepFinished ? 1 : 0));
@@ -152,7 +152,7 @@ public class Step implements Parcelable {
 		else { ifGreaterThan = (Double) ifGreaterThanObj; }
 		
 		yesOrNo = in.readByte() != 0;
-		value = in.readDouble();
+		number = in.readDouble();
 		text = in.readString();
 		imageFilename = in.readString();
 		isStepFinished = in.readByte() != 0;

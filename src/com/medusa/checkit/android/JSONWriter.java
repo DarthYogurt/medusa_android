@@ -15,9 +15,10 @@ public class JSONWriter {
 	private static final String KEY_STEP_ID = "stepId";
 	private static final String KEY_STEP_TYPE = "stepType";
 	private static final String KEY_VALUE = "value";
+	private static final String KEY_NOTIFY_USER_ID = "notifyUserId";
 	private static final String KEY_STEPS = "steps";
 	private static final String TYPE_BOOL = "bool";
-	private static final String TYPE_DOUBLE = "double";
+	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
 	
@@ -26,7 +27,7 @@ public class JSONWriter {
 	
 	Context context;
 	FileOutputStream fos;
-	JsonWriter checklistWriter;
+	JsonWriter writer;
 	
 	public JSONWriter(Context context) {
 		this.context = context;
@@ -47,67 +48,77 @@ public class JSONWriter {
 	public void startNewChecklist(int checklistId) throws IOException {		
 		try {
 			fos = context.openFileOutput(CHECKLIST_FILENAME, Context.MODE_PRIVATE);
-			checklistWriter = new JsonWriter(new OutputStreamWriter(fos, "UTF-8"));
+			writer = new JsonWriter(new OutputStreamWriter(fos, "UTF-8"));
 			Log.v("new file", CHECKLIST_FILENAME + " has been created");
 		} catch (IOException e) { e.printStackTrace(); }
 		
 		try {
-			checklistWriter.beginObject();
-			checklistWriter.name(KEY_USER_ID).value(1);
-			checklistWriter.name(KEY_GROUP_ID).value(1);
-			checklistWriter.name(KEY_CHECKLIST_ID).value(checklistId);
-			checklistWriter.name(KEY_STEPS);
-			checklistWriter.beginArray();
+			writer.beginObject();
+			writer.name(KEY_USER_ID).value(1);
+			writer.name(KEY_GROUP_ID).value(1);
+			writer.name(KEY_CHECKLIST_ID).value(checklistId);
+			writer.name(KEY_STEPS);
+			writer.beginArray();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	public void finishNewChecklist() throws IOException {
 		try {
-			checklistWriter.endArray();
-			checklistWriter.endObject();
-			checklistWriter.close();
+			writer.endArray();
+			writer.endObject();
+			writer.close();
 			fos.close();
 	    } catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public void writeStepBoolean(int stepId, boolean result) throws IOException {
+	public void writeStepBoolean(Step step) throws IOException {
 		try {
-			checklistWriter.beginObject();
-			checklistWriter.name(KEY_STEP_ID).value(stepId);
-			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_BOOL);
-			if (result == true) { checklistWriter.name(KEY_VALUE).value("true"); }
-			else { checklistWriter.name(KEY_VALUE).value("false"); }
-			checklistWriter.endObject();
+			writer.beginObject();
+			writer.name(KEY_STEP_ID).value(step.getId());
+			writer.name(KEY_STEP_TYPE).value(TYPE_BOOL);
+			writer.name(KEY_VALUE).value(step.getYesOrNo());
+			if (checkToNotifyBool(step)) { writer.name(KEY_NOTIFY_USER_ID).value(step.getNotifyUserId()); }
+			writer.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public void writeStepDouble(int stepId, double result) throws IOException {
+	public void writeStepNumber(Step step) throws IOException {
 		try {
-			checklistWriter.beginObject();
-			checklistWriter.name(KEY_STEP_ID).value(stepId);
-			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_DOUBLE);
-			checklistWriter.name(KEY_VALUE).value(result);
-			checklistWriter.endObject();
+			writer.beginObject();
+			writer.name(KEY_STEP_ID).value(step.getId());
+			writer.name(KEY_STEP_TYPE).value(TYPE_NUMBER);
+			writer.name(KEY_VALUE).value(step.getNumber());
+			writer.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public void writeStepText(int stepId, String result) throws IOException {
+	public void writeStepText(Step step) throws IOException {
 		try {
-			checklistWriter.beginObject();
-			checklistWriter.name(KEY_STEP_ID).value(stepId);
-			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_TEXT);
-			checklistWriter.name(KEY_VALUE).value(result);
-			checklistWriter.endObject();
+			writer.beginObject();
+			writer.name(KEY_STEP_ID).value(step.getId());
+			writer.name(KEY_STEP_TYPE).value(TYPE_TEXT);
+			writer.name(KEY_VALUE).value(step.getText());
+			writer.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public void writeStepImage(int stepId, String filename) throws IOException {
+	public void writeStepImage(Step step) throws IOException {
 		try {
-			checklistWriter.beginObject();
-			checklistWriter.name(KEY_STEP_ID).value(stepId);
-			checklistWriter.name(KEY_STEP_TYPE).value(TYPE_IMAGE);
-			checklistWriter.name(KEY_VALUE).value(filename);
-			checklistWriter.endObject();
+			writer.beginObject();
+			writer.name(KEY_STEP_ID).value(step.getId());
+			writer.name(KEY_STEP_TYPE).value(TYPE_IMAGE);
+			writer.name(KEY_VALUE).value(step.getImageFilename());
+			writer.endObject();
 		} catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	public boolean checkToNotifyBool(Step step) {
+		if (step.getIfValueTrue() != null) {
+			if (step.getYesOrNo() == step.getIfValueTrue() ) { return true; }
+		}
+		if (step.getIfValueFalse() != null) {
+			if (step.getYesOrNo() == step.getIfValueFalse() ) { return true; }
+		}
+		return false;
 	}
 }

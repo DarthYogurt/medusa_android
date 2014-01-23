@@ -94,19 +94,19 @@ public class FinishChecklistActivity extends Activity {
 			step = stepsArray.get(i);
 			
 			if (step.getType().equalsIgnoreCase(TYPE_BOOL)) {
-				try { jsonWriter.writeStepBoolean(step.getId(), step.getYesOrNo()); } 
+				try { jsonWriter.writeStepBoolean(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
 			if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) {
-				try { jsonWriter.writeStepDouble(step.getId(), step.getValue()); } 
+				try { jsonWriter.writeStepNumber(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
 			if (step.getType().equalsIgnoreCase(TYPE_TEXT)) {
-				try { jsonWriter.writeStepText(step.getId(), step.getText()); } 
+				try { jsonWriter.writeStepText(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
 			if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) {
-				try { jsonWriter.writeStepImage(step.getId(), step.getImageFilename()); } 
+				try { jsonWriter.writeStepImage(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 				imageHandler.addFilenameToArray(step.getChecklistId(), step.getOrder());
 			}

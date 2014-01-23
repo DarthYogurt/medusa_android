@@ -85,7 +85,7 @@ public class StepFragment extends Fragment {
 		
 		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { 
 			if (step.getIsStepFinished()) {
-				result.setText(Double.toString(step.getValue()));
+				result.setText(Double.toString(step.getNumber()));
 			}
 			else { result.setText(""); }
 		}
@@ -137,7 +137,7 @@ public class StepFragment extends Fragment {
 			@Override
 			public void onClick(View view) {
 				String input = doubleInput.getText().toString();
-				step.setValue(Double.parseDouble(input));
+				step.setNumber(Double.parseDouble(input));
 				finishStep();
 				showResult();
 				((StepActivity)getActivity()).goToNextStep();
