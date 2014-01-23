@@ -108,7 +108,7 @@ public class FinishChecklistActivity extends Activity {
 			if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) {
 				try { jsonWriter.writeStepImage(step); } 
 				catch (IOException e) { e.printStackTrace(); }
-				imageHandler.addFilenameToArray(step.getChecklistId(), step.getOrder());
+				imageHandler.addFilenameToArray(step.getImageFilename());
 			}
 		}
 	}

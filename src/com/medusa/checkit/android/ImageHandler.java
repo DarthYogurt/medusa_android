@@ -38,11 +38,10 @@ public class ImageHandler {
 		return "cid" + Integer.toString(checklistId) + "_so" + Integer.toString(stepOrder) + ".jpg";
 	}
 	
-	public void addFilenameToArray(int checklistId, int stepOrder) {	
+	public void addFilenameToArray(String filename) {	
 		if (imageFilenamesArray == null) { imageFilenamesArray = new ArrayList<String>(); }
-		String filename = getFilename(checklistId, stepOrder);
 		imageFilenamesArray.add(filename);
-		Log.v("SUCCESSFULLY ADDED FILE TO ARRAY", filename);
+		Log.v("ADDED IMAGE TO ARRAY", filename);
 	}
 	
 	public ArrayList<String> getArrayList() {

@@ -124,7 +124,6 @@ public class JSONWriter {
 	}
 	
 	private boolean checkToNotifyNumber(Step step) {
-		Log.v("getIfGreaterThan", Double.toString(step.getIfGreaterThan()));
 		if (step.getIfLessThan() != null && step.getNumber() < Double.valueOf(step.getIfLessThan())) {
 			return true;
 		}

@@ -1,8 +1,14 @@
 package com.medusa.checkit.android;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -210,28 +216,26 @@ public class StepFragment extends Fragment {
 		String spokenText;
 		
 		// Handles picture taking after finished
-	    if (requestCode == REQUEST_PICTURE && resultCode == StepActivity.RESULT_OK) {
+	    if (requestCode == REQUEST_PICTURE && resultCode == Activity.RESULT_OK) {
 	    	Bundle extras = data.getExtras();
 	    	Bitmap image = (Bitmap) extras.get("data");
 	    	
-	    	ImageView imageResult = (ImageView) view.findViewById(R.id.result_image);
-	    	imageResult.setImageBitmap(image);
-	    	imageResult.invalidate();
-	    	
 	    	ImageHandler imageHandler = new ImageHandler(getActivity());
 	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
-	    	
 	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
-	    	finishStep();
 	    	
-//	    	try {
-//				FileInputStream fis = openFileInput(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
-//				Bitmap decoded = BitmapFactory.decodeStream(fis);
-//				fis.close();
-//				imageResult.setImageBitmap(decoded);
-//			} 
-//	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
-//	    	catch (IOException e) { e.printStackTrace(); }
+	    	ImageView imageResult = (ImageView) view.findViewById(R.id.result_image);
+	    	try {
+				FileInputStream fis = getActivity().openFileInput(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
+				fis.close();
+				imageResult.setImageBitmap(imgFromFile);
+				imageResult.invalidate();
+			} 
+	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+	    	catch (IOException e) { e.printStackTrace(); }
+	    	
+	    	finishStep();
 	    }
 	}
 }
