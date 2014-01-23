@@ -168,11 +168,18 @@ public class StepFragment extends Fragment {
 		btnSubmit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				String input = textInput.getText().toString();
-				step.setText(input);
-				finishStep();
-				showResult();
-				((StepActivity)getActivity()).goToNextStep();
+				String input = textInput.getText().toString().trim();
+				if (!input.isEmpty()) {
+					step.setText(input);
+					finishStep();
+					showResult();
+					((StepActivity)getActivity()).goToNextStep();
+				}
+				else {
+					Toast error;
+					error = Toast.makeText(getActivity(), "No text entered", Toast.LENGTH_SHORT);
+					error.show();
+				}
 			}
 		});
 	}
