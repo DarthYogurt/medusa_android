@@ -112,13 +112,18 @@ public class JSONWriter {
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public boolean checkToNotifyBool(Step step) {
-		if (step.getIfValueTrue() != null) {
-			if (step.getYesOrNo() == step.getIfValueTrue() ) { return true; }
+	private boolean checkToNotifyBool(Step step) {
+		if (step.getIfValueTrue() != null && step.getIfValueTrue()) {
+			if (step.getYesOrNo() == true) { return true; }
 		}
-		if (step.getIfValueFalse() != null) {
-			if (step.getYesOrNo() == step.getIfValueFalse() ) { return true; }
+		if (step.getIfValueFalse() != null && step.getIfValueFalse()) {
+			if (step.getYesOrNo() == false ) { return true; }
 		}
 		return false;
 	}
+	
+//	private boolean checkToNotifyNumber(Step step) {
+//		if (step.getNumber() < )
+//	}
+	
 }
