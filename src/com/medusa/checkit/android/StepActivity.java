@@ -27,6 +27,7 @@ public class StepActivity extends Activity {
 	
 	DrawerLayout drawerLayout;
 	ListView drawerListView;
+	DrawerListViewAdapter adapter;
 	ActionBarDrawerToggle drawerToggle;
 	FragmentManager fragmentManager;
 	StepFragment fragment;
@@ -50,15 +51,20 @@ public class StepActivity extends Activity {
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, 
 												 R.string.drawer_open, R.string.drawer_closed) {
-			public void onDrawerOpened(View drawerView) { super.onDrawerOpened(drawerView); }
-			public void onDrawerClosed(View view) { super.onDrawerClosed(view); }
+			public void onDrawerOpened(View drawerView) { 
+				super.onDrawerOpened(drawerView); 
+				adapter.notifyDataSetChanged(); 
+			}
+			public void onDrawerClosed(View view) { 
+				super.onDrawerClosed(view); 
+			}
 		};
 		drawerLayout.setDrawerListener(drawerToggle);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 		
 		drawerListView = (ListView) findViewById(R.id.drawer_listview);
-		DrawerListViewAdapter adapter = new DrawerListViewAdapter(this, R.layout.listview_drawer_row, stepsArray);
+		adapter = new DrawerListViewAdapter(this, R.layout.listview_drawer_row, stepsArray);
 		drawerListView.setAdapter(adapter);
 		drawerListView.setOnItemClickListener(new DrawerItemClickListener());
 		
@@ -89,7 +95,7 @@ public class StepActivity extends Activity {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (drawerToggle.onOptionsItemSelected(item)) {
-          return true;
+        	return true;
         }
         // Handle your other action bar items...
         return super.onOptionsItemSelected(item);

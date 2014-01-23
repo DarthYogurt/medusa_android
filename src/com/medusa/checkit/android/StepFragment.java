@@ -78,6 +78,7 @@ public class StepFragment extends Fragment {
 		step.setIsStepFinished(true);
 		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
 		finishedStepImg.setVisibility(View.VISIBLE);
+
 	}
 	
 	private void showResult() {
