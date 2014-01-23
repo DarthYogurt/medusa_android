@@ -64,54 +64,50 @@ public class JSONReader {
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArraySteps = jObject.getJSONArray("steps");
-            JSONArray jArrayReq = jObject.getJSONArray("require");
             
+            int order;
             String name;
-            boolean ifValueTrue;
-            boolean ifValueFalse;
-            double ifLessThan;
-            double ifEqualTo;
-            double ifGreaterThan;
-            boolean reqText;
-            boolean reqImage;
+            String type;
             int id;
             int notifyUserId;
-            String type;
-            int order;
+            boolean reqText;
+            boolean reqImage;
             int checklistId;
             String checklistName;
 
             for (int i = 0; i < jArraySteps.length(); i++) {
+            	order = Integer.parseInt(jArraySteps.getJSONObject(i).getString("order"));
             	name = jArraySteps.getJSONObject(i).getString("name");
-            	
-            	ifValueTrue = changeStringToBool(jArrayReq.getJSONObject(i).getString("ifValueTrue"));
-            	ifValueFalse = changeStringToBool(jArrayReq.getJSONObject(i).getString("ifValueFalse"));
-            	ifLessThan = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifLessThan"));
-            	ifEqualTo = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifEqualTo"));
-            	ifGreaterThan = Double.parseDouble(jArrayReq.getJSONObject(i).getString("ifGreaterThan"));
-            	reqText = changeStringToBool(jArrayReq.getJSONObject(i).getString("reqText"));
-            	reqImage = changeStringToBool(jArrayReq.getJSONObject(i).getString("reqImage"));
-            	
+            	type = jArraySteps.getJSONObject(i).getString("type");
             	id = Integer.parseInt(jArraySteps.getJSONObject(i).getString("id"));
             	notifyUserId = Integer.parseInt(jArraySteps.getJSONObject(i).getString("notifyUserId"));
-                type = jArraySteps.getJSONObject(i).getString("type");
-                order = Integer.parseInt(jArraySteps.getJSONObject(i).getString("order"));
-                
                 checklistId = Integer.parseInt(jObject.getString("checklistId"));
                 checklistName = jObject.getString("checklistName");
+                reqText = jArraySteps.getJSONObject(i).getBoolean("requireText");
+            	reqImage = jArraySteps.getJSONObject(i).getBoolean("requireImage");
+            	
+            	Step step = new Step(order, name, type, id, notifyUserId, checklistId, checklistName, reqText, reqImage);
+            	
+                if (jArraySteps.getJSONObject(i).has("ifValueTrue")) {
+                	step.setIfValueTrue(jArraySteps.getJSONObject(i).getBoolean("ifValueTrue"));
+                }
+                if (jArraySteps.getJSONObject(i).has("ifValueFalse")) {
+                	step.setIfValueFalse(jArraySteps.getJSONObject(i).getBoolean("ifValueFalse"));
+                }
+                if (jArraySteps.getJSONObject(i).has("ifLessThan")) {
+                	step.setIfLessThan(jArraySteps.getJSONObject(i).getDouble("ifLessThan"));
+                }
+                if (jArraySteps.getJSONObject(i).has("ifEqualTo")) {
+                	step.setIfEqualTo(jArraySteps.getJSONObject(i).getDouble("ifEqualTo"));
+                }
+                if (jArraySteps.getJSONObject(i).has("ifGreaterThan")) {
+                	step.setIfGreaterThan(jArraySteps.getJSONObject(i).getDouble("ifGreaterThan"));
+                }
                 
-                Step step = new Step(order, name, type, id, notifyUserId, ifValueTrue, ifValueFalse, 
-                					 ifLessThan, ifEqualTo, ifGreaterThan, reqText, reqImage, 
-                					 checklistId, checklistName);
                 stepsArray.add(step);
             }
         } catch (Exception e) { e.printStackTrace(); }
 		return stepsArray;
-	}
-	
-	private boolean changeStringToBool(String s) {
-		if (s.equalsIgnoreCase("true")) { return true; }
-		else { return false; }
 	}
 
 }

@@ -10,94 +10,84 @@ public class Step implements Parcelable {
 	private String type;
 	private int id;
 	private int notifyUserId;
-	private boolean ifValueTrue;
-	private boolean ifValueFalse;
-	private double ifLessThan;
-	private double ifEqualTo;
-	private double ifGreaterThan;
-	private boolean reqText;
-	private boolean reqImage;
 	private int checklistId;
 	private String checklistName;
-	private boolean isStepFinished;
+	private boolean reqText;
+	private boolean reqImage;
+	private Boolean ifValueTrue;
+	private Boolean ifValueFalse;
+	private Double ifLessThan;
+	private Double ifEqualTo;
+	private Double ifGreaterThan;
 	private boolean yesOrNo;
 	private double value;
 	private String text;
 	private String imageFilename;
+	private boolean isStepFinished;
 	
 	public Step(int order, String name, String type, int id, int notifyUserId,
-				boolean ifValueTrue, boolean ifValueFalse, double ifLessThan,
-				double ifEqualTo, double ifGreaterThan, boolean reqText,
-				boolean reqImage, int checklistId, String checklistName) {
+				int checklistId, String checklistName, boolean reqText, boolean reqImage) {
 		this.order = order;
 		this.name = name;
 		this.type = type;
 		this.id = id;
 		this.notifyUserId = notifyUserId;
-		this.ifValueTrue = ifValueTrue;
-		this.ifValueFalse = ifValueFalse;
-		this.ifLessThan = ifLessThan;
-		this.ifEqualTo = ifEqualTo;
-		this.ifGreaterThan = ifGreaterThan;
-		this.reqText = reqText;
-		this.reqImage = reqImage;
 		this.checklistId = checklistId;
 		this.checklistName = checklistName;
-		this.isStepFinished = false;
+		this.reqText = reqText;
+		this.reqImage = reqImage;
+		this.ifValueTrue = null;
+		this.ifValueFalse = null;
+		this.ifLessThan = null;
+		this.ifEqualTo = null;
+		this.ifGreaterThan = null;
 		this.yesOrNo = false;
 		this.value = 0;
 		this.text = "";
 		this.imageFilename = "";
+		this.isStepFinished = false;
 	}
 	
 	public Step(Parcel in) { readFromParcel(in); }
 	
 	public int getOrder() { return order; }
-	
 	public String getName() { return name; }
-	
 	public String getType() { return type; }
-	
 	public int getId() { return id; }
-	
 	public int getNotifyUserId() { return notifyUserId; }
-	
-	public boolean getIfValueTrue() { return ifValueTrue; }
-	
-	public boolean getIfValueFalse() { return ifValueFalse; }
-	
-	public double ifLessThan() { return ifLessThan; }
-	
-	public double ifEqualTo() { return ifEqualTo; }
-	
-	public double ifGreaterThan() { return ifGreaterThan; }
-	
+	public int getChecklistId() { return checklistId; }
+	public String getChecklistName() { return checklistName; }
 	public boolean getReqText() { return reqText; }
-	
 	public boolean getReqImage() { return reqImage; }
 	
-	public int getChecklistId() { return checklistId; }
+	public boolean getIfValueTrue() { return ifValueTrue; }
+	public void setIfValueTrue(boolean b) { this.ifValueTrue = b; }
 	
-	public String getChecklistName() { return checklistName; }
+	public boolean getIfValueFalse() { return ifValueFalse; }
+	public void setIfValueFalse(boolean b) { this.ifValueFalse = b; }
+	
+	public double getIfLessThan() { return ifLessThan; }
+	public void setIfLessThan(double d) { this.ifLessThan = d; }
+	
+	public double getIfEqualTo() { return ifEqualTo; }
+	public void setIfEqualTo(double d) { this.ifEqualTo = d; }
+	
+	public double getIfGreaterThan() { return ifGreaterThan; }
+	public void setIfGreaterThan(double d) { this.ifGreaterThan = d; }
 	
 	public boolean getIsStepFinished() { return isStepFinished; }
-	
 	public void setIsStepFinished(boolean b) { this.isStepFinished = b; }
 	
 	public boolean getYesOrNo() { return yesOrNo; }
-	
 	public void setYesOrNo(boolean b) { this.yesOrNo = b; }
 	
 	public double getValue() { return value; }
-	
 	public void setValue(double d) { this.value = d; }
 	
 	public String getText() { return text; }
-	
 	public void setText(String s) {	this.text = s; }
 	
 	public String getImageFilename() { return imageFilename; }
-	
 	public void setImageFilename(String s) { this.imageFilename = s; }
 	
 	@Override
@@ -112,20 +102,22 @@ public class Step implements Parcelable {
 		dest.writeString(type);
 		dest.writeInt(id);
 		dest.writeInt(notifyUserId);
-		dest.writeByte((byte)(ifValueTrue ? 1 : 0));
-		dest.writeByte((byte)(ifValueFalse ? 1 : 0));
-		dest.writeDouble(ifLessThan);
-		dest.writeDouble(ifEqualTo);
-		dest.writeDouble(ifGreaterThan);
-		dest.writeByte((byte)(reqText ? 1 : 0));
-		dest.writeByte((byte)(reqImage ? 1 : 0));
 		dest.writeInt(checklistId);
 		dest.writeString(checklistName);
-		dest.writeByte((byte)(isStepFinished ? 1 : 0));
+		dest.writeByte((byte)(reqText ? 1 : 0));
+		dest.writeByte((byte)(reqImage ? 1 : 0));
+		
+		dest.writeValue(ifValueTrue);
+		dest.writeValue(ifValueFalse);
+		dest.writeValue(ifLessThan);
+		dest.writeValue(ifEqualTo);
+		dest.writeValue(ifGreaterThan);
+		
 		dest.writeByte((byte)(yesOrNo ? 1 : 0));
 		dest.writeDouble(value);
 		dest.writeString(text);
 		dest.writeString(imageFilename);
+		dest.writeByte((byte)(isStepFinished ? 1 : 0));
 	}
 	
 	private void readFromParcel(Parcel in) {
@@ -134,20 +126,36 @@ public class Step implements Parcelable {
 		type = in.readString();
 		id = in.readInt();
 		notifyUserId = in.readInt();
-		ifValueTrue = in.readByte() != 0;
-		ifValueFalse = in.readByte() != 0;
-		ifLessThan = in.readDouble();
-		ifEqualTo = in.readDouble();
-		ifGreaterThan = in.readDouble();
-		reqText = in.readByte() != 0;
-		reqImage = in.readByte() != 0;
 		checklistId = in.readInt();
 		checklistName = in.readString();
-		isStepFinished = in.readByte() != 0;
+		reqText = in.readByte() != 0;
+		reqImage = in.readByte() != 0;
+		
+		Object ifValueTrueObj = in.readValue(null);
+		if (ifValueTrueObj == null) { ifValueTrue = null; }
+		else { ifValueTrue = (Boolean) ifValueTrueObj; }
+		
+		Object ifValueFalseObj = in.readValue(null);
+		if (ifValueFalseObj == null) { ifValueFalse = null; }
+		else { ifValueFalse = (Boolean) ifValueFalseObj; }
+		
+		Object ifLessThanObj = in.readValue(null);
+		if (ifLessThanObj == null) { ifLessThan = null; }
+		else { ifLessThan = (Double) ifLessThanObj; }
+		
+		Object ifEqualToObj = in.readValue(null);
+		if (ifEqualToObj == null) { ifEqualTo = null; }
+		else { ifEqualTo = (Double) ifEqualToObj; }
+
+		Object ifGreaterThanObj = in.readValue(null);
+		if (ifGreaterThanObj == null) { ifGreaterThan = null; }
+		else { ifGreaterThan = (Double) ifGreaterThanObj; }
+		
 		yesOrNo = in.readByte() != 0;
 		value = in.readDouble();
 		text = in.readString();
 		imageFilename = in.readString();
+		isStepFinished = in.readByte() != 0;
 	}
 	
 	public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
