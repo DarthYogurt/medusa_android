@@ -76,6 +76,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
         holder.result.setText(result);
         
         if (steps.get(position).getIsStepFinished()) { holder.finishedStepImage.setVisibility(View.VISIBLE); }
+        else { holder.finishedStepImage.setVisibility(View.GONE); }
 
         return convertView;
 	}
