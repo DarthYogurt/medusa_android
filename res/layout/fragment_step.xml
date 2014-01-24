@@ -28,7 +28,7 @@
 		        	android:layout_width="wrap_content"
 			    	android:layout_height="wrap_content"
 			    	android:layout_alignParentLeft="true"
-			    	android:layout_marginRight="16dp"
+			    	android:layout_marginRight="8dp"
 			    	android:textSize="20sp"
 			    	android:text="@string/step_order_label" />
 		        
@@ -47,8 +47,8 @@
 			    	android:layout_height="wrap_content"
 			    	android:layout_toRightOf="@id/step_order"
 			    	android:layout_alignBaseline="@id/step_order"
-			    	android:layout_marginLeft="16dp"
-			    	android:layout_marginRight="16dp"
+			    	android:layout_marginLeft="8dp"
+			    	android:layout_marginRight="8dp"
 			    	android:textSize="20sp"
 			    	android:text="@string/out_of_label" />
 		        
@@ -65,10 +65,28 @@
 			        android:id="@+id/finished_step_img"
 			        android:layout_width="wrap_content"
 			    	android:layout_height="wrap_content"
-			    	android:layout_alignParentRight="true"
+			    	android:layout_marginLeft="16dp"
+			    	android:layout_toRightOf="@id/step_order_max"
 			    	android:contentDescription="@string/finished_step_img_desc"
 			    	android:visibility="gone"
 			    	android:src="@drawable/checkmark_icon" />
+		        
+		        <ImageButton
+			        android:id="@+id/btn_add_note_extra"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:contentDescription="@string/add_note_desc"
+			        android:background="@drawable/notepad_icon" />
+		        
+		        <ImageButton
+			        android:id="@+id/btn_add_picture_extra"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toLeftOf="@id/btn_add_note_extra"
+			        android:layout_marginRight="24dp"
+			        android:contentDescription="@string/add_picture_desc"
+			        android:background="@drawable/camera_icon" />
 		        
 		    </RelativeLayout>
 		    <!-- END STEP ORDER CONTAINER -->
@@ -231,72 +249,31 @@
 	    android:background="#0033cc" />
 	
 	<!-- NAV/EXTRA BUTTON CONTAINER -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="#fff"
         android:padding="8dp" >
 		
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
-		    
-	        <ImageButton
-		        android:id="@+id/btn_prev"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-				android:visibility="gone"
-		        android:contentDescription="@string/nav_btn_desc"
-		        android:background="@drawable/btn_arrow_left" />
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
-        
-	        <ImageButton
-		        android:id="@+id/btn_add_note_extra"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_centerHorizontal="true"
-		        android:contentDescription="@string/add_note_desc"
-		        android:background="@drawable/notepad_icon" />
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
-	        
-	        <ImageButton
-		        android:id="@+id/btn_add_picture_extra"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_centerHorizontal="true"
-		        android:contentDescription="@string/add_picture_desc"
-		        android:background="@drawable/camera_icon" />
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
-        
-	       	<ImageButton
-		        android:id="@+id/btn_next"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentRight="true"
-				android:visibility="gone"
-		        android:contentDescription="@string/nav_btn_desc"
-		        android:background="@drawable/btn_arrow_right" />
-       	</RelativeLayout>
+        <ImageButton
+	        android:id="@+id/btn_prev"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+			android:visibility="gone"
+	        android:contentDescription="@string/nav_btn_desc"
+	        android:background="@drawable/btn_arrow_left" />
+
+       	<ImageButton
+	        android:id="@+id/btn_next"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+			android:visibility="gone"
+	        android:contentDescription="@string/nav_btn_desc"
+	        android:background="@drawable/btn_arrow_right" />
     
-	</LinearLayout>
+	</RelativeLayout>
 	<!-- END NAV/EXTRA BUTTON CONTAINER -->
 	
 </LinearLayout>
