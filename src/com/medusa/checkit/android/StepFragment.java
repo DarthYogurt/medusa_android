@@ -15,9 +15,12 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +43,6 @@ public class StepFragment extends Fragment {
 	private static final int REQUEST_PICTURE = 1;
 	
 	private View view;
-	private ImageView imageResult;
 	private Step step;
 	
 	static StepFragment newInstance() {
@@ -51,6 +53,8 @@ public class StepFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_step, container, false);
+		LinearLayout stepFragment = (LinearLayout) view.findViewById(R.id.step_fragment);
+		touchHandler(stepFragment);
 		
 		Bundle bundle = getArguments();
 		step = bundle.getParcelable(KEY_CURRENT_STEP);
@@ -60,14 +64,12 @@ public class StepFragment extends Fragment {
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		
-		imageResult = (ImageView) view.findViewById(R.id.result_image);
-		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
 		name.setText(step.getName());
 		
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { showBoolElements(); }
-		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { showDoubleElements(); }
+		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { showNumberElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 		
@@ -124,8 +126,8 @@ public class StepFragment extends Fragment {
 					FileInputStream fis = getActivity().openFileInput(step.getImageFilename());
 					Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
 					fis.close();
-					imageResult.setImageBitmap(imgFromFile);
-					imageResult.invalidate();
+					resultImage.setImageBitmap(imgFromFile);
+					resultImage.invalidate();
 				} 
 		    	catch (FileNotFoundException e) { e.printStackTrace(); } 
 		    	catch (IOException e) { e.printStackTrace(); }
@@ -161,7 +163,7 @@ public class StepFragment extends Fragment {
 		});
 	}
 	
-	private void showDoubleElements() {
+	private void showNumberElements() {
 //		LinearLayout doubleContainer = (LinearLayout) view.findViewById(R.id.double_container);
 		EditText numberInput = (EditText) view.findViewById(R.id.result_number);
 		numberInput.setVisibility(View.VISIBLE);
@@ -302,6 +304,31 @@ public class StepFragment extends Fragment {
 	    	
 	    	finishStep();
 	    	showResult();
+	    }
+	}
+	
+	public static void hideSoftKeyboard(Activity activity) {
+	    InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+	}
+	
+	public void touchHandler(View view) {
+	    //Set up touch listener for non-edittext views to hide keyboard.
+	    if(!(view instanceof EditText)) {
+	        view.setOnTouchListener(new OnTouchListener() {
+	            public boolean onTouch(View v, MotionEvent event) {
+	                hideSoftKeyboard(getActivity());
+	                return false;
+	            }
+	        });
+	    }
+
+	    //If a layout container, iterate over children and seed recursion.
+	    if (view instanceof ViewGroup) {
+	        for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+	            View innerView = ((ViewGroup) view).getChildAt(i);
+	            touchHandler(innerView);
+	        }
 	    }
 	}
 }
