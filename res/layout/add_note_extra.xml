@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/popwin_bg" >
+    
+    <TextView
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_marginBottom="6dp"
+    	android:gravity="center"
+    	android:textStyle="bold"
+    	android:textSize="26sp"
+    	android:text="@string/add_notes" />
+    
+    <EditText 
+        android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:gravity="top|left"
+    	android:padding="14dp"
+    	android:textSize="20sp"
+    	android:hint="@string/text_hint"
+    	android:background="@drawable/add_note_edittext" />
+
+</LinearLayout>

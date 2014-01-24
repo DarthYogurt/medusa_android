@@ -13,6 +13,7 @@
     <string name="out_of_label">out of</string>
     <string name="result_label">Result:</string>
     <string name="click_step_to_edit">*** click on step to edit ***</string>
+    <string name="add_notes">Add Notes</string>
     
     <!-- EDITTEXT HINTS -->
 	<string name="double_hint">Enter Number Here</string>

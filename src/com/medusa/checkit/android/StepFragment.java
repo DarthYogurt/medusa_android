@@ -6,12 +6,14 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,9 +59,7 @@ public class StepFragment extends Fragment {
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		result = (TextView) view.findViewById(R.id.result);
-		ImageButton btnAddNoteExtra = (ImageButton) view.findViewById(R.id.btn_add_note_extra);
-		ImageButton btnAddPictureExtra = (ImageButton) view.findViewById(R.id.btn_add_picture_extra);
-
+		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
 		name.setText(step.getName());
@@ -68,19 +69,8 @@ public class StepFragment extends Fragment {
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 		
-		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-
-			}
-		});
-		
-		btnAddPictureExtra.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-
-			}
-		});
+		showAddNoteButton();
+		showAddPictureButton();
 		
 		showNextButton();
 		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
@@ -213,6 +203,32 @@ public class StepFragment extends Fragment {
 				if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
 					startActivityForResult(intent, REQUEST_PICTURE);
 				}
+			}
+		});
+	}
+	
+	private void showAddNoteButton() {
+		ImageButton btnAddNoteExtra = (ImageButton) view.findViewById(R.id.btn_add_note_extra);
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final View window = inflater.inflate(R.layout.add_note_extra, null, false);
+		final int width = 600;
+		final int height = 800;
+		
+		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				PopupWindow pw = new PopupWindow(window, width, height, true);
+				pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
+			}
+		});
+	}
+	
+	private void showAddPictureButton() {
+		ImageButton btnAddPictureExtra = (ImageButton) view.findViewById(R.id.btn_add_picture_extra);
+		btnAddPictureExtra.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
 			}
 		});
 	}

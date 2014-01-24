@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/step_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -93,7 +94,7 @@
 		    	android:layout_marginTop="30dp"
 		    	android:layout_marginBottom="30dp"
 		    	android:padding="10dp"
-		    	android:background="@drawable/rounded_corners" >
+		    	android:background="@drawable/result_box" >
 			    
 			    <TextView
 			        android:layout_width="wrap_content"
