@@ -29,10 +29,10 @@
     <string name="btn_no_desc">No Button</string>
     <string name="taken_img_desc">Image Taken</string>
     <string name="nav_btn_desc">Nav Button</string>
+    <string name="add_note_desc">Add Note Button</string>
+    <string name="add_picture_desc">Add Picture Button</string>
     <string name="finished_step_img_desc">Finished Step</string>
     <string name="drawer_open">Drawer Open</string>
 	<string name="drawer_closed">Drawer Closed</string>
-	
-	<string name="dummytext">This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. This is dummy text. </string>
     
 </resources>

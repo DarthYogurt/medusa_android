@@ -229,7 +229,7 @@
 	    android:layout_height="2dp"
 	    android:background="#0033cc" />
 	
-	<!-- NAV BUTTON CONTAINER -->
+	<!-- NAV/EXTRA BUTTON CONTAINER -->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -250,7 +250,6 @@
 				android:visibility="gone"
 		        android:contentDescription="@string/nav_btn_desc"
 		        android:background="@drawable/btn_arrow_left" />
-	        
         </RelativeLayout>
         
         <RelativeLayout
@@ -259,19 +258,26 @@
             android:layout_weight="1" >
         
 	        <ImageButton
-		        android:id="@+id/btn_add_note"
+		        android:id="@+id/btn_add_note_extra"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
+		        android:layout_centerHorizontal="true"
+		        android:contentDescription="@string/add_note_desc"
 		        android:background="@drawable/notepad_icon" />
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
 	        
 	        <ImageButton
-		        android:id="@+id/btn_add_picture"
+		        android:id="@+id/btn_add_picture_extra"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_alignParentRight="true"
+		        android:layout_centerHorizontal="true"
+		        android:contentDescription="@string/add_picture_desc"
 		        android:background="@drawable/camera_icon" />
-	        
         </RelativeLayout>
         
         <RelativeLayout
@@ -287,10 +293,9 @@
 				android:visibility="gone"
 		        android:contentDescription="@string/nav_btn_desc"
 		        android:background="@drawable/btn_arrow_right" />
-	       	
        	</RelativeLayout>
     
 	</LinearLayout>
-	<!-- END NAV BUTTON CONTAINER -->
+	<!-- END NAV/EXTRA BUTTON CONTAINER -->
 	
 </LinearLayout>

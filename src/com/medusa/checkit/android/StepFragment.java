@@ -56,6 +56,8 @@ public class StepFragment extends Fragment {
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		result = (TextView) view.findViewById(R.id.result);
+		ImageButton btnAddNoteExtra = (ImageButton) view.findViewById(R.id.btn_add_note_extra);
+		ImageButton btnAddPictureExtra = (ImageButton) view.findViewById(R.id.btn_add_picture_extra);
 
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
@@ -65,6 +67,20 @@ public class StepFragment extends Fragment {
 		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { showDoubleElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
+		
+		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+			}
+		});
+		
+		btnAddPictureExtra.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+			}
+		});
 		
 		showNextButton();
 		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
@@ -193,7 +209,10 @@ public class StepFragment extends Fragment {
 		btnTakePicture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				takePicture();
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+					startActivityForResult(intent, REQUEST_PICTURE);
+				}
 			}
 		});
 	}
@@ -216,13 +235,6 @@ public class StepFragment extends Fragment {
 			@Override
 			public void onClick(View view) { ((StepActivity)getActivity()).goToPrevStep(); }
 		});
-	}
-	
-	private void takePicture() {
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-			startActivityForResult(intent, REQUEST_PICTURE);
-		}
 	}
 	
 	@Override

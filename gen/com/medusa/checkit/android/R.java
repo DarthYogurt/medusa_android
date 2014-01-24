@@ -42,8 +42,8 @@ public final class R {
     public static final class id {
         public static final int action_settings=0x7f080022;
         public static final int bool_container=0x7f080010;
-        public static final int btn_add_note=0x7f08001c;
-        public static final int btn_add_picture=0x7f08001d;
+        public static final int btn_add_note_extra=0x7f08001c;
+        public static final int btn_add_picture_extra=0x7f08001d;
         public static final int btn_next=0x7f08001e;
         public static final int btn_prev=0x7f08001b;
         public static final int btn_submit_double=0x7f080015;
@@ -96,6 +96,8 @@ public final class R {
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
+        public static final int add_note_desc=0x7f050014;
+        public static final int add_picture_desc=0x7f050015;
         public static final int app_name=0x7f050000;
         public static final int btn_no_desc=0x7f050011;
         public static final int btn_take_picture=0x7f05000d;
@@ -108,11 +110,10 @@ public final class R {
         /**  EDITTEXT HINTS 
          */
         public static final int double_hint=0x7f05000a;
-        public static final int drawer_closed=0x7f050016;
-        public static final int drawer_open=0x7f050015;
-        public static final int dummytext=0x7f050017;
+        public static final int drawer_closed=0x7f050018;
+        public static final int drawer_open=0x7f050017;
         public static final int finish_checklist=0x7f05000e;
-        public static final int finished_step_img_desc=0x7f050014;
+        public static final int finished_step_img_desc=0x7f050016;
         public static final int id_label=0x7f050004;
         /**  CONTENT DESCRIPTIONS 
          */
