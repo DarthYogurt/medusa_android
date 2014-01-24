@@ -230,31 +230,67 @@
 	    android:background="#0033cc" />
 	
 	<!-- NAV BUTTON CONTAINER -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:background="#fff"
         android:padding="8dp" >
+		
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+		    
+	        <ImageButton
+		        android:id="@+id/btn_prev"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+				android:visibility="gone"
+		        android:contentDescription="@string/nav_btn_desc"
+		        android:background="@drawable/btn_arrow_left" />
+	        
+        </RelativeLayout>
         
-       	<ImageButton
-	        android:id="@+id/btn_next"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-			android:visibility="gone"
-	        android:contentDescription="@string/nav_btn_desc"
-	        android:background="@drawable/btn_arrow_right" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+        
+	        <ImageButton
+		        android:id="@+id/btn_add_note"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:background="@drawable/notepad_icon" />
+	        
+	        <ImageButton
+		        android:id="@+id/btn_add_picture"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:background="@drawable/camera_icon" />
+	        
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+        
+	       	<ImageButton
+		        android:id="@+id/btn_next"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+				android:visibility="gone"
+		        android:contentDescription="@string/nav_btn_desc"
+		        android:background="@drawable/btn_arrow_right" />
+	       	
+       	</RelativeLayout>
     
-	    <ImageButton
-	        android:id="@+id/btn_prev"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-			android:visibility="gone"
-	        android:contentDescription="@string/nav_btn_desc"
-	        android:background="@drawable/btn_arrow_left" />
-	    
-	</RelativeLayout>
+	</LinearLayout>
 	<!-- END NAV BUTTON CONTAINER -->
 	
 </LinearLayout>
