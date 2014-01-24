@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,7 +40,6 @@ public class StepFragment extends Fragment {
 	private static final int REQUEST_PICTURE = 1;
 	
 	private View view;
-	private TextView result;
 	private ImageView imageResult;
 	private Step step;
 	
@@ -59,7 +59,7 @@ public class StepFragment extends Fragment {
 		TextView order = (TextView) view.findViewById(R.id.step_order);
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
-		result = (TextView) view.findViewById(R.id.result);
+		
 		imageResult = (ImageView) view.findViewById(R.id.result_image);
 		
 		order.setText(Integer.toString(step.getOrder()));
@@ -91,28 +91,34 @@ public class StepFragment extends Fragment {
 	
 	private void showResult() {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
+			TextView resultBool = (TextView) view.findViewById(R.id.result_bool);
+			resultBool.setVisibility(View.VISIBLE);
+			
 			if (step.getIsStepFinished()) { 
-				if (step.getYesOrNo() == true) { result.setText("Yes"); }
-				else { result.setText("No"); }
+				if (step.getYesOrNo() == true) { resultBool.setText("Yes"); }
+				else { resultBool.setText("No"); }
 			}
-			else { result.setText(""); }
+			else { resultBool.setText(""); }
 		}
 		
-		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { 
-			if (step.getIsStepFinished()) {
-				result.setText(Double.toString(step.getNumber()));
-			}
-			else { result.setText(""); }
-		}
-		
-		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { 
-			if (step.getIsStepFinished()) {
-				result.setText(step.getText());
-			}
-			else { result.setText(""); }
-		}
+//		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { 
+//			if (step.getIsStepFinished()) {
+//				result.setText(Double.toString(step.getNumber()));
+//			}
+//			else { result.setText(""); }
+//		}
+//		
+//		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { 
+//			if (step.getIsStepFinished()) {
+//				result.setText(step.getText());
+//			}
+//			else { result.setText(""); }
+//		}
 		
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { 
+			ImageView resultImage = (ImageView) view.findViewById(R.id.result_image);
+			resultImage.setVisibility(View.VISIBLE);
+			
 			if (step.getIsStepFinished()) {
 		    	try {
 					FileInputStream fis = getActivity().openFileInput(step.getImageFilename());
@@ -156,55 +162,65 @@ public class StepFragment extends Fragment {
 	}
 	
 	private void showDoubleElements() {
-		LinearLayout doubleContainer = (LinearLayout) view.findViewById(R.id.double_container);
-		final EditText doubleInput = (EditText) view.findViewById(R.id.double_input);
-		Button btnSubmit = (Button) view.findViewById(R.id.btn_submit_double);
-		doubleContainer.setVisibility(View.VISIBLE);
+//		LinearLayout doubleContainer = (LinearLayout) view.findViewById(R.id.double_container);
+		EditText numberInput = (EditText) view.findViewById(R.id.result_number);
+		numberInput.setVisibility(View.VISIBLE);
+		numberInput.requestFocus();
+		InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+		
+//		Button btnSubmit = (Button) view.findViewById(R.id.btn_submit_double);
+//		doubleContainer.setVisibility(View.VISIBLE);
 		showResult();
 		
-		btnSubmit.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				try {
-					String input = doubleInput.getText().toString();
-					step.setNumber(Double.parseDouble(input));
-					finishStep();
-					showResult();
-					((StepActivity)getActivity()).goToNextStep();
-				} catch (NumberFormatException e) {
-					Toast error;
-					error = Toast.makeText(getActivity(), "No number entered", Toast.LENGTH_SHORT);
-					error.show();
-				}
-				
-			}
-		});
+//		btnSubmit.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				try {
+//					String input = doubleInput.getText().toString();
+//					step.setNumber(Double.parseDouble(input));
+//					finishStep();
+//					showResult();
+//					((StepActivity)getActivity()).goToNextStep();
+//				} catch (NumberFormatException e) {
+//					Toast error;
+//					error = Toast.makeText(getActivity(), "No number entered", Toast.LENGTH_SHORT);
+//					error.show();
+//				}
+//				
+//			}
+//		});
 	}
 	
 	private void showTextElements() {
-		LinearLayout textContainer = (LinearLayout) view.findViewById(R.id.text_container);
-		final EditText textInput = (EditText) view.findViewById(R.id.text_input);
-		Button btnSubmit = (Button) view.findViewById(R.id.btn_submit_text);
-		textContainer.setVisibility(View.VISIBLE);
-		showResult();
+//		LinearLayout textContainer = (LinearLayout) view.findViewById(R.id.text_container);
+		EditText textInput = (EditText) view.findViewById(R.id.result_text);
+		textInput.setVisibility(View.VISIBLE);
+		textInput.requestFocus();
+		InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 		
-		btnSubmit.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				String input = textInput.getText().toString().trim();
-				if (!input.isEmpty()) {
-					step.setText(input);
-					finishStep();
-					showResult();
-					((StepActivity)getActivity()).goToNextStep();
-				}
-				else {
-					Toast error;
-					error = Toast.makeText(getActivity(), "No text entered", Toast.LENGTH_SHORT);
-					error.show();
-				}
-			}
-		});
+//		Button btnSubmit = (Button) view.findViewById(R.id.btn_submit_text);
+//		textContainer.setVisibility(View.VISIBLE);
+//		showResult();
+		
+//		btnSubmit.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				String input = textInput.getText().toString().trim();
+//				if (!input.isEmpty()) {
+//					step.setText(input);
+//					finishStep();
+//					showResult();
+//					((StepActivity)getActivity()).goToNextStep();
+//				}
+//				else {
+//					Toast error;
+//					error = Toast.makeText(getActivity(), "No text entered", Toast.LENGTH_SHORT);
+//					error.show();
+//				}
+//			}
+//		});
 	}
 	
 	private void showImageElements() {

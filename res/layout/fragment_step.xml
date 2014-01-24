@@ -117,21 +117,43 @@
 			    <TextView
 			        android:layout_width="wrap_content"
 			    	android:layout_height="wrap_content"
+			    	android:layout_marginBottom="10dp"
 			    	android:textSize="20sp"
 			    	android:text="@string/result_label" />
 			    
 			    <TextView
-			        android:id="@+id/result"
+			        android:id="@+id/result_bool"
 			        android:layout_width="wrap_content"
 			    	android:layout_height="wrap_content"
+			    	android:visibility="gone"
 			    	android:textColor="#29a629"
 			    	android:textSize="20sp" />
+			    
+			    <EditText
+		            android:id="@+id/result_number"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:padding="10dp"
+		            android:visibility="gone"
+		            android:background="@drawable/edit_text_box"
+		            android:inputType="number|numberDecimal|numberSigned"
+		            android:hint="@string/double_hint" />
+			    
+			    <EditText
+		            android:id="@+id/result_text"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:padding="10dp"
+		            android:visibility="gone"
+		            android:background="@drawable/edit_text_box"
+		            android:hint="@string/text_hint" />
 			    
 			    <ImageView 
 			        android:id="@+id/result_image"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:layout_gravity="center"
+			        android:visibility="gone"
 			        android:scaleType="fitStart"
 			        android:adjustViewBounds="true"
 			        android:contentDescription="@string/taken_img_desc" />
@@ -174,15 +196,6 @@
 		        android:orientation="vertical"
 		        android:visibility="gone" >
 			    
-		        <EditText
-		            android:id="@+id/double_input"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:padding="10dp"
-		            android:background="@drawable/edit_text_box"
-		            android:inputType="number|numberDecimal|numberSigned"
-		            android:hint="@string/double_hint" />
-		        
 		        <Button
 			        android:id="@+id/btn_submit_double"
 			        android:layout_width="fill_parent"
@@ -202,14 +215,6 @@
 		        android:orientation="vertical"
 		        android:visibility="gone" >
 			    
-		        <EditText
-		            android:id="@+id/text_input"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:padding="10dp"
-		            android:background="@drawable/edit_text_box"
-		            android:hint="@string/text_hint" />
-		        
 		        <Button
 			        android:id="@+id/btn_submit_text"
 			        android:layout_width="fill_parent"
