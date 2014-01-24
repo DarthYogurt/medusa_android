@@ -40,6 +40,7 @@ public class StepFragment extends Fragment {
 	
 	private View view;
 	private TextView result;
+	private ImageView imageResult;
 	private Step step;
 	
 	static StepFragment newInstance() {
@@ -59,6 +60,7 @@ public class StepFragment extends Fragment {
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		result = (TextView) view.findViewById(R.id.result);
+		imageResult = (ImageView) view.findViewById(R.id.result_image);
 		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
@@ -108,6 +110,20 @@ public class StepFragment extends Fragment {
 				result.setText(step.getText());
 			}
 			else { result.setText(""); }
+		}
+		
+		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { 
+			if (step.getIsStepFinished()) {
+		    	try {
+					FileInputStream fis = getActivity().openFileInput(step.getImageFilename());
+					Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
+					fis.close();
+					imageResult.setImageBitmap(imgFromFile);
+					imageResult.invalidate();
+				} 
+		    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+		    	catch (IOException e) { e.printStackTrace(); }
+			}
 		}
 	}
 	
@@ -195,6 +211,7 @@ public class StepFragment extends Fragment {
 		LinearLayout imageContainer = (LinearLayout) view.findViewById(R.id.image_container);
 		Button btnTakePicture = (Button) view.findViewById(R.id.btn_take_picture);
 		imageContainer.setVisibility(View.VISIBLE);
+		showResult();
 		
 		btnTakePicture.setOnClickListener(new OnClickListener() {
 			@Override
@@ -267,18 +284,8 @@ public class StepFragment extends Fragment {
 	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
 	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
 	    	
-	    	ImageView imageResult = (ImageView) view.findViewById(R.id.result_image);
-	    	try {
-				FileInputStream fis = getActivity().openFileInput(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
-				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
-				fis.close();
-				imageResult.setImageBitmap(imgFromFile);
-				imageResult.invalidate();
-			} 
-	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
-	    	catch (IOException e) { e.printStackTrace(); }
-	    	
 	    	finishStep();
+	    	showResult();
 	    }
 	}
 }
