@@ -221,15 +221,53 @@ public class StepFragment extends Fragment {
 		imageContainer.setVisibility(View.VISIBLE);
 		showResult();
 		
+		if (!step.getIsStepFinished()) {
+			Toast message = Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT);
+			message.show();
+			NewPictureThread newPicture = new NewPictureThread();
+			newPicture.start();
+		}
+		
 		btnTakePicture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-					startActivityForResult(intent, REQUEST_PICTURE);
-				}
+				startCameraActivity();
 			}
 		});
+	}
+	
+	private class NewPictureThread extends Thread {
+		@Override
+		public void run() {
+			try { Thread.sleep(2000); startCameraActivity(); } 
+			catch (Exception e) { e.printStackTrace(); }
+		}
+	}
+	
+	private void startCameraActivity() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+			startActivityForResult(intent, REQUEST_PICTURE);
+		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		String spokenText;
+		
+		// Handles picture taking after finished
+	    if (requestCode == REQUEST_PICTURE && resultCode == Activity.RESULT_OK) {
+	    	Bundle extras = data.getExtras();
+	    	Bitmap image = (Bitmap) extras.get("data");
+	    	
+	    	ImageHandler imageHandler = new ImageHandler(getActivity());
+	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
+	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+	    	
+	    	finishStep();
+	    	showResult();
+	    }
 	}
 	
 	private void showAddNoteButton() {
@@ -276,25 +314,6 @@ public class StepFragment extends Fragment {
 			@Override
 			public void onClick(View view) { ((StepActivity)getActivity()).goToPrevStep(); }
 		});
-	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		String spokenText;
-		
-		// Handles picture taking after finished
-	    if (requestCode == REQUEST_PICTURE && resultCode == Activity.RESULT_OK) {
-	    	Bundle extras = data.getExtras();
-	    	Bitmap image = (Bitmap) extras.get("data");
-	    	
-	    	ImageHandler imageHandler = new ImageHandler(getActivity());
-	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
-	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
-	    	
-	    	finishStep();
-	    	showResult();
-	    }
 	}
 	
 	private static void hideSoftKeyboard(Activity activity) {
