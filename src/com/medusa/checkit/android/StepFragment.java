@@ -91,6 +91,12 @@ public class StepFragment extends Fragment {
 		finishedStepImg.setVisibility(View.VISIBLE);
 	}
 	
+	private void unFinishStep() {
+		step.setIsStepFinished(false);
+		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
+		finishedStepImg.setVisibility(View.GONE);
+	}
+	
 	private void setEditTextResult() {
 		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) {
 			numberInput.clearFocus();
@@ -100,6 +106,7 @@ public class StepFragment extends Fragment {
 				finishStep();
 				showResult();
 			}
+			else { unFinishStep(); }
 		}
 		
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) {
@@ -110,6 +117,7 @@ public class StepFragment extends Fragment {
 				finishStep();
 				showResult();
 			}
+			else { unFinishStep(); }
 		}
 	}
 	
