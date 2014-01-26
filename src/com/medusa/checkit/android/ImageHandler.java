@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.format.Time;
 import android.util.Log;
 
 public class ImageHandler {
@@ -22,7 +23,13 @@ public class ImageHandler {
 	}
 	
 	public void writeToFile(Bitmap b, int checklistId, int stepOrder) {
-		String filename = "cid" + Integer.toString(checklistId) + "_so" + Integer.toString(stepOrder) + ".jpg";	
+		Time timeStamp = new Time();
+		timeStamp.setToNow();
+//		timeStamp.format("%d.%m.%Y-%H.%M.%S");
+		
+		String filename = "cid" + Integer.toString(checklistId) + 
+						  "_so" + Integer.toString(stepOrder) + 
+						  ".jpg";	
 		
 		try {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);

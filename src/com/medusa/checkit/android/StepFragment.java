@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -97,30 +99,6 @@ public class StepFragment extends Fragment {
 		finishedStepImg.setVisibility(View.GONE);
 	}
 	
-	private void setEditTextResult() {
-		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) {
-			numberInput.clearFocus();
-			String input = numberInput.getText().toString();
-			if (!input.isEmpty()) {
-				step.setNumber(Double.parseDouble(input));
-				finishStep();
-				showResult();
-			}
-			else { unFinishStep(); }
-		}
-		
-		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) {
-			textInput.clearFocus();
-			String input = textInput.getText().toString().trim();
-			if (!input.isEmpty()) {
-				step.setText(input);
-				finishStep();
-				showResult();
-			}
-			else { unFinishStep(); }
-		}
-	}
-	
 	private void showResult() {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
 			TextView resultBool = (TextView) view.findViewById(R.id.result_bool);
@@ -146,8 +124,17 @@ public class StepFragment extends Fragment {
 		}
 		
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { 
+//			Display display = getActivity().getWindowManager().getDefaultDisplay();
+//			int width = display.getWidth();
+//			int height = display.getHeight();
+			
 			ImageView resultImage = (ImageView) view.findViewById(R.id.result_image);
 			resultImage.setVisibility(View.VISIBLE);
+			
+//			resultImage.setMinimumWidth(width);
+//			resultImage.setMinimumHeight(height);
+//			resultImage.setMaxWidth(width);
+//			resultImage.setMaxHeight(height);
 			
 			if (step.getIsStepFinished()) {
 		    	try {
@@ -160,6 +147,30 @@ public class StepFragment extends Fragment {
 		    	catch (FileNotFoundException e) { e.printStackTrace(); } 
 		    	catch (IOException e) { e.printStackTrace(); }
 			}
+		}
+	}
+	
+	private void setEditTextResult() {
+		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) {
+			numberInput.clearFocus();
+			String input = numberInput.getText().toString();
+			if (!input.isEmpty()) {
+				step.setNumber(Double.parseDouble(input));
+				finishStep();
+				showResult();
+			}
+			else { unFinishStep(); }
+		}
+		
+		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) {
+			textInput.clearFocus();
+			String input = textInput.getText().toString().trim();
+			if (!input.isEmpty()) {
+				step.setText(input);
+				finishStep();
+				showResult();
+			}
+			else { unFinishStep(); }
 		}
 	}
 	
@@ -239,7 +250,7 @@ public class StepFragment extends Fragment {
 	private class NewPictureThread extends Thread {
 		@Override
 		public void run() {
-			try { Thread.sleep(2000); startCameraActivity(); } 
+			try { Thread.sleep(1000); startCameraActivity(); } 
 			catch (Exception e) { e.printStackTrace(); }
 		}
 	}
@@ -254,9 +265,8 @@ public class StepFragment extends Fragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		String spokenText;
 		
-		// Handles picture taking after finished
+		// Handles taken picture after finished
 	    if (requestCode == REQUEST_PICTURE && resultCode == Activity.RESULT_OK) {
 	    	Bundle extras = data.getExtras();
 	    	Bitmap image = (Bitmap) extras.get("data");

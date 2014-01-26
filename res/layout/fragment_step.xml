@@ -150,12 +150,11 @@
 			    
 			    <ImageView 
 			        android:id="@+id/result_image"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent"
 			        android:layout_gravity="center"
 			        android:visibility="gone"
-			        android:scaleType="fitStart"
-			        android:adjustViewBounds="true"
+			        android:scaleType="fitXY"
 			        android:contentDescription="@string/taken_img_desc" />
 				    
 	    	</LinearLayout>
