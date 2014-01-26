@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,13 +25,12 @@ public class ImageHandler {
 	}
 	
 	public void writeToFile(Bitmap b, int checklistId, int stepOrder) {
-		Time timeStamp = new Time();
-		timeStamp.setToNow();
-//		timeStamp.format("%d.%m.%Y-%H.%M.%S");
+		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_hhmmss");
+		String timeStamp = sdf.format(new Date());
 		
 		String filename = "cid" + Integer.toString(checklistId) + 
 						  "_so" + Integer.toString(stepOrder) + 
-						  ".jpg";	
+						  "_" + timeStamp + ".jpg";	
 		
 		try {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
