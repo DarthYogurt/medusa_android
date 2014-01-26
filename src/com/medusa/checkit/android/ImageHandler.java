@@ -24,7 +24,7 @@ public class ImageHandler {
 		this.imageFilenamesArray = null;
 	}
 	
-	public void writeToFile(Bitmap b, int checklistId, int stepOrder) {
+	public String writeToFile(Bitmap b, int checklistId, int stepOrder) {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_hhmmss");
 		String timeStamp = sdf.format(new Date());
 		
@@ -40,10 +40,8 @@ public class ImageHandler {
 		} 
 		catch (FileNotFoundException e) { Log.d("ERROR", "File not found: " + e.getMessage()); }
 		catch (IOException e) { Log.d("ERROR", "Error accessing file: " + e.getMessage()); }
-	}
-	
-	public String getFilename(int checklistId, int stepOrder) {
-		return "cid" + Integer.toString(checklistId) + "_so" + Integer.toString(stepOrder) + ".jpg";
+		
+		return filename;
 	}
 	
 	public void addFilenameToArray(String filename) {	

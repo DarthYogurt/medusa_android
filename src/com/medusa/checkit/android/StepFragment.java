@@ -272,8 +272,8 @@ public class StepFragment extends Fragment {
 	    	Bitmap image = (Bitmap) extras.get("data");
 	    	
 	    	ImageHandler imageHandler = new ImageHandler(getActivity());
-	    	imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
-	    	step.setImageFilename(imageHandler.getFilename(step.getChecklistId(), step.getOrder()));
+	    	String filename = imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
+	    	step.setImageFilename(filename);
 	    	
 	    	finishStep();
 	    	showResult();
