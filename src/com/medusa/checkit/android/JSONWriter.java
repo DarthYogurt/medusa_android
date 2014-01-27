@@ -47,7 +47,7 @@ public class JSONWriter {
 		}
 	}
 	
-	public void startNewChecklist(int checklistId) throws IOException {		
+	public void startNewChecklist(Checklist checklist) throws IOException {		
 		try {
 			fos = context.openFileOutput(CHECKLIST_FILENAME, Context.MODE_PRIVATE);
 			writer = new JsonWriter(new OutputStreamWriter(fos, "UTF-8"));
@@ -57,8 +57,10 @@ public class JSONWriter {
 		try {
 			writer.beginObject();
 			writer.name(KEY_USER_ID).value(1);
-			writer.name(KEY_GROUP_ID).value(1);
-			writer.name(KEY_CHECKLIST_ID).value(checklistId);
+			writer.name(KEY_GROUP_ID).value(checklist.getGroupId());
+			writer.name(KEY_CHECKLIST_ID).value(checklist.getId());
+			writer.name(KEY_TIME_STARTED).value(checklist.getTimeStarted());
+			writer.name(KEY_TIME_FINISHED).value(checklist.getTimeFinished());
 			writer.name(KEY_STEPS);
 			writer.beginArray();
 		} catch (IOException e) { e.printStackTrace(); }

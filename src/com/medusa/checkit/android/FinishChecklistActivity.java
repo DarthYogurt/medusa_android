@@ -131,7 +131,7 @@ public class FinishChecklistActivity extends Activity {
 		public void run() {
 			try {
 	        	jsonWriter = new JSONWriter(getApplicationContext());
-				jsonWriter.startNewChecklist(getChecklistId());
+				jsonWriter.startNewChecklist(checklist);
 				writeAllStepsToJSON();
 				jsonWriter.finishNewChecklist();
 			} catch (IOException e) { e.printStackTrace(); }
