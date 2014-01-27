@@ -24,6 +24,8 @@ public class Step implements Parcelable {
 	private String text;
 	private String imageFilename;
 	private boolean isStepFinished;
+	private String timeStarted;
+	private String timeFinished;
 	
 	public Step(int order, String name, String type, int id, int notifyUserId,
 				int checklistId, String checklistName, boolean reqText, boolean reqImage) {
@@ -46,6 +48,8 @@ public class Step implements Parcelable {
 		this.text = "";
 		this.imageFilename = "";
 		this.isStepFinished = false;
+		this.timeStarted = "";
+		this.timeFinished = "";
 	}
 	
 	public Step(Parcel in) { readFromParcel(in); }
@@ -90,6 +94,12 @@ public class Step implements Parcelable {
 	public String getImageFilename() { return imageFilename; }
 	public void setImageFilename(String s) { this.imageFilename = s; }
 	
+	public String getTimeStarted() { return timeStarted; }
+	public void setTimeStarted(String s) { this.timeStarted = s; }
+	
+	public String getTimeFinished() { return timeFinished; }
+	public void setTimeFinished(String s) { this.timeFinished = s; }
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -118,6 +128,8 @@ public class Step implements Parcelable {
 		dest.writeString(text);
 		dest.writeString(imageFilename);
 		dest.writeByte((byte)(isStepFinished ? 1 : 0));
+		dest.writeString(timeStarted);
+		dest.writeString(timeFinished);
 	}
 	
 	private void readFromParcel(Parcel in) {
@@ -156,6 +168,8 @@ public class Step implements Parcelable {
 		text = in.readString();
 		imageFilename = in.readString();
 		isStepFinished = in.readByte() != 0;
+		timeStarted = in.readString();
+		timeFinished = in.readString();
 	}
 	
 	public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
