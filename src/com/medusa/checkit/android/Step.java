@@ -55,13 +55,21 @@ public class Step implements Parcelable {
 	public Step(Parcel in) { readFromParcel(in); }
 	
 	public int getOrder() { return order; }
+	
 	public String getName() { return name; }
+	
 	public String getType() { return type; }
+	
 	public int getId() { return id; }
+	
 	public int getNotifyUserId() { return notifyUserId; }
+	
 	public int getChecklistId() { return checklistId; }
+	
 	public String getChecklistName() { return checklistName; }
+	
 	public boolean getReqText() { return reqText; }
+	
 	public boolean getReqImage() { return reqImage; }
 	
 	public Boolean getIfValueTrue() { return ifValueTrue; }

@@ -9,36 +9,36 @@ public class Checklist implements Parcelable {
 	private String name;
 	private int groupId;
 	private int numOfSteps;
+	private String timeStarted;
+	private String timeFinished;
 	
 	public Checklist(int id, String name, int groupId) {
 		this.id = id;
 		this.name = name;
 		this.groupId = groupId;
+		this.numOfSteps = 0;
+		this.timeStarted = "";
+		this.timeFinished = "";
 	}
 	
 	public Checklist(Parcel in) {
 		readFromParcel(in);
 	}
 	
-	public int getId() {
-		return id;
-	}
+	public int getId() { return id; }
 	
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 	
-	public int getGroupId() {
-		return groupId;
-	}
+	public int getGroupId() { return groupId; }
 	
-	public void setNumOfSteps(int i) {
-		this.numOfSteps = i; 
-	}
+	public void setNumOfSteps(int i) { this.numOfSteps = i; }
+	public int getNumOfSteps() { return numOfSteps; }
 	
-	public int getNumOfSteps() {
-		return numOfSteps;
-	}
+	public String getTimeStarted() { return timeStarted; }
+	public void setTimeStarted(String s) { this.timeStarted = s; }
+	
+	public String getTimeFinished() { return timeFinished; }
+	public void setTimeFinished(String s) { this.timeFinished = s; }
 
 	@Override
 	public int describeContents() {
@@ -51,6 +51,8 @@ public class Checklist implements Parcelable {
 		dest.writeString(name);
 		dest.writeInt(groupId);
 		dest.writeInt(numOfSteps);
+		dest.writeString(timeStarted);
+		dest.writeString(timeFinished);
 	}
 	
 	private void readFromParcel(Parcel in) {
@@ -58,6 +60,8 @@ public class Checklist implements Parcelable {
 		name = in.readString();
 		groupId = in.readInt();
 		numOfSteps = in.readInt();
+		timeStarted = in.readString();
+		timeFinished = in.readString();
 	}
 	
 	public static final Parcelable.Creator<Checklist> CREATOR = new Parcelable.Creator<Checklist>() {

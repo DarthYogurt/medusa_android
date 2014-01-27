@@ -14,13 +14,8 @@ public class HTTPGetRequest {
 	static final String GROUP_ID_URL = "groupid/";
 	static final String CHECKLIST_ID_URL = "checklistid/";
 	
-	String groupId;
-	String checklistId;
-	String listOfChecklistsURL;
-	String checklistStepsURL;
-	String JSONString;
-	
 	public String getJSONString(String JSONURL) throws MalformedURLException, IOException {
+		String JSONString = "";
 		String charset = "UTF-8";
 		URLConnection connection = new URL(JSONURL).openConnection();
 		InputStream response = connection.getInputStream();
@@ -47,12 +42,12 @@ public class HTTPGetRequest {
 	}
 	
 	public String getChecklists(int groupId) throws MalformedURLException, IOException {
-		listOfChecklistsURL = BASE_URL + GROUP_ID_URL + Integer.toString(groupId);
+		String listOfChecklistsURL = BASE_URL + GROUP_ID_URL + Integer.toString(groupId);
 		return getJSONString(listOfChecklistsURL);
 	}
 	
 	public String getSteps(int checklistId) throws MalformedURLException, IOException {
-		checklistStepsURL = BASE_URL + CHECKLIST_ID_URL + Integer.toString(checklistId);
+		String checklistStepsURL = BASE_URL + CHECKLIST_ID_URL + Integer.toString(checklistId);
 		return getJSONString(checklistStepsURL);
 	}
 	
