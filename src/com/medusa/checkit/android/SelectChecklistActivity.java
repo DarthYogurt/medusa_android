@@ -1,6 +1,8 @@
 package com.medusa.checkit.android;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -16,6 +18,7 @@ public class SelectChecklistActivity extends Activity {
 	
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final String KEY_ALL_STEPS = "allSteps";
+	private static final String KEY_CHECKLIST = "checklist";
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	
@@ -40,6 +43,8 @@ public class SelectChecklistActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
+				checklist.setTimeStarted(setTimeStartedForChecklist());
+				intent.putExtra(KEY_CHECKLIST, checklist);
 				intent.putExtra(KEY_CHECKLIST_STEPS, getStepsForChecklist(checklist.getId()));
 				intent.putExtra(KEY_CURRENT_STEP, 0);
 				startActivity(intent);
@@ -58,6 +63,12 @@ public class SelectChecklistActivity extends Activity {
 			}
 		}
 		return stepsForSelectedChecklist;
+	}
+	
+	private String setTimeStartedForChecklist() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		return now;
 	}
 
 //	@Override

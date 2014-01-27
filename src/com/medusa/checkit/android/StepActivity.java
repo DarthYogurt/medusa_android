@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 public class StepActivity extends Activity {
 	
+	private static final String KEY_CHECKLIST = "checklist";
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final String KEY_NUM_OF_STEPS = "numOfSteps";
@@ -32,6 +33,7 @@ public class StepActivity extends Activity {
 	FragmentManager fragmentManager;
 	StepFragment fragment;
 	
+	private Checklist checklist;
 	private ArrayList<Step> stepsArray;
 	private Step step;
 	private int numOfSteps;
@@ -42,6 +44,7 @@ public class StepActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_step_navdrawer);
 		
+		checklist = getIntent().getParcelableExtra(KEY_CHECKLIST);
 		stepsArray = getIntent().getParcelableArrayListExtra(KEY_CHECKLIST_STEPS);
 		currentStep = getIntent().getIntExtra(KEY_CURRENT_STEP, 0);
 		step = stepsArray.get(currentStep);
@@ -154,6 +157,7 @@ public class StepActivity extends Activity {
 	
 	private void goToFinishChecklist() {
 		Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
+		intent.putExtra(KEY_CHECKLIST, checklist);
 		intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 		startActivity(intent);
 		finish();

@@ -69,7 +69,7 @@ public class StepFragment extends Fragment {
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		
-		if (step.getTimeStarted().equalsIgnoreCase("")) { setTimeStarted(); }
+		if (step.getTimeStarted().equalsIgnoreCase("")) { setTimeStartedForStep(); }
 		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
@@ -93,7 +93,7 @@ public class StepFragment extends Fragment {
 	
 	private void finishStep() {
 		step.setIsStepFinished(true);
-		setTimeFinished();
+		setTimeFinishedForStep();
 		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
 		finishedStepImg.setVisibility(View.VISIBLE);
 	}
@@ -358,13 +358,13 @@ public class StepFragment extends Fragment {
 	    }
 	}
 	
-	private void setTimeStarted() {
+	private void setTimeStartedForStep() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
 		String now = sdf.format(new Date());
 		step.setTimeStarted(now);
 	}
 	
-	private void setTimeFinished() {
+	private void setTimeFinishedForStep() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
 		String now = sdf.format(new Date());
 		step.setTimeFinished(now);

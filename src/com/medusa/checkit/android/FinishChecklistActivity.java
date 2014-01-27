@@ -1,7 +1,9 @@
 package com.medusa.checkit.android;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.http.client.ClientProtocolException;
 
@@ -21,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FinishChecklistActivity extends Activity {
 	
+	private static final String KEY_CHECKLIST = "checklist";
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final String TYPE_BOOL = "bool";
@@ -30,6 +33,7 @@ public class FinishChecklistActivity extends Activity {
 	
 	private JSONWriter jsonWriter;
 	private ImageHandler imageHandler;
+	private Checklist checklist;
 	private ArrayList<Step> stepsArray;
 
 	@Override
@@ -38,6 +42,7 @@ public class FinishChecklistActivity extends Activity {
 		setContentView(R.layout.activity_finish_checklist);
 		getActionBar().setTitle("");
 		
+		checklist = getIntent().getParcelableExtra(KEY_CHECKLIST);
 		stepsArray = getIntent().getParcelableArrayListExtra(KEY_CHECKLIST_STEPS);
 		
 		imageHandler = new ImageHandler(this);
@@ -54,6 +59,7 @@ public class FinishChecklistActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+				intent.putExtra(KEY_CHECKLIST, checklist);
 				intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 				intent.putExtra(KEY_CURRENT_STEP, position);
 				startActivity(intent);
@@ -64,6 +70,7 @@ public class FinishChecklistActivity extends Activity {
         mBtnFinishChecklist.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				setTimeFinishedForChecklist();
 				PostToServerThread post = new PostToServerThread();
 				post.start();
 			}
@@ -85,6 +92,12 @@ public class FinishChecklistActivity extends Activity {
 	private String getChecklistName() {
 		Step step = stepsArray.get(0);
 		return step.getChecklistName();
+	}
+	
+	private void setTimeFinishedForChecklist() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		checklist.setTimeFinished(now);
 	}
 	
 	private void writeAllStepsToJSON() {
