@@ -3,6 +3,8 @@ package com.medusa.checkit.android;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -67,6 +69,8 @@ public class StepFragment extends Fragment {
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		
+		if (step.getTimeStarted().equalsIgnoreCase("")) { setTimeStarted(); }
+		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
 		name.setText(step.getName());
@@ -89,12 +93,14 @@ public class StepFragment extends Fragment {
 	
 	private void finishStep() {
 		step.setIsStepFinished(true);
+		setTimeFinished();
 		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
 		finishedStepImg.setVisibility(View.VISIBLE);
 	}
 	
 	private void unFinishStep() {
 		step.setIsStepFinished(false);
+		step.setTimeFinished("");
 		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
 		finishedStepImg.setVisibility(View.GONE);
 	}
@@ -350,5 +356,17 @@ public class StepFragment extends Fragment {
 	            touchHandler(innerView);
 	        }
 	    }
+	}
+	
+	private void setTimeStarted() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		step.setTimeStarted(now);
+	}
+	
+	private void setTimeFinished() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		step.setTimeFinished(now);
 	}
 }

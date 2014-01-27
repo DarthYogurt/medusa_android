@@ -25,7 +25,7 @@ public class ImageHandler {
 	}
 	
 	public String writeToFile(Bitmap b, int checklistId, int stepOrder) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_hhmmss");
+		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
 		String timeStamp = sdf.format(new Date());
 		
 		String filename = "cid" + Integer.toString(checklistId) + 
