@@ -8,6 +8,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import android.util.Log;
+
 public class HTTPGetRequest {
 	
 	static final String BASE_URL = "http://dev.darthyogurt.com:8000/checklist/";

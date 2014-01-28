@@ -55,7 +55,8 @@ public class JSONReader {
                 Checklist checklist = new Checklist(checklistId, checklistName, groupId);
                 checklistsArray.add(checklist);
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } 
+		catch (Exception e) { e.printStackTrace(); }
 		return checklistsArray;
 	}
 	

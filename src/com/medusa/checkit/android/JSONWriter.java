@@ -25,8 +25,7 @@ public class JSONWriter {
 	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
-	
-	static final String FILENAME = "temp.json";
+
 	static final String CHECKLIST_FILENAME = "new_checklist.json";
 	
 	Context context;
@@ -37,16 +36,14 @@ public class JSONWriter {
 		this.context = context;
 	}
 	
-	public void writeToInternal(String data) throws IOException {
+	public void writeToInternal(String filename, String data) throws IOException {
 		try {
-			fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+			fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			fos.write(data.getBytes());
-			Log.v("writeToJSON", FILENAME + " has been written");
-		} catch (IOException e) { e.printStackTrace(); } 
-		finally {
-			try { fos.close(); } 
-			catch (IOException e) { e.printStackTrace(); }
-		}
+			fos.close();
+			Log.v("writeToJSON", filename + " has been written");
+		} 
+		catch (IOException e) { e.printStackTrace(); } 
 	}
 	
 	public void startNewChecklist(Checklist checklist) throws IOException {		
