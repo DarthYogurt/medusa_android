@@ -12,15 +12,16 @@
     	android:layout_marginBottom="6dp"
     	android:gravity="center"
     	android:textStyle="bold"
-    	android:textSize="26sp"
+    	android:textSize="20sp"
     	android:text="@string/add_notes" />
     
     <EditText 
+        android:id="@+id/add_note_edittext"
         android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
     	android:gravity="top|left"
     	android:padding="14dp"
-    	android:textSize="20sp"
+    	android:textSize="16sp"
     	android:hint="@string/text_hint"
     	android:background="@drawable/add_note_edittext" />
 

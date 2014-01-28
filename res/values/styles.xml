@@ -16,5 +16,10 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="AddNoteAnimation">
+    	<item name="android:windowEnterAnimation">@anim/slide_down</item>
+    	<item name="android:windowExitAnimation">@anim/slide_up</item>
+    </style>
 
 </resources>

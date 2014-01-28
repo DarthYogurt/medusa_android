@@ -25,6 +25,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -293,16 +295,12 @@ public class StepFragment extends Fragment {
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View pwView = inflater.inflate(R.layout.add_note_extra, null, false);
 		final PopupWindow pw = new PopupWindow(getActivity());
-		final int width = 500;
-		final int height = 700;
+		final EditText noteInput = (EditText) pwView.findViewById(R.id.add_note_edittext);
 		
 		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View view) {
-//				final PopupWindow pw = new PopupWindow(pwView, width, height, true);
-				pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
-				
 				pw.setTouchable(true);
 			    pw.setFocusable(true);
 			    pw.setOutsideTouchable(true);
@@ -315,14 +313,17 @@ public class StepFragment extends Fragment {
 			            return false;
 			        }
 			    });
-			    pw.setWidth(width);
-			    pw.setHeight(height);
-			    pw.setOutsideTouchable(false);
+			    pw.setWidth(500);
+			    pw.setHeight(700);
 			    pw.setContentView(pwView);
 			    pw.setBackgroundDrawable(new BitmapDrawable());
-//			    pw.showAsDropDown(view, -500, 10);
+			    pw.setAnimationStyle(R.style.AddNoteAnimation);
 			    pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
-			    pw.setAnimationStyle(0);
+			    
+			    // show keyboard when popupwindow opens
+			    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                imm.showSoftInput(noteInput, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
 	}
@@ -358,7 +359,7 @@ public class StepFragment extends Fragment {
 	}
 	
 	private static void hideSoftKeyboard(Activity activity) {
-	    InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 	    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 	}
 	
