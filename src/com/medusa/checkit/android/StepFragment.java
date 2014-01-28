@@ -320,7 +320,7 @@ public class StepFragment extends Fragment {
 			    pw.setAnimationStyle(R.style.AddNoteAnimation);
 			    pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
 			    
-			    // show keyboard when popupwindow opens
+			    // Show keyboard when PopupWindow opens
 			    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 imm.showSoftInput(noteInput, InputMethodManager.SHOW_IMPLICIT);
@@ -364,7 +364,7 @@ public class StepFragment extends Fragment {
 	}
 	
 	private void touchHandler(View view) {
-	    //Set up touch listener for non-edittext views to hide keyboard.
+	    // Set up touch listener for non-edittext views to hide keyboard.
 	    if(!(view instanceof EditText)) {
 	        view.setOnTouchListener(new OnTouchListener() {
 	            public boolean onTouch(View v, MotionEvent event) {
@@ -375,7 +375,7 @@ public class StepFragment extends Fragment {
 	        });
 	    }
 
-	    //If a layout container, iterate over children and seed recursion.
+	    // If a layout container, iterate over children and seed recursion.
 	    if (view instanceof ViewGroup) {
 	        for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
 	            View innerView = ((ViewGroup) view).getChildAt(i);

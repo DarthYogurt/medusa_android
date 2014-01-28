@@ -23,6 +23,8 @@ public class Step implements Parcelable {
 	private double number;
 	private String text;
 	private String imageFilename;
+	private String extraNote;
+	private String extraImageFilename;
 	private boolean isStepFinished;
 	private String timeStarted;
 	private String timeFinished;
@@ -47,6 +49,8 @@ public class Step implements Parcelable {
 		this.number = 0;
 		this.text = "";
 		this.imageFilename = "";
+		this.extraNote = "";
+		this.extraImageFilename = "";
 		this.isStepFinished = false;
 		this.timeStarted = "";
 		this.timeFinished = "";
@@ -87,9 +91,6 @@ public class Step implements Parcelable {
 	public Double getIfGreaterThan() { return ifGreaterThan; }
 	public void setIfGreaterThan(double d) { this.ifGreaterThan = d; }
 	
-	public boolean getIsStepFinished() { return isStepFinished; }
-	public void setIsStepFinished(boolean b) { this.isStepFinished = b; }
-	
 	public boolean getYesOrNo() { return yesOrNo; }
 	public void setYesOrNo(boolean b) { this.yesOrNo = b; }
 	
@@ -101,6 +102,15 @@ public class Step implements Parcelable {
 	
 	public String getImageFilename() { return imageFilename; }
 	public void setImageFilename(String s) { this.imageFilename = s; }
+	
+	public String getExtraNote() { return extraNote; }
+	public void setExtraNote(String s) { this.extraNote = s; }
+	
+	public String getExtraImageFilename() { return extraImageFilename; }
+	public void setExtraImageFilename(String s) { this.extraImageFilename = s; }
+	
+	public boolean getIsStepFinished() { return isStepFinished; }
+	public void setIsStepFinished(boolean b) { this.isStepFinished = b; }
 	
 	public String getTimeStarted() { return timeStarted; }
 	public void setTimeStarted(String s) { this.timeStarted = s; }
@@ -135,6 +145,8 @@ public class Step implements Parcelable {
 		dest.writeDouble(number);
 		dest.writeString(text);
 		dest.writeString(imageFilename);
+		dest.writeString(extraNote);
+		dest.writeString(extraImageFilename);
 		dest.writeByte((byte)(isStepFinished ? 1 : 0));
 		dest.writeString(timeStarted);
 		dest.writeString(timeFinished);
@@ -175,6 +187,8 @@ public class Step implements Parcelable {
 		number = in.readDouble();
 		text = in.readString();
 		imageFilename = in.readString();
+		extraNote = in.readString();
+		extraImageFilename = in.readString();
 		isStepFinished = in.readByte() != 0;
 		timeStarted = in.readString();
 		timeFinished = in.readString();
