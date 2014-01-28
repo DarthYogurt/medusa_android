@@ -16,6 +16,8 @@ public class JSONWriter {
 	private static final String KEY_STEP_TYPE = "stepType";
 	private static final String KEY_VALUE = "value";
 	private static final String KEY_NOTIFY_USER_ID = "notifyUserId";
+	private static final String KEY_EXTRA_NOTE = "extraNote";
+	private static final String KEY_EXTRA_IMAGE = "extraImage";
 	private static final String KEY_TIME_STARTED = "timeStarted";
 	private static final String KEY_TIME_FINISHED = "timeFinished";
 	private static final String KEY_STEPS = "steps";
@@ -82,6 +84,7 @@ public class JSONWriter {
 			writer.name(KEY_STEP_TYPE).value(TYPE_BOOL);
 			writer.name(KEY_VALUE).value(step.getYesOrNo());
 			if (checkToNotifyBool(step)) { writer.name(KEY_NOTIFY_USER_ID).value(step.getNotifyUserId()); }
+			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();
@@ -95,6 +98,7 @@ public class JSONWriter {
 			writer.name(KEY_STEP_TYPE).value(TYPE_NUMBER);
 			writer.name(KEY_VALUE).value(step.getNumber());
 			if (checkToNotifyNumber(step)) { writer.name(KEY_NOTIFY_USER_ID).value(step.getNotifyUserId()); }
+			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();
@@ -107,6 +111,7 @@ public class JSONWriter {
 			writer.name(KEY_STEP_ID).value(step.getId());
 			writer.name(KEY_STEP_TYPE).value(TYPE_TEXT);
 			writer.name(KEY_VALUE).value(step.getText());
+			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();
@@ -119,6 +124,7 @@ public class JSONWriter {
 			writer.name(KEY_STEP_ID).value(step.getId());
 			writer.name(KEY_STEP_TYPE).value(TYPE_IMAGE);
 			writer.name(KEY_VALUE).value(step.getImageFilename());
+			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();
