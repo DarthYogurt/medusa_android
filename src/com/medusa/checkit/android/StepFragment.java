@@ -52,6 +52,7 @@ public class StepFragment extends Fragment {
 	private View view;
 	EditText numberInput;
 	EditText textInput;
+	EditText noteInput;
 	private Step step;
 	
 	static StepFragment newInstance() {
@@ -295,7 +296,7 @@ public class StepFragment extends Fragment {
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View pwView = inflater.inflate(R.layout.add_note_extra, null, false);
 		final PopupWindow pw = new PopupWindow(getActivity());
-		final EditText noteInput = (EditText) pwView.findViewById(R.id.add_note_edittext);
+		noteInput = (EditText) pwView.findViewById(R.id.add_note_edittext);
 		
 		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
 			@SuppressWarnings("deprecation")
@@ -319,6 +320,12 @@ public class StepFragment extends Fragment {
 			    pw.setBackgroundDrawable(new BitmapDrawable());
 			    pw.setAnimationStyle(R.style.AddNoteAnimation);
 			    pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
+			    pw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+					@Override
+					public void onDismiss() { setExtraNote(); }
+				});
+			    
+			    noteInput.setText(step.getExtraNote());
 			    
 			    // Show keyboard when PopupWindow opens
 			    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -326,6 +333,11 @@ public class StepFragment extends Fragment {
                 imm.showSoftInput(noteInput, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
+	}
+	
+	private void setExtraNote() {
+		String input = noteInput.getText().toString().trim();
+		step.setExtraNote(input);
 	}
 	
 	private void showAddPictureButton() {
