@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -289,15 +291,38 @@ public class StepFragment extends Fragment {
 	private void showAddNoteButton() {
 		ImageButton btnAddNoteExtra = (ImageButton) view.findViewById(R.id.btn_add_note_extra);
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		final View window = inflater.inflate(R.layout.add_note_extra, null, false);
-		final int width = 600;
-		final int height = 800;
+		final View pwView = inflater.inflate(R.layout.add_note_extra, null, false);
+		final PopupWindow pw = new PopupWindow(getActivity());
+		final int width = 500;
+		final int height = 700;
 		
 		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View view) {
-				PopupWindow pw = new PopupWindow(window, width, height, true);
+//				final PopupWindow pw = new PopupWindow(pwView, width, height, true);
 				pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
+				
+				pw.setTouchable(true);
+			    pw.setFocusable(true);
+			    pw.setOutsideTouchable(true);
+			    pw.setTouchInterceptor(new OnTouchListener() {
+			        public boolean onTouch(View v, MotionEvent event) {
+			            if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+			                pw.dismiss();
+			                return true;
+			            }
+			            return false;
+			        }
+			    });
+			    pw.setWidth(width);
+			    pw.setHeight(height);
+			    pw.setOutsideTouchable(false);
+			    pw.setContentView(pwView);
+			    pw.setBackgroundDrawable(new BitmapDrawable());
+//			    pw.showAsDropDown(view, -500, 10);
+			    pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
+			    pw.setAnimationStyle(0);
 			}
 		});
 	}
