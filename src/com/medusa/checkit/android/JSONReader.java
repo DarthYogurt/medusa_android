@@ -47,13 +47,15 @@ public class JSONReader {
             JSONArray jArray = jObject.getJSONArray("checklist");
             int checklistId;
             String checklistName;
+            int numOfSteps;
             int groupId;
             
             for (int i = 0; i < jArray.length(); i++) {
             	checklistId = Integer.parseInt(jArray.getJSONObject(i).getString("id"));
                 checklistName = jArray.getJSONObject(i).getString("name");
+                numOfSteps = Integer.parseInt(jArray.getJSONObject(i).getString("numOfSteps"));
                 groupId = Integer.parseInt(jObject.getString("groupId"));
-                Checklist checklist = new Checklist(checklistId, checklistName, groupId);
+                Checklist checklist = new Checklist(checklistId, checklistName, numOfSteps, groupId);
                 checklistsArray.add(checklist);
             }
         } 

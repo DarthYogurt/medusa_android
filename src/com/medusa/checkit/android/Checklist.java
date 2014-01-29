@@ -12,11 +12,11 @@ public class Checklist implements Parcelable {
 	private String timeStarted;
 	private String timeFinished;
 	
-	public Checklist(int id, String name, int groupId) {
+	public Checklist(int id, String name, int numOfSteps, int groupId) {
 		this.id = id;
 		this.name = name;
+		this.numOfSteps = numOfSteps;
 		this.groupId = groupId;
-		this.numOfSteps = 0;
 		this.timeStarted = "";
 		this.timeFinished = "";
 	}
@@ -29,10 +29,9 @@ public class Checklist implements Parcelable {
 	
 	public String getName() { return name; }
 	
-	public int getGroupId() { return groupId; }
-	
-	public void setNumOfSteps(int i) { this.numOfSteps = i; }
 	public int getNumOfSteps() { return numOfSteps; }
+	
+	public int getGroupId() { return groupId; }
 	
 	public String getTimeStarted() { return timeStarted; }
 	public void setTimeStarted(String s) { this.timeStarted = s; }

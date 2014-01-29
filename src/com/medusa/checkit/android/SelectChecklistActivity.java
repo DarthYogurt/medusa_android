@@ -9,6 +9,7 @@ import java.util.Date;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -28,6 +30,7 @@ public class SelectChecklistActivity extends Activity {
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final int GROUP_ID = 1;
 	
+	Context context;
 	JSONReader reader;
 	UpdateFiles updateFiles;
 	ArrayList<Checklist> checklistsArray;
@@ -39,7 +42,8 @@ public class SelectChecklistActivity extends Activity {
 		setContentView(R.layout.activity_main_menu);
 		getActionBar().setTitle("");
 		
-		reader = new JSONReader(getApplicationContext());
+		context = getApplicationContext();
+		reader = new JSONReader(context);
 		
 		checklistsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_CHECKLISTS);
         
@@ -50,7 +54,7 @@ public class SelectChecklistActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+				Intent intent = new Intent(context, StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
 				createStepsArray(getStepsFilename(checklist.getId()));
 				
@@ -63,62 +67,18 @@ public class SelectChecklistActivity extends Activity {
 					finish();
 				}
 				else {
-					Toast message = Toast.makeText(getApplicationContext(), "No steps in checklist", Toast.LENGTH_SHORT);
+					Toast message = Toast.makeText(context, "No steps in checklist", Toast.LENGTH_SHORT);
 					message.show();
 				}
 			}
         });
 	}
 	
-	private void setNumOfStepsView() {
-		
-	}
-	
-	private String getStepsFilename(int checklistId) {
-		return "cid" + Integer.toString(checklistId) + "_steps.json";
-	}
-	
-	private void createStepsArray(String filename) {
-		try {
-			reader.readFromInternal(filename);
-			stepsArray = reader.getStepsArray();
-		} 
-		catch (IOException e) { e.printStackTrace(); }
-	}
-	
-	private String getTimeStartedForChecklist() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-		String now = sdf.format(new Date());
-		return now;
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.select_checklist, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_update:
-			Toast message = Toast.makeText(this, "Updating Files", Toast.LENGTH_SHORT);
-			message.show();
-			
-			updateFiles = new UpdateFiles();
-			updateFiles.execute();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-	
 	private class UpdateFiles extends AsyncTask<Void, Void, Void> {
 
 	    protected Void doInBackground(Void... params) {
 	    	HTTPGetRequest getRequest = new HTTPGetRequest();
-	    	JSONWriter writer = new JSONWriter(getApplicationContext());
+	    	JSONWriter writer = new JSONWriter(context);
 	    	
 	    	// Updates local JSON file containing checklists
 	    	String checklistsJsonString = "";
@@ -150,7 +110,7 @@ public class SelectChecklistActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	finish();
-	    	Intent intent = new Intent(getApplicationContext(), SelectChecklistActivity.class);
+	    	Intent intent = new Intent(context, SelectChecklistActivity.class);
 			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
 	    	startActivity(intent);
 	        return;
@@ -163,6 +123,46 @@ public class SelectChecklistActivity extends Activity {
 			checklistsArray = reader.getChecklistsArray();
 		} 
 		catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	private void createStepsArray(String filename) {
+		try {
+			reader.readFromInternal(filename);
+			stepsArray = reader.getStepsArray();
+		} 
+		catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	private String getStepsFilename(int checklistId) {
+		return "cid" + Integer.toString(checklistId) + "_steps.json";
+	}
+	
+	private String getTimeStartedForChecklist() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		return now;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.select_checklist, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_update:
+			Toast message = Toast.makeText(context, "Updating Files", Toast.LENGTH_SHORT);
+			message.show();
+			
+			updateFiles = new UpdateFiles();
+			updateFiles.execute();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 }
