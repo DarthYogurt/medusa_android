@@ -50,26 +50,60 @@ public class SplashActivity extends Activity {
 		writer = new JSONWriter(context);
 		checklistsArray = new ArrayList<Checklist>();
 		
-		// Checks for existing checklists file locally, if not get from server
-		if (checkIfFileExists(FILENAME_CHECKLISTS)) { 
-			createChecklistArray();
-			startActivity(); 
-		}
-		else { new UpdateFiles().execute(); }
+		new ShowLogo().execute();
+	}
+	
+	private class ShowLogo extends AsyncTask<Void, Void, Void> {
+
+	    protected Void doInBackground(Void... params) {
+	    	try { Thread.sleep(2000); } 
+			catch (Exception e) { e.printStackTrace(); }
+	    	
+	        return null;
+	    }
+
+	    protected void onPostExecute(Void result) {
+	    	super.onPostExecute(result);
+	    	
+	    	if (checkIfFileExists(FILENAME_CHECKLISTS)) { 
+				createChecklistArray();
+				startActivity(); 
+			}
+			else { new UpdateFiles().execute(); }
+	    	
+	        return;
+	    }
 	}
 
 	private class UpdateFiles extends AsyncTask<Void, Void, Void> {
 
 	    protected Void doInBackground(Void... params) {
 	    	
-	    	updateChecklistFile(GROUP_ID);
-	    	createChecklistArray();
+	    	// Updates local JSON file containing checklists
+	    	String checklistsJsonString = "";
+	    	
+			try { checklistsJsonString = getRequest.getChecklists(GROUP_ID); }
+			catch (MalformedURLException e) { e.printStackTrace(); } 
+			catch (IOException e) { e.printStackTrace(); }
 			
-			// Writes JSON of steps for each checklist into individual files 
+			try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
+			catch (IOException e) { e.printStackTrace(); }
+			
+	    	createChecklistArray();
+	    	
+			// Updates JSON file of steps for each checklist into individual files 
 			Checklist checklistHolder;
+			String stepsJsonString = "";
 			for (int i = 0; i < checklistsArray.size(); i++) { 
 				checklistHolder = checklistsArray.get(i);
-				updateStepFile(checklistHolder.getId());
+
+				try { stepsJsonString = getRequest.getSteps(checklistHolder.getId()); }
+				catch (MalformedURLException e) { e.printStackTrace(); }
+				catch (IOException e) { e.printStackTrace(); }
+				
+				String filename = "cid" + Integer.toString(checklistHolder.getId()) + "_steps.json";
+				try { writer.writeToInternal(filename, stepsJsonString); }
+				catch (IOException e) { e.printStackTrace(); }
 			}
 	        return null;
 	    }
@@ -91,27 +125,6 @@ public class SplashActivity extends Activity {
 			reader.readFromInternal(FILENAME_CHECKLISTS);
 			checklistsArray = reader.getChecklistsArray();
 		} 
-		catch (IOException e) { e.printStackTrace(); }
-	}
-	
-	private void updateChecklistFile(int groupId) {
-		String checklistsJsonString = "";
-		try { checklistsJsonString = getRequest.getChecklists(groupId); }
-		catch (MalformedURLException e) { e.printStackTrace(); } 
-		catch (IOException e) { e.printStackTrace(); }
-		
-		try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
-		catch (IOException e) { e.printStackTrace(); }
-	}
-	
-	private void updateStepFile(int checklistId) {
-		String stepsJsonString = "";
-		try { stepsJsonString = getRequest.getSteps(checklistId); }
-		catch (MalformedURLException e) { e.printStackTrace(); }
-		catch (IOException e) { e.printStackTrace(); }
-		
-		String filename = "cid" + Integer.toString(checklistId) + "_steps.json";
-		try { writer.writeToInternal(filename, stepsJsonString); }
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	

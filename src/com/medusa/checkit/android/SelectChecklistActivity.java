@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class SelectChecklistActivity extends Activity {
@@ -95,6 +96,9 @@ public class SelectChecklistActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
+			Toast message = Toast.makeText(this, "Updating Files", Toast.LENGTH_SHORT);
+			message.show();
+			
 			updateFiles = new UpdateFiles();
 			updateFiles.execute();
 			return true;
@@ -109,7 +113,7 @@ public class SelectChecklistActivity extends Activity {
 	    	HTTPGetRequest getRequest = new HTTPGetRequest();
 	    	JSONWriter writer = new JSONWriter(getApplicationContext());
 	    	
-	    	// Updates local checklists JSON
+	    	// Updates local JSON file containing checklists
 	    	String checklistsJsonString = "";
 			try { checklistsJsonString = getRequest.getChecklists(GROUP_ID); }
 			catch (MalformedURLException e) { e.printStackTrace(); } 
