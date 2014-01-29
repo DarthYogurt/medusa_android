@@ -143,7 +143,9 @@ public class SelectChecklistActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	finish();
-	    	startActivity(getIntent());
+	    	Intent intent = new Intent(getApplicationContext(), SelectChecklistActivity.class);
+			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
+	    	startActivity(intent);
 	        return;
 	    }
 	}
