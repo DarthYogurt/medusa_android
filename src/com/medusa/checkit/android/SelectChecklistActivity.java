@@ -53,12 +53,19 @@ public class SelectChecklistActivity extends Activity {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
 				createStepsArray(getStepsFilename(checklist.getId()));
-				checklist.setTimeStarted(getTimeStartedForChecklist());
-				intent.putExtra(KEY_CHECKLIST, checklist);
-				intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
-				intent.putExtra(KEY_CURRENT_STEP, 0);
-				startActivity(intent);
-				finish();
+				
+				if (!stepsArray.isEmpty()) {
+					checklist.setTimeStarted(getTimeStartedForChecklist());
+					intent.putExtra(KEY_CHECKLIST, checklist);
+					intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
+					intent.putExtra(KEY_CURRENT_STEP, 0);
+					startActivity(intent);
+					finish();
+				}
+				else {
+					Toast message = Toast.makeText(getApplicationContext(), "No steps in checklist", Toast.LENGTH_SHORT);
+					message.show();
+				}
 			}
         });
 	}
