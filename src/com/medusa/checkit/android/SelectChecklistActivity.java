@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,11 +20,11 @@ import android.widget.AdapterView.OnItemClickListener;
 public class SelectChecklistActivity extends Activity {
 	
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
-	private static final String KEY_ALL_STEPS = "allSteps";
 	private static final String KEY_CHECKLIST = "checklist";
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	
+	JSONReader reader;
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
 	
@@ -33,8 +34,9 @@ public class SelectChecklistActivity extends Activity {
 		setContentView(R.layout.activity_main_menu);
 		getActionBar().setTitle("");
 		
+		reader = new JSONReader(getApplicationContext());
+		
 		checklistsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_CHECKLISTS);
-//		stepsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_STEPS);
         
         ListView listView = (ListView)findViewById(R.id.checklist_listview);
         ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
@@ -45,9 +47,10 @@ public class SelectChecklistActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
-				checklist.setTimeStarted(setTimeStartedForChecklist());
+				createStepsArray(getStepsFilename(checklist.getId()));
+				checklist.setTimeStarted(getTimeStartedForChecklist());
 				intent.putExtra(KEY_CHECKLIST, checklist);
-				intent.putExtra(KEY_CHECKLIST_STEPS, getStepsForChecklist(checklist.getId()));
+				intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 				intent.putExtra(KEY_CURRENT_STEP, 0);
 				startActivity(intent);
 				finish();
@@ -55,23 +58,64 @@ public class SelectChecklistActivity extends Activity {
         });
 	}
 	
-	private ArrayList<Step> getStepsForChecklist(int checklistId) {
-		ArrayList<Step> stepsForSelectedChecklist = new ArrayList<Step>();
+	private void setNumOfStepsView() {
 		
-		for (int i = 0; i < stepsArray.size(); i++) {
-			Step step = stepsArray.get(i);
-			if (checklistId == step.getChecklistId()) {
-				stepsForSelectedChecklist.add(step);
-			}
-		}
-		return stepsForSelectedChecklist;
 	}
 	
-	private String setTimeStartedForChecklist() {
+	private String getStepsFilename(int checklistId) {
+		return "cid" + Integer.toString(checklistId) + "_steps.json";
+	}
+	
+	private void createStepsArray(String filename) {
+		try {
+			reader.readFromInternal(filename);
+			stepsArray = reader.getStepsArray();
+		} 
+		catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	private String getTimeStartedForChecklist() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
 		String now = sdf.format(new Date());
 		return now;
 	}
+	
+//	public class GetJsonFromServer extends AsyncTask<Void, Void, Void> {
+//
+//	    protected Void doInBackground(Void... params) {
+//
+////			// Adds all steps for all checklists into an ArrayList<Step>
+////			Step stepHolder;
+////			ArrayList<Step> stepsArray;
+////			allStepsArray = new ArrayList<Step>();
+////			for (int i = 0; i < allStepsJSONStringArray.size(); i++) {
+////				writer.writeToInternal("steps.json", allStepsJSONStringArray.get(i));
+////				reader.readFromInternal("steps.json"); 
+////				stepsArray = reader.getStepsArray();
+////				
+////				checklistHolder = checklistsArray.get(i);
+////				checklistHolder.setNumOfSteps(stepsArray.size());
+////				
+////				for (int s = 0; s < stepsArray.size(); s++) {
+////					stepHolder = stepsArray.get(s);
+////					allStepsArray.add(stepHolder);
+////				}
+////			}
+////			
+////			for (int i = 0; i < allStepsArray.size(); i++) {
+////				Step holder = allStepsArray.get(i);
+////				Log.v("ALL Steps", holder.getName());
+////			}
+//			
+//	        return null;
+//	    }
+//
+//	    protected void onPostExecute(Void result) {
+//	    	super.onPostExecute(result);
+//	    	startActivity();
+//	        return;
+//	    }
+//	}
 
 //	@Override
 //	public boolean onCreateOptionsMenu(Menu menu) {

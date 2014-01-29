@@ -41,7 +41,7 @@ public class JSONWriter {
 			fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			fos.write(data.getBytes());
 			fos.close();
-			Log.v("writeToJSON", filename + " has been written");
+			Log.v("FILE CREATED", filename + " has been written");
 		} 
 		catch (IOException e) { e.printStackTrace(); } 
 	}
