@@ -39,15 +39,16 @@ public final class R {
         public static final int checkmark_icon_small=0x7f02000b;
         public static final int drawer_shadow=0x7f02000c;
         public static final int edit_text_box=0x7f02000d;
-        public static final int ic_drawer=0x7f02000e;
-        public static final int ic_launcher=0x7f02000f;
-        public static final int notepad_icon=0x7f020010;
-        public static final int popwin_bg=0x7f020011;
-        public static final int result_box=0x7f020012;
-        public static final int splash_screen_logo=0x7f020013;
+        public static final int ic_action_refresh=0x7f02000e;
+        public static final int ic_drawer=0x7f02000f;
+        public static final int ic_launcher=0x7f020010;
+        public static final int notepad_icon=0x7f020011;
+        public static final int popwin_bg=0x7f020012;
+        public static final int result_box=0x7f020013;
+        public static final int splash_screen_logo=0x7f020014;
     }
     public static final class id {
-        public static final int action_settings=0x7f090025;
+        public static final int action_update=0x7f090025;
         public static final int add_note_edittext=0x7f090008;
         public static final int bool_container=0x7f090016;
         public static final int btn_add_note_extra=0x7f09000f;
@@ -99,14 +100,10 @@ public final class R {
         public static final int listview_step_row=0x7f030009;
     }
     public static final class menu {
-        public static final int finish_checklist=0x7f080000;
-        public static final int main_menu=0x7f080001;
-        public static final int splash=0x7f080002;
-        public static final int step=0x7f080003;
-        public static final int steps=0x7f080004;
+        public static final int select_checklist=0x7f080000;
     }
     public static final class string {
-        public static final int action_settings=0x7f060001;
+        public static final int action_update=0x7f060001;
         public static final int add_note_desc=0x7f060015;
         public static final int add_notes=0x7f06000a;
         public static final int add_picture_desc=0x7f060016;

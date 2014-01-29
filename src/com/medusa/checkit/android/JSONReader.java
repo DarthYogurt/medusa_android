@@ -32,10 +32,11 @@ public class JSONReader {
 			jsonString = br.readLine();
 			
 			Log.v("readFromJSON", jsonString);
-		} catch (FileNotFoundException e) { e.printStackTrace(); } 
+		} 
+		catch (FileNotFoundException e) { e.printStackTrace(); } 
 		finally {
-			try { if (br != null) { br.close(); }
-			} catch (IOException e) { e.printStackTrace(); }
+			try { if (br != null) { br.close(); } } 
+			catch (IOException e) { e.printStackTrace(); }
 		}
 	}
 	
@@ -107,7 +108,8 @@ public class JSONReader {
                 
                 stepsArray.add(step);
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } 
+		catch (Exception e) { e.printStackTrace(); }
 		return stepsArray;
 	}
 

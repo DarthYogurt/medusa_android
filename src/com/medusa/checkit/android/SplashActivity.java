@@ -21,7 +21,6 @@ public class SplashActivity extends Activity {
 	private static final String FILENAME_CHECKLISTS = "checklists.json";
 	private static final String KEY_UPDATED = "updated";
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
-	private static final String KEY_ALL_STEPS = "allSteps";
 	private static final int GROUP_ID = 1;
 
 	SharedPreferences prefs;
@@ -30,7 +29,6 @@ public class SplashActivity extends Activity {
 	JSONReader reader;
 	JSONWriter writer;
 	ArrayList<Checklist> checklistsArray;
-	ArrayList<Step> allStepsArray;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +71,6 @@ public class SplashActivity extends Activity {
 				checklistHolder = checklistsArray.get(i);
 				updateStepFile(checklistHolder.getId());
 			}
-			
 	        return null;
 	    }
 

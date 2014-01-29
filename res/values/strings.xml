@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Check It</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_update">Update</string>
     
 	<!-- TEXTVIEWS -->
 	<string name="start_new_checklist">Start New Checklist</string>

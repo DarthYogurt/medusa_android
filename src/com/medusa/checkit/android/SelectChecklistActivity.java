@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,12 +20,15 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class SelectChecklistActivity extends Activity {
 	
+	private static final String FILENAME_CHECKLISTS = "checklists.json";
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final String KEY_CHECKLIST = "checklist";
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";
+	private static final int GROUP_ID = 1;
 	
 	JSONReader reader;
+	UpdateFiles updateFiles;
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
 	
@@ -80,111 +84,72 @@ public class SelectChecklistActivity extends Activity {
 		return now;
 	}
 	
-//	public class GetJsonFromServer extends AsyncTask<Void, Void, Void> {
-//
-//	    protected Void doInBackground(Void... params) {
-//
-////			// Adds all steps for all checklists into an ArrayList<Step>
-////			Step stepHolder;
-////			ArrayList<Step> stepsArray;
-////			allStepsArray = new ArrayList<Step>();
-////			for (int i = 0; i < allStepsJSONStringArray.size(); i++) {
-////				writer.writeToInternal("steps.json", allStepsJSONStringArray.get(i));
-////				reader.readFromInternal("steps.json"); 
-////				stepsArray = reader.getStepsArray();
-////				
-////				checklistHolder = checklistsArray.get(i);
-////				checklistHolder.setNumOfSteps(stepsArray.size());
-////				
-////				for (int s = 0; s < stepsArray.size(); s++) {
-////					stepHolder = stepsArray.get(s);
-////					allStepsArray.add(stepHolder);
-////				}
-////			}
-////			
-////			for (int i = 0; i < allStepsArray.size(); i++) {
-////				Step holder = allStepsArray.get(i);
-////				Log.v("ALL Steps", holder.getName());
-////			}
-//			
-//	        return null;
-//	    }
-//
-//	    protected void onPostExecute(Void result) {
-//	    	super.onPostExecute(result);
-//	    	startActivity();
-//	        return;
-//	    }
-//	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.select_checklist, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_update:
+			updateFiles = new UpdateFiles();
+			updateFiles.execute();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private class UpdateFiles extends AsyncTask<Void, Void, Void> {
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.main_menu, menu);
-//		return true;
-//	}
+	    protected Void doInBackground(Void... params) {
+	    	HTTPGetRequest getRequest = new HTTPGetRequest();
+	    	JSONWriter writer = new JSONWriter(getApplicationContext());
+	    	
+	    	// Updates local checklists JSON
+	    	String checklistsJsonString = "";
+			try { checklistsJsonString = getRequest.getChecklists(GROUP_ID); }
+			catch (MalformedURLException e) { e.printStackTrace(); } 
+			catch (IOException e) { e.printStackTrace(); }
+			
+			try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
+			catch (IOException e) { e.printStackTrace(); }
+			
+			createChecklistArray();
+			
+			// Updates JSON file of steps for each checklist into individual files 
+			Checklist checklistHolder;
+			String stepsJsonString = "";
+			for (int i = 0; i < checklistsArray.size(); i++) { 
+				checklistHolder = checklistsArray.get(i);
+				try { stepsJsonString = getRequest.getSteps(checklistHolder.getId()); }
+				catch (MalformedURLException e) { e.printStackTrace(); }
+				catch (IOException e) { e.printStackTrace(); }
+				
+				String filename = "cid" + Integer.toString(checklistHolder.getId()) + "_steps.json";
+				try { writer.writeToInternal(filename, stepsJsonString); }
+				catch (IOException e) { e.printStackTrace(); }
+			}
+	        return null;
+	    }
 
-//	private class IntentLauncher extends Thread {
-//		
-//		ArrayList<Checklist> checklistsArray;
-//		ArrayList<Step> allStepsArray;
-//		
-//		@Override
-//		public void run() {
-//			
-//			try {
-//				HTTPGetRequest getRequest = new HTTPGetRequest();
-////				String allChecklistsJSONString = getRequest.getChecklists(1);
-//				
-//				JSONWriter writer = new JSONWriter(context);
-////				writer.writeToInternal(FILENAME_CHECKLISTS, allChecklistsJSONString);
-//				
-//				JSONReader reader = new JSONReader(context);
-//				reader.readFromInternal(FILENAME_CHECKLISTS);
-//				checklistsArray = reader.getChecklistsArray();
-//				
-//				// Adds JSON string of steps for each checklist into ArrayList<Checklist>
-//				Checklist checklistHolder;
-//				String stepsJSONString;
-//				ArrayList<String> allStepsJSONStringArray = new ArrayList<String>();
-//				for (int i = 0; i < checklistsArray.size(); i++) { 
-//					checklistHolder = checklistsArray.get(i);
-//					stepsJSONString = getRequest.getSteps(checklistHolder.getId());
-//					allStepsJSONStringArray.add(stepsJSONString);
-//				}
-//				
-//				// Adds all steps for all checklists into an ArrayList<Step>
-//				Step stepHolder;
-//				ArrayList<Step> stepsArray;
-//				allStepsArray = new ArrayList<Step>();
-//				for (int i = 0; i < allStepsJSONStringArray.size(); i++) {
-//					writer.writeToInternal("steps.json", allStepsJSONStringArray.get(i));
-//					reader.readFromInternal("steps.json"); 
-//					stepsArray = reader.getStepsArray();
-//					
-//					checklistHolder = checklistsArray.get(i);
-//					checklistHolder.setNumOfSteps(stepsArray.size());
-//					
-//					for (int s = 0; s < stepsArray.size(); s++) {
-//						stepHolder = stepsArray.get(s);
-//						allStepsArray.add(stepHolder);
-//					}
-//				}
-//				
-//				for (int i = 0; i < allStepsArray.size(); i++) {
-//					Step holder = allStepsArray.get(i);
-//					Log.v("ALL Steps", holder.getName());
-//				}
-//			} catch (MalformedURLException e) { e.printStackTrace(); } 
-//			catch (IOException e) { e.printStackTrace(); }
-//
-//			Intent intent = new Intent(context, SelectChecklistActivity.class);
-//			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
-//			intent.putExtra(KEY_ALL_STEPS, allStepsArray);
-//			
-//			startActivity(intent);
-//			finish();
-//		}
-//	}
+	    protected void onPostExecute(Void result) {
+	    	super.onPostExecute(result);
+	    	finish();
+	    	startActivity(getIntent());
+	        return;
+	    }
+	}
+	
+	private void createChecklistArray() {
+		try { 
+			reader.readFromInternal(FILENAME_CHECKLISTS);
+			checklistsArray = reader.getChecklistsArray();
+		} 
+		catch (IOException e) { e.printStackTrace(); }
+	}
 	
 }

@@ -24,7 +24,6 @@ public class ChecklistAdapter extends ArrayAdapter<Checklist> {
 	}
 	
 	private static class ViewHolder {
-//		private TextView checklistId;
 		private TextView checklistName;
 		private TextView numOfSteps;
 	}
@@ -38,12 +37,12 @@ public class ChecklistAdapter extends ArrayAdapter<Checklist> {
 			convertView = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
-//            holder.checklistId = (TextView)convertView.findViewById(R.id.checklist_id);
             holder.checklistName = (TextView)convertView.findViewById(R.id.checklist_name);
             holder.numOfSteps = (TextView)convertView.findViewById(R.id.num_of_steps);
 
             convertView.setTag(holder);
-        } else {
+        } 
+		else {
             holder = (ViewHolder)convertView.getTag();
         }
 
@@ -51,7 +50,6 @@ public class ChecklistAdapter extends ArrayAdapter<Checklist> {
 		String name = checklists.get(position).getName();
 		String numOfSteps = Integer.toString(checklists.get(position).getNumOfSteps());
 		
-//		holder.checklistId.setText(id);
         holder.checklistName.setText(name);
         holder.numOfSteps.setText(numOfSteps);
 
