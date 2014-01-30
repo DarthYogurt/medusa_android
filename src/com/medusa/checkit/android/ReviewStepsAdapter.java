@@ -1,9 +1,14 @@
 package com.medusa.checkit.android;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	private static final String TYPE_BOOL = "bool";
 	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
+	private static final String TYPE_IMAGE = "image";
 
 	private Context context;
 	private int layoutResourceId;
@@ -29,10 +35,11 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	}
 	
 	private static class ViewHolder {
-		private TextView stepOrder;
-		private TextView stepName;
-		private TextView result;
-		private ImageView finishedStepImage;
+		private TextView stepOrderView;
+		private TextView stepNameView;
+		private TextView resultView;
+		private ImageView resultImageView;
+		private ImageView finishedStepImageView;
 	}
 	
 	@Override
@@ -44,10 +51,11 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 			convertView = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
-            holder.stepOrder = (TextView) convertView.findViewById(R.id.step_order);
-            holder.stepName = (TextView) convertView.findViewById(R.id.step_name);
-            holder.result = (TextView) convertView.findViewById(R.id.result);
-            holder.finishedStepImage = (ImageView) convertView.findViewById(R.id.finished_step_img);
+            holder.stepOrderView = (TextView) convertView.findViewById(R.id.step_order);
+            holder.stepNameView = (TextView) convertView.findViewById(R.id.step_name);
+            holder.resultView = (TextView) convertView.findViewById(R.id.result);
+            holder.resultImageView = (ImageView) convertView.findViewById(R.id.result_image);
+            holder.finishedStepImageView = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
             convertView.setTag(holder);
         } else {
@@ -55,7 +63,11 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
         }
 
 		String stepOrder = Integer.toString(steps.get(position).getOrder()); 
+		holder.stepOrderView.setText(stepOrder);
+		
 		String stepName = steps.get(position).getName();
+		holder.stepNameView.setText(stepName);
+		
 		String result = null;
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_BOOL)) {
@@ -71,13 +83,24 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 			result = steps.get(position).getText();
 		}
 		
-		holder.stepOrder.setText(stepOrder);
-		holder.stepName.setText(stepName);
-        holder.result.setText(result);
-        
-        if (steps.get(position).getIsStepFinished()) { holder.finishedStepImage.setVisibility(View.VISIBLE); }
-        else { holder.finishedStepImage.setVisibility(View.GONE); }
+		if (steps.get(position).getType().equalsIgnoreCase(TYPE_IMAGE)) {
+			holder.resultImageView.setVisibility(View.VISIBLE);
+			try {
+				FileInputStream fis = context.openFileInput(steps.get(position).getImageFilename());
+				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
+				fis.close();
+				holder.resultImageView.setImageBitmap(imgFromFile);
+				holder.resultImageView.invalidate();
+			} 
+	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+	    	catch (IOException e) { e.printStackTrace(); }
+		}
+		
+        holder.resultView.setText(result);
 
+        if (steps.get(position).getIsStepFinished()) { holder.finishedStepImageView.setVisibility(View.VISIBLE); }
+        else { holder.finishedStepImageView.setVisibility(View.GONE); }
+        
         return convertView;
 	}
 }

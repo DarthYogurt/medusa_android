@@ -54,6 +54,15 @@
         android:textSize="20sp"
         android:textColor="#29a629" />
 	
+	<ImageView 
+        android:id="@+id/result_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step_name"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:contentDescription="@string/taken_img_desc" />
+	
 	<ImageView
 	    android:id="@+id/finished_step_img"
 	    android:layout_width="wrap_content"
