@@ -37,7 +37,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	private static class ViewHolder {
 		private TextView stepOrderView;
 		private TextView stepNameView;
-		private TextView resultView;
+		private TextView resultTextView;
 		private ImageView resultImageView;
 		private ImageView finishedStepImageView;
 	}
@@ -53,7 +53,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
             holder = new ViewHolder();
             holder.stepOrderView = (TextView) convertView.findViewById(R.id.step_order);
             holder.stepNameView = (TextView) convertView.findViewById(R.id.step_name);
-            holder.resultView = (TextView) convertView.findViewById(R.id.result);
+            holder.resultTextView = (TextView) convertView.findViewById(R.id.result_text);
             holder.resultImageView = (ImageView) convertView.findViewById(R.id.result_image);
             holder.finishedStepImageView = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
@@ -68,19 +68,32 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		String stepName = steps.get(position).getName();
 		holder.stepNameView.setText(stepName);
 		
-		String result = null;
-		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_BOOL)) {
-			if (steps.get(position).getYesOrNo()) { result = "Yes"; }
-			else { result = "No"; }
+			String result = "";
+			if (steps.get(position).getIsStepFinished()) {
+				if (steps.get(position).getYesOrNo()) { result = "Yes"; }
+				else { result = "No"; }
+			}
+			holder.resultTextView.setVisibility(View.VISIBLE);
+			holder.resultTextView.setText(result);
 		}
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_NUMBER)) {
-			result = Double.toString(steps.get(position).getNumber());
+			String result = "";
+			if (steps.get(position).getIsStepFinished()) {
+				result = Double.toString(steps.get(position).getNumber());
+			}
+			holder.resultTextView.setVisibility(View.VISIBLE);
+			holder.resultTextView.setText(result);
 		}
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_TEXT)) {
-			result = steps.get(position).getText();
+			String result = "";
+			if (steps.get(position).getIsStepFinished()) {
+				result = steps.get(position).getText();
+			}
+			holder.resultTextView.setVisibility(View.VISIBLE);
+			holder.resultTextView.setText(result);
 		}
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_IMAGE)) {
@@ -95,8 +108,6 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
 	    	catch (IOException e) { e.printStackTrace(); }
 		}
-		
-        holder.resultView.setText(result);
 
         if (steps.get(position).getIsStepFinished()) { holder.finishedStepImageView.setVisibility(View.VISIBLE); }
         else { holder.finishedStepImageView.setVisibility(View.GONE); }

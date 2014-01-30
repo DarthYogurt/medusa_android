@@ -48,7 +48,7 @@ public final class R {
         public static final int splash_screen_logo=0x7f020014;
     }
     public static final class id {
-        public static final int action_update=0x7f090024;
+        public static final int action_update=0x7f090023;
         public static final int add_note_edittext=0x7f090008;
         public static final int bool_container=0x7f090016;
         public static final int btn_add_note_extra=0x7f09000f;
@@ -73,7 +73,6 @@ public final class R {
         public static final int num_of_steps=0x7f090022;
         public static final int num_of_steps_label=0x7f090021;
         public static final int out_of_label=0x7f09000c;
-        public static final int result=0x7f090023;
         public static final int result_bool=0x7f090012;
         public static final int result_image=0x7f090015;
         public static final int result_number=0x7f090013;
