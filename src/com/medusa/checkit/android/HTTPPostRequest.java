@@ -51,8 +51,8 @@ public class HTTPPostRequest {
 		catch (IOException e1) { e1.printStackTrace(); }
 	}
 	
-	public void addJSON(String jsonFilename) {
-		File json = new File(context.getFilesDir() + File.separator + "new_checklist.json");
+	public void addJSON(String filename) {
+		File json = new File(context.getFilesDir() + File.separator + filename);
 		multipartEntity.addPart("data", new FileBody(json));
 	}
 	

@@ -7,6 +7,10 @@ import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -68,9 +72,8 @@ public class FinishChecklistActivity extends Activity {
         mBtnFinishChecklist.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				setTimeFinishedForChecklist();
-				PostToServerThread post = new PostToServerThread();
-				post.start();
+				FinishChecklistDialogFrament dialog = new FinishChecklistDialogFrament();
+				dialog.show(getFragmentManager(), "finished");
 			}
 		});
 	}
@@ -146,6 +149,30 @@ public class FinishChecklistActivity extends Activity {
 			Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
 			startActivity(intent);
 			finish();
+		}
+	}
+	
+	private class FinishChecklistDialogFrament extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        // Use the Builder class for convenient dialog construction
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        builder.setMessage(R.string.dialog_finish)
+	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+						setTimeFinishedForChecklist();
+						PostToServerThread post = new PostToServerThread();
+						post.start();
+	        		}
+	        	})
+	        	.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+	        			dismiss();
+	        		}
+	        	});
+	        
+	        // Create the AlertDialog object and return it
+	        return builder.create();
 		}
 	}
 

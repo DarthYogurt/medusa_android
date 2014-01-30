@@ -24,6 +24,11 @@
     <string name="button_submit">Submit</string>
     <string name="btn_take_picture">Take Picture</string>
     <string name="finish_checklist">Finish Checklist</string>
+    
+    <!-- DIALOGS -->
+    <string name="dialog_finish">Finish checklist?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
 	
 	<!-- CONTENT DESCRIPTIONS -->
 	<string name="logo_desc">Logo</string>
