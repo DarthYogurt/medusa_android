@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -143,6 +145,12 @@ public class SelectChecklistActivity extends Activity {
 		return now;
 	}
 	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -154,11 +162,16 @@ public class SelectChecklistActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
-			Toast message = Toast.makeText(context, "Updating Files", Toast.LENGTH_SHORT);
-			message.show();
-			
-			updateFiles = new UpdateFiles();
-			updateFiles.execute();
+			if (isNetworkAvailable()) {
+				Toast updatingFiles = Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT);
+				updatingFiles.show();
+				updateFiles = new UpdateFiles();
+				updateFiles.execute();
+			}
+			else {
+				Toast noNetwork = Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT);
+				noNetwork.show();
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

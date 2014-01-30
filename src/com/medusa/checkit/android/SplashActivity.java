@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -14,12 +16,13 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class SplashActivity extends Activity {
 	
 	private static final String FILENAME_PREFERENCES = "preferences";
-	private static final String FILENAME_CHECKLISTS = "checklists.json";
 	private static final String KEY_UPDATED = "updated";
+	private static final String FILENAME_CHECKLISTS = "checklists.json";
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final int GROUP_ID = 1;
 
@@ -65,12 +68,26 @@ public class SplashActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	
-	    	if (checkIfFileExists(FILENAME_CHECKLISTS)) { 
-				createChecklistArray();
-				startActivity(); 
-			}
-			else { new UpdateFiles().execute(); }
-	    	
+	    	if (isNetworkAvailable()) { 
+	    		Toast updatingFiles = Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT);
+	    		updatingFiles.show();
+	    		new UpdateFiles().execute(); 
+    		}
+	    	else {
+	    		Toast noNetwork = Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT);
+	    		noNetwork.show();
+				
+				if (checkIfFileExists(FILENAME_CHECKLISTS)) {
+					createChecklistArray();
+					startActivity();
+				}
+				else {
+					Toast noFileFound = Toast.makeText(context, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG);
+					noFileFound.show();
+					finish();
+				}
+	    	}
+
 	        return;
 	    }
 	}
@@ -134,6 +151,12 @@ public class SplashActivity extends Activity {
 		
 		startActivity(intent);
 		finish();
+	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
 }
