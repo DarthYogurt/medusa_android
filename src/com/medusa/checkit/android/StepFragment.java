@@ -94,6 +94,7 @@ public class StepFragment extends Fragment {
 		
 		showExtraNoteButton();
 		showExtraPictureButton();
+		showRequiredText();
 		
 		showNextButton();
 		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
@@ -104,10 +105,12 @@ public class StepFragment extends Fragment {
     }
 	
 	private void finishStep() {
-		step.setIsStepFinished(true);
-		setTimeFinishedForStep();
-		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
-		finishedStepImg.setVisibility(View.VISIBLE);
+		if (checkIfRequiredComplete()) {
+			step.setIsStepFinished(true);
+			setTimeFinishedForStep();
+			ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
+			finishedStepImg.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	private void unFinishStep() {
@@ -298,6 +301,23 @@ public class StepFragment extends Fragment {
 	    }
 	}
 	
+	private void showRequiredText() {
+		if (step.getReqNote()) {
+			TextView required = (TextView) view.findViewById(R.id.required_extras);
+			required.setText("note required");
+		}
+		
+		if (step.getReqPicture()) {
+			TextView required = (TextView) view.findViewById(R.id.required_extras);
+			required.setText("picture required");
+		}
+		
+		if (step.getReqNote() && step.getReqPicture()) {
+			TextView required = (TextView) view.findViewById(R.id.required_extras);
+			required.setText("note & picture required");
+		}
+	}
+	
 	private void showExtraNoteButton() {
 		btnAddNoteExtra = (ImageButton) view.findViewById(R.id.btn_add_note_extra);
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -435,7 +455,7 @@ public class StepFragment extends Fragment {
 	        	});
 	        }
 	        
-	        if (step.getReqImage()) {
+	        if (step.getReqPicture()) {
 	        	builder.setMessage(R.string.dialog_req_image)
 	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
@@ -454,4 +474,29 @@ public class StepFragment extends Fragment {
 	        return builder.create();
 		}
 	}
+	
+	private boolean checkIfRequiredComplete() {
+		if (step.getReqNote() && step.getReqPicture()) {
+			if (step.getExtraNote().isEmpty() || step.getExtraImageFilename().isEmpty()) {
+				RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
+				dialog.show(getFragmentManager(), "required");
+				return false;
+			}
+		}
+		
+		if (step.getReqNote() && step.getExtraNote().isEmpty()) {
+			RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
+			dialog.show(getFragmentManager(), "required");
+			return false;
+		}
+		
+		if (step.getReqPicture() && step.getExtraImageFilename().isEmpty()) {
+			RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
+			dialog.show(getFragmentManager(), "required");
+			return false;
+		}
+		
+		return true;
+	}
+	
 }

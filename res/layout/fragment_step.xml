@@ -95,8 +95,24 @@
 			    android:layout_width="fill_parent"
 			    android:layout_height="1dp"
 			    android:layout_marginTop="12dp"
-			    android:layout_marginBottom="12dp"
+			    android:layout_marginBottom="4dp"
 			    android:background="#000" />
+		    
+		    <RelativeLayout
+	    	    android:layout_width="fill_parent"
+	    	    android:layout_height="wrap_content"
+	    	    android:layout_marginBottom="6dp" >
+	    	
+		    	<TextView 
+		    	    android:id="@+id/required_extras"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_alignParentRight="true"
+		    	    android:textSize="14sp"
+		    	    android:textStyle="bold"
+		    	    android:textColor="#cc0000" />
+	    	
+	    	</RelativeLayout>
 		    
 		    <TextView
 		        android:id="@+id/step_name"
@@ -105,7 +121,7 @@
 		    	android:textSize="22sp" />
 		    
 		    <!-- RESULT CONTAINER -->
-		    <LinearLayout
+		   <LinearLayout
 		        android:layout_width="fill_parent"
 		    	android:layout_height="wrap_content"
 		    	android:orientation="vertical"
