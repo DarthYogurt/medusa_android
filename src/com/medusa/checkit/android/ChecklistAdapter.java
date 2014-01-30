@@ -46,7 +46,6 @@ public class ChecklistAdapter extends ArrayAdapter<Checklist> {
             holder = (ViewHolder)convertView.getTag();
         }
 
-		String id = Integer.toString(checklists.get(position).getId()); 
 		String name = checklists.get(position).getName();
 		String numOfSteps = Integer.toString(checklists.get(position).getNumOfSteps());
 		

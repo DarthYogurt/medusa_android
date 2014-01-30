@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.http.client.ClientProtocolException;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +29,7 @@ public class FinishChecklistActivity extends Activity {
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
 	
-	private JSONWriter jsonWriter;
+	private JSONWriter writer;
 	private ImageHandler imageHandler;
 	private Checklist checklist;
 	private ArrayList<Step> stepsArray;
@@ -52,7 +50,7 @@ public class FinishChecklistActivity extends Activity {
 		mChecklistName.setText(getChecklistName());
 		
 		ListView listView = (ListView)findViewById(R.id.finished_steps_listview);
-        StepAdapter adapter = new StepAdapter(this, R.layout.listview_step_row, stepsArray);
+        StepAdapter adapter = new StepAdapter(this, R.layout.listview_review_steps, stepsArray);
         listView.setAdapter(adapter);
         
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -107,19 +105,19 @@ public class FinishChecklistActivity extends Activity {
 			step = stepsArray.get(i);
 			
 			if (step.getType().equalsIgnoreCase(TYPE_BOOL)) {
-				try { jsonWriter.writeStepBoolean(step); } 
+				try { writer.writeStepBoolean(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
 			if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) {
-				try { jsonWriter.writeStepNumber(step); } 
+				try { writer.writeStepNumber(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
 			if (step.getType().equalsIgnoreCase(TYPE_TEXT)) {
-				try { jsonWriter.writeStepText(step); } 
+				try { writer.writeStepText(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 			}
 			if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) {
-				try { jsonWriter.writeStepImage(step); } 
+				try { writer.writeStepImage(step); } 
 				catch (IOException e) { e.printStackTrace(); }
 				imageHandler.addFilenameToArray(step.getImageFilename());
 			}
@@ -127,18 +125,21 @@ public class FinishChecklistActivity extends Activity {
 	}
 	
 	private class PostToServerThread extends Thread {
+		String filename;
+		
 		@Override
 		public void run() {
 			try {
-	        	jsonWriter = new JSONWriter(getApplicationContext());
-				jsonWriter.startNewChecklist(checklist);
+	        	writer = new JSONWriter(getApplicationContext());
+				filename = writer.startNewChecklist(checklist);
 				writeAllStepsToJSON();
-				jsonWriter.finishNewChecklist();
+				writer.finishNewChecklist();
+				writer.logPost(filename);
 			} catch (IOException e) { e.printStackTrace(); }
 			
 			HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
 			post.createNewPost(); 
-			post.addJSON(JSONWriter.CHECKLIST_FILENAME);
+			post.addJSON(filename);
 			if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
 			post.sendPost();
 			

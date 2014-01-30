@@ -48,8 +48,8 @@ public class Checklist implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(id);
 		dest.writeString(name);
-		dest.writeInt(groupId);
 		dest.writeInt(numOfSteps);
+		dest.writeInt(groupId);
 		dest.writeString(timeStarted);
 		dest.writeString(timeFinished);
 	}
@@ -57,8 +57,8 @@ public class Checklist implements Parcelable {
 	private void readFromParcel(Parcel in) {
 		id = in.readInt();
 		name = in.readString();
-		groupId = in.readInt();
 		numOfSteps = in.readInt();
+		groupId = in.readInt();
 		timeStarted = in.readString();
 		timeFinished = in.readString();
 	}

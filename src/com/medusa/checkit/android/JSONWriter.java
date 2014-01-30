@@ -25,8 +25,6 @@ public class JSONWriter {
 	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
-
-	static final String CHECKLIST_FILENAME = "new_checklist.json";
 	
 	Context context;
 	FileOutputStream fos;
@@ -46,11 +44,17 @@ public class JSONWriter {
 		catch (IOException e) { e.printStackTrace(); } 
 	}
 	
-	public void startNewChecklist(Checklist checklist) throws IOException {		
+	private String getFilename(int checklistId) {
+		return "cid" + Integer.toString(checklistId) + "_finished.json";
+	}
+	
+	public String startNewChecklist(Checklist checklist) throws IOException {		
+		String filename = getFilename(checklist.getId());
+		
 		try {
-			fos = context.openFileOutput(CHECKLIST_FILENAME, Context.MODE_PRIVATE);
+			fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			writer = new JsonWriter(new OutputStreamWriter(fos, "UTF-8"));
-			Log.v("new file", CHECKLIST_FILENAME + " has been created");
+			Log.v("FINISHED CHECKLIST", filename + " has been created");
 		} catch (IOException e) { e.printStackTrace(); }
 		
 		try {
@@ -63,6 +67,8 @@ public class JSONWriter {
 			writer.name(KEY_STEPS);
 			writer.beginArray();
 		} catch (IOException e) { e.printStackTrace(); }
+		
+		return filename;
 	}
 	
 	public void finishNewChecklist() throws IOException {
@@ -70,6 +76,7 @@ public class JSONWriter {
 			writer.endArray();
 			writer.endObject();
 			writer.close();
+
 			fos.close();
 	    } catch (IOException e) { e.printStackTrace(); }
 	}
@@ -149,6 +156,24 @@ public class JSONWriter {
 			return true;
 		}
 		return false;
+	}
+	
+	public void logPost(String filename) {
+		FileInputStream fis = null;
+		try { fis = context.openFileInput(filename); }
+		catch (FileNotFoundException e) { e.printStackTrace(); }
+		StringBuffer fileContent = new StringBuffer("");
+
+		byte[] buffer = new byte[1024];
+
+		try {
+			while (fis.read(buffer) != -1) {
+			    fileContent.append(new String(buffer));
+			}
+		} 
+		catch (IOException e) { e.printStackTrace(); }
+		
+		Log.v("POST TO SERVER", fileContent.toString());
 	}
 	
 }

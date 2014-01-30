@@ -97,7 +97,7 @@ public final class R {
         public static final int fragment_step=0x7f030006;
         public static final int listview_checklist_row=0x7f030007;
         public static final int listview_drawer_row=0x7f030008;
-        public static final int listview_step_row=0x7f030009;
+        public static final int listview_review_steps=0x7f030009;
     }
     public static final class menu {
         public static final int select_checklist=0x7f080000;
