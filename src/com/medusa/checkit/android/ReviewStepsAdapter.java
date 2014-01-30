@@ -11,17 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class StepAdapter extends ArrayAdapter<Step> {
+public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	
 	private static final String TYPE_BOOL = "bool";
-	private static final String TYPE_DOUBLE = "double";
+	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
 
 	private Context context;
 	private int layoutResourceId;
 	private ArrayList<Step> steps;
 	
-	public StepAdapter(Context context, int layoutResourceId, ArrayList<Step> steps) {
+	public ReviewStepsAdapter(Context context, int layoutResourceId, ArrayList<Step> steps) {
 		super(context, layoutResourceId, steps);
 		this.context = context;
 		this.layoutResourceId = layoutResourceId;
@@ -63,7 +63,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
 			else { result = "No"; }
 		}
 		
-		if (steps.get(position).getType().equalsIgnoreCase(TYPE_DOUBLE)) {
+		if (steps.get(position).getType().equalsIgnoreCase(TYPE_NUMBER)) {
 			result = Double.toString(steps.get(position).getNumber());
 		}
 		

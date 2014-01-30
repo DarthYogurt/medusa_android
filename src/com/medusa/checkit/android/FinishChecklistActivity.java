@@ -50,7 +50,7 @@ public class FinishChecklistActivity extends Activity {
 		mChecklistName.setText(getChecklistName());
 		
 		ListView listView = (ListView)findViewById(R.id.finished_steps_listview);
-        StepAdapter adapter = new StepAdapter(this, R.layout.listview_review_steps, stepsArray);
+        ReviewStepsAdapter adapter = new ReviewStepsAdapter(this, R.layout.listview_review_steps, stepsArray);
         listView.setAdapter(adapter);
         
         listView.setOnItemClickListener(new OnItemClickListener() {
