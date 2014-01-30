@@ -12,6 +12,7 @@
     <string name="step_order_label">Step</string>
     <string name="out_of_label">out of</string>
     <string name="result_label">Result:</string>
+    <string name="notes_label">Notes:</string>
     <string name="click_step_to_edit">*** click on step to edit ***</string>
     <string name="add_notes">Add Notes</string>
     

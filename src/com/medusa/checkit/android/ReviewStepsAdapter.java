@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ReviewStepsAdapter extends ArrayAdapter<Step> {
@@ -39,6 +40,8 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		private TextView stepNameView;
 		private TextView resultTextView;
 		private ImageView resultImageView;
+		private LinearLayout notesContainer;
+		private TextView notesTextView;
 		private ImageView finishedStepImageView;
 	}
 	
@@ -55,6 +58,8 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
             holder.stepNameView = (TextView) convertView.findViewById(R.id.step_name);
             holder.resultTextView = (TextView) convertView.findViewById(R.id.result_text);
             holder.resultImageView = (ImageView) convertView.findViewById(R.id.result_image);
+            holder.notesContainer = (LinearLayout) convertView.findViewById(R.id.notes_container);
+            holder.notesTextView = (TextView) convertView.findViewById(R.id.notes_text);
             holder.finishedStepImageView = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
             convertView.setTag(holder);
@@ -108,6 +113,12 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
 	    	catch (IOException e) { e.printStackTrace(); }
 		}
+		
+		if (!steps.get(position).getExtraNote().isEmpty()) {
+			holder.notesContainer.setVisibility(View.VISIBLE);
+			holder.notesTextView.setText(steps.get(position).getExtraNote());
+		}
+		else { holder.notesContainer.setVisibility(View.GONE); }
 
         if (steps.get(position).getIsStepFinished()) { holder.finishedStepImageView.setVisibility(View.VISIBLE); }
         else { holder.finishedStepImageView.setVisibility(View.GONE); }
