@@ -74,7 +74,7 @@ public class JSONReader {
             String type;
             int id;
             int notifyUserId;
-            boolean reqText;
+            boolean reqNote;
             boolean reqImage;
             int checklistId;
             String checklistName;
@@ -87,10 +87,10 @@ public class JSONReader {
             	notifyUserId = Integer.parseInt(jArraySteps.getJSONObject(i).getString("notifyUserId"));
                 checklistId = Integer.parseInt(jObject.getString("checklistId"));
                 checklistName = jObject.getString("checklistName");
-                reqText = jArraySteps.getJSONObject(i).getBoolean("requireText");
+                reqNote = jArraySteps.getJSONObject(i).getBoolean("requireText");
             	reqImage = jArraySteps.getJSONObject(i).getBoolean("requireImage");
             	
-            	Step step = new Step(order, name, type, id, notifyUserId, checklistId, checklistName, reqText, reqImage);
+            	Step step = new Step(order, name, type, id, notifyUserId, checklistId, checklistName, reqNote, reqImage);
             	
                 if (jArraySteps.getJSONObject(i).has("ifValueTrue")) {
                 	step.setIfValueTrue(jArraySteps.getJSONObject(i).getBoolean("ifValueTrue"));

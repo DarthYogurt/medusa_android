@@ -7,8 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,11 +52,14 @@ public class StepFragment extends Fragment {
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
 	private static final int REQUEST_PICTURE = 1;
+	private static final int REQUEST_PICTURE_EXTRA = 2;
 	
 	private View view;
-	EditText numberInput;
-	EditText textInput;
-	EditText noteInput;
+	private EditText numberInput;
+	private EditText textInput;
+	private EditText noteInput;
+	private ImageButton btnAddNoteExtra;
+	private ImageButton btnAddPictureExtra;
 	private Step step;
 	
 	static StepFragment newInstance() {
@@ -74,7 +81,7 @@ public class StepFragment extends Fragment {
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
 		
-		if (step.getTimeStarted().equalsIgnoreCase("")) { setTimeStartedForStep(); }
+		if (step.getTimeStarted().isEmpty()) { setTimeStartedForStep(); }
 		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
@@ -85,8 +92,8 @@ public class StepFragment extends Fragment {
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 		
-		showAddNoteButton();
-		showAddPictureButton();
+		showExtraNoteButton();
+		showExtraPictureButton();
 		
 		showNextButton();
 		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
@@ -198,7 +205,7 @@ public class StepFragment extends Fragment {
 				step.setYesOrNo(true);
 				finishStep();
 				showResult();
-				((StepActivity)getActivity()).goToNextStep();
+//				((StepActivity)getActivity()).goToNextStep();
 			}
 		});
 		
@@ -208,7 +215,7 @@ public class StepFragment extends Fragment {
 				step.setYesOrNo(false);
 				finishStep();
 				showResult();
-				((StepActivity)getActivity()).goToNextStep();
+//				((StepActivity)getActivity()).goToNextStep();
 			}
 		});
 	}
@@ -291,8 +298,8 @@ public class StepFragment extends Fragment {
 	    }
 	}
 	
-	private void showAddNoteButton() {
-		ImageButton btnAddNoteExtra = (ImageButton) view.findViewById(R.id.btn_add_note_extra);
+	private void showExtraNoteButton() {
+		btnAddNoteExtra = (ImageButton) view.findViewById(R.id.btn_add_note_extra);
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View pwView = inflater.inflate(R.layout.add_note_extra, null, false);
 		final PopupWindow pw = new PopupWindow(getActivity());
@@ -340,8 +347,8 @@ public class StepFragment extends Fragment {
 		step.setExtraNote(input);
 	}
 	
-	private void showAddPictureButton() {
-		ImageButton btnAddPictureExtra = (ImageButton) view.findViewById(R.id.btn_add_picture_extra);
+	private void showExtraPictureButton() {
+		btnAddPictureExtra = (ImageButton) view.findViewById(R.id.btn_add_picture_extra);
 		btnAddPictureExtra.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -406,5 +413,45 @@ public class StepFragment extends Fragment {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
 		String now = sdf.format(new Date());
 		step.setTimeFinished(now);
+	}
+	
+	private class RequiredExtrasDialogFrament extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        // Use the Builder class for convenient dialog construction
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        
+	        if (step.getReqNote()) {
+	        	builder.setMessage(R.string.dialog_req_note)
+	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+						btnAddNoteExtra.performClick();
+	        		}
+	        	})
+	        	.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+	        			dismiss();
+	        		}
+	        	});
+	        }
+	        
+	        if (step.getReqImage()) {
+	        	builder.setMessage(R.string.dialog_req_image)
+	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+						btnAddPictureExtra.performClick();
+	        		}
+	        	})
+	        	.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+	        			dismiss();
+	        		}
+	        	});
+	        }
+	        
+	        
+	        // Create the AlertDialog object and return it
+	        return builder.create();
+		}
 	}
 }

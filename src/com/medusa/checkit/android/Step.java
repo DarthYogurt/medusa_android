@@ -12,7 +12,7 @@ public class Step implements Parcelable {
 	private int notifyUserId;
 	private int checklistId;
 	private String checklistName;
-	private boolean reqText;
+	private boolean reqNote;
 	private boolean reqImage;
 	private Boolean ifValueTrue;
 	private Boolean ifValueFalse;
@@ -30,7 +30,7 @@ public class Step implements Parcelable {
 	private String timeFinished;
 	
 	public Step(int order, String name, String type, int id, int notifyUserId,
-				int checklistId, String checklistName, boolean reqText, boolean reqImage) {
+				int checklistId, String checklistName, boolean reqNote, boolean reqImage) {
 		this.order = order;
 		this.name = name;
 		this.type = type;
@@ -38,7 +38,7 @@ public class Step implements Parcelable {
 		this.notifyUserId = notifyUserId;
 		this.checklistId = checklistId;
 		this.checklistName = checklistName;
-		this.reqText = reqText;
+		this.reqNote = reqNote;
 		this.reqImage = reqImage;
 		this.ifValueTrue = null;
 		this.ifValueFalse = null;
@@ -72,7 +72,7 @@ public class Step implements Parcelable {
 	
 	public String getChecklistName() { return checklistName; }
 	
-	public boolean getReqText() { return reqText; }
+	public boolean getReqNote() { return reqNote; }
 	
 	public boolean getReqImage() { return reqImage; }
 	
@@ -132,7 +132,7 @@ public class Step implements Parcelable {
 		dest.writeInt(notifyUserId);
 		dest.writeInt(checklistId);
 		dest.writeString(checklistName);
-		dest.writeByte((byte)(reqText ? 1 : 0));
+		dest.writeByte((byte)(reqNote ? 1 : 0));
 		dest.writeByte((byte)(reqImage ? 1 : 0));
 		
 		dest.writeValue(ifValueTrue);
@@ -160,7 +160,7 @@ public class Step implements Parcelable {
 		notifyUserId = in.readInt();
 		checklistId = in.readInt();
 		checklistName = in.readString();
-		reqText = in.readByte() != 0;
+		reqNote = in.readByte() != 0;
 		reqImage = in.readByte() != 0;
 		
 		Object ifValueTrueObj = in.readValue(null);
