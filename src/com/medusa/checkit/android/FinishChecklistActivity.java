@@ -93,13 +93,17 @@ public class FinishChecklistActivity extends Activity {
 //	}
 	
 	private boolean checkIfAllFinished() {
+		boolean finished = false;
+		
 		for (int i = 0; i < stepsArray.size(); i++) {
 			Step step = stepsArray.get(i);
-			if (!step.getIsStepFinished()) { return false; }
+			if (!step.getIsAllFinished()) { finished = false; break; }
+			else { finished = true; }
 		}
-		return true;
+		
+		return finished;
 	}
-	
+
 	private void setTimeFinishedForChecklist() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
 		String now = sdf.format(new Date());

@@ -61,7 +61,7 @@ public class StepFragment extends Fragment {
 	private ImageButton btnAddNoteExtra;
 	private ImageButton btnAddPictureExtra;
 	private Step step;
-	
+
 	static StepFragment newInstance() {
 		StepFragment fragment = new StepFragment();
 		return fragment;
@@ -99,23 +99,84 @@ public class StepFragment extends Fragment {
 		showNextButton();
 		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
 		
-		if (step.getIsStepFinished()) { finishStep(); }
+		if (step.getIsAllFinished()) { showFinishedImage(); }
 		
         return view;
     }
 	
-	private void finishStep() {
-		step.setIsStepFinished(true);
-		setTimeFinishedForStep();
-		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
-		finishedStepImg.setVisibility(View.VISIBLE);
+	private void showBoolElements() {
+		RelativeLayout boolContainer = (RelativeLayout) view.findViewById(R.id.bool_container);
+		ImageButton btnYes = (ImageButton) view.findViewById(R.id.button_yes);
+		ImageButton btnNo = (ImageButton) view.findViewById(R.id.button_no);
+		boolContainer.setVisibility(View.VISIBLE);
+		showResult();
+		
+		btnYes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				step.setYesOrNo(true);
+				finishStep();
+				showResult();
+				checkIfAllFinished();
+//				((StepActivity)getActivity()).goToNextStep();
+			}
+		});
+		
+		btnNo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				step.setYesOrNo(false);
+				finishStep();
+				showResult();
+				checkIfAllFinished();
+//				((StepActivity)getActivity()).goToNextStep();
+			}
+		});
 	}
 	
-	private void unFinishStep() {
-		step.setIsStepFinished(false);
-		step.setTimeFinished("");
-		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
-		finishedStepImg.setVisibility(View.GONE);
+	private void showNumberElements() {
+		numberInput = (EditText) view.findViewById(R.id.result_number);
+		numberInput.setVisibility(View.VISIBLE);
+		
+		if (!step.getIsStepFinished()) {
+			numberInput.requestFocus();
+			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+		}
+		showResult();
+	}
+	
+	private void showTextElements() {
+		textInput = (EditText) view.findViewById(R.id.result_text);
+		textInput.setVisibility(View.VISIBLE);
+		
+		if (!step.getIsStepFinished()) {
+			textInput.requestFocus();
+			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+		}
+		showResult();
+	}
+	
+	private void showImageElements() {
+		LinearLayout imageContainer = (LinearLayout) view.findViewById(R.id.image_container);
+		Button btnTakePicture = (Button) view.findViewById(R.id.btn_take_picture);
+		imageContainer.setVisibility(View.VISIBLE);
+		showResult();
+		
+		if (!step.getIsStepFinished()) {
+			Toast message = Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT);
+			message.show();
+			NewPictureThread newPicture = new NewPictureThread();
+			newPicture.start();
+		}
+		
+		btnTakePicture.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				startCameraActivity();
+			}
+		});
 	}
 	
 	private void showResult() {
@@ -177,8 +238,9 @@ public class StepFragment extends Fragment {
 				step.setNumber(Double.parseDouble(input));
 				finishStep();
 				showResult();
+				checkIfAllFinished();
 			}
-			else { unFinishStep(); }
+			else { unFinishStep(); checkIfAllFinished(); }
 		}
 		
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) {
@@ -188,115 +250,10 @@ public class StepFragment extends Fragment {
 				step.setText(input);
 				finishStep();
 				showResult();
+				checkIfAllFinished();
 			}
-			else { unFinishStep(); }
+			else { unFinishStep(); checkIfAllFinished(); }
 		}
-	}
-	
-	private void showBoolElements() {
-		RelativeLayout boolContainer = (RelativeLayout) view.findViewById(R.id.bool_container);
-		ImageButton btnYes = (ImageButton) view.findViewById(R.id.button_yes);
-		ImageButton btnNo = (ImageButton) view.findViewById(R.id.button_no);
-		boolContainer.setVisibility(View.VISIBLE);
-		showResult();
-		
-		btnYes.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				step.setYesOrNo(true);
-				finishStep();
-				showResult();
-//				((StepActivity)getActivity()).goToNextStep();
-			}
-		});
-		
-		btnNo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				step.setYesOrNo(false);
-				finishStep();
-				showResult();
-//				((StepActivity)getActivity()).goToNextStep();
-			}
-		});
-	}
-	
-	private void showNumberElements() {
-		numberInput = (EditText) view.findViewById(R.id.result_number);
-		numberInput.setVisibility(View.VISIBLE);
-		
-		if (!step.getIsStepFinished()) {
-			numberInput.requestFocus();
-			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-		}
-		showResult();
-	}
-	
-	private void showTextElements() {
-		textInput = (EditText) view.findViewById(R.id.result_text);
-		textInput.setVisibility(View.VISIBLE);
-		
-		if (!step.getIsStepFinished()) {
-			textInput.requestFocus();
-			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-		}
-		showResult();
-	}
-	
-	private void showImageElements() {
-		LinearLayout imageContainer = (LinearLayout) view.findViewById(R.id.image_container);
-		Button btnTakePicture = (Button) view.findViewById(R.id.btn_take_picture);
-		imageContainer.setVisibility(View.VISIBLE);
-		showResult();
-		
-		if (!step.getIsStepFinished()) {
-			Toast message = Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT);
-			message.show();
-			NewPictureThread newPicture = new NewPictureThread();
-			newPicture.start();
-		}
-		
-		btnTakePicture.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				startCameraActivity();
-			}
-		});
-	}
-	
-	private class NewPictureThread extends Thread {
-		@Override
-		public void run() {
-			try { Thread.sleep(1000); startCameraActivity(); } 
-			catch (Exception e) { e.printStackTrace(); }
-		}
-	}
-	
-	private void startCameraActivity() {
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-			startActivityForResult(intent, REQUEST_PICTURE);
-		}
-	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		// Handles taken picture after finished
-	    if (requestCode == REQUEST_PICTURE && resultCode == Activity.RESULT_OK) {
-	    	Bundle extras = data.getExtras();
-	    	Bitmap image = (Bitmap) extras.get("data");
-	    	
-	    	ImageHandler imageHandler = new ImageHandler(getActivity());
-	    	String filename = imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
-	    	step.setImageFilename(filename);
-	    	
-	    	finishStep();
-	    	showResult();
-	    }
 	}
 	
 	private void showRequiredText() {
@@ -362,17 +319,97 @@ public class StepFragment extends Fragment {
 	
 	private void setExtraNote() {
 		String input = noteInput.getText().toString().trim();
-		step.setExtraNote(input);
+		
+		if (!input.isEmpty()) {
+			step.setExtraNote(input);
+			if (step.getReqNote()) { step.setIsRequiredFinished(true); }
+			checkIfAllFinished();
+		}
+		else {
+			step.setExtraNote(input);
+			if (step.getReqNote()) { step.setIsRequiredFinished(false); }
+			checkIfAllFinished(); 
+		}
 	}
 	
 	private void showExtraPictureButton() {
 		btnAddPictureExtra = (ImageButton) view.findViewById(R.id.btn_add_picture_extra);
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final View pwView = inflater.inflate(R.layout.add_note_extra, null, false);
+		final PopupWindow pw = new PopupWindow(getActivity());
+		
 		btnAddPictureExtra.setOnClickListener(new OnClickListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View view) {
-
+				pw.setTouchable(true);
+			    pw.setFocusable(true);
+			    pw.setOutsideTouchable(true);
+			    pw.setTouchInterceptor(new OnTouchListener() {
+			        public boolean onTouch(View v, MotionEvent event) {
+			            if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+			                pw.dismiss();
+			                return true;
+			            }
+			            return false;
+			        }
+			    });
+			    pw.setWidth(500);
+			    pw.setHeight(700);
+			    pw.setContentView(pwView);
+			    pw.setBackgroundDrawable(new BitmapDrawable());
+			    pw.setAnimationStyle(R.style.AddNoteAnimation);
+			    pw.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
+			    pw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+					@Override
+					public void onDismiss() {  }
+				});
+			    
 			}
 		});
+	}
+	
+	private void checkIfAllFinished() {
+		if (step.getReqNote() || step.getReqPicture()) { 
+			if (step.getIsStepFinished() && step.getIsRequiredFinished()) { 
+				step.setIsAllFinished(true);
+				showFinishedImage(); 
+			}
+			else {
+				step.setIsAllFinished(false);
+				hideFinishedImage();
+			}
+		}
+		else {
+			if (step.getIsStepFinished()) {
+				step.setIsAllFinished(true);
+				showFinishedImage(); 
+			}
+			else {
+				step.setIsAllFinished(false);
+				hideFinishedImage(); 
+			}
+		}
+	}
+	
+	private void finishStep() {
+		step.setIsStepFinished(true);
+		setTimeFinishedForStep();
+	}
+	
+	private void unFinishStep() {
+		step.setIsStepFinished(false);
+		step.setTimeFinished("");
+	}
+	
+	private void showFinishedImage() {
+		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
+		finishedStepImg.setVisibility(View.VISIBLE);
+	}
+	
+	private void hideFinishedImage() {
+		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
+		finishedStepImg.setVisibility(View.GONE);
 	}
 	
 	private void showNextButton() {
@@ -393,6 +430,52 @@ public class StepFragment extends Fragment {
 			@Override
 			public void onClick(View view) { ((StepActivity)getActivity()).goToPrevStep(); }
 		});
+	}
+	
+	private void setTimeStartedForStep() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		step.setTimeStarted(now);
+	}
+	
+	private void setTimeFinishedForStep() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		step.setTimeFinished(now);
+	}
+	
+	private class NewPictureThread extends Thread {
+		@Override
+		public void run() {
+			try { Thread.sleep(1000); startCameraActivity(); } 
+			catch (Exception e) { e.printStackTrace(); }
+		}
+	}
+	
+	private void startCameraActivity() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+			startActivityForResult(intent, REQUEST_PICTURE);
+		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		// Handles taken picture after finished
+	    if (requestCode == REQUEST_PICTURE && resultCode == Activity.RESULT_OK) {
+	    	Bundle extras = data.getExtras();
+	    	Bitmap image = (Bitmap) extras.get("data");
+	    	
+	    	ImageHandler imageHandler = new ImageHandler(getActivity());
+	    	String filename = imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder());
+	    	step.setImageFilename(filename);
+	    	
+	    	finishStep();
+	    	showResult();
+	    	checkIfAllFinished();
+	    }
 	}
 	
 	private static void hideSoftKeyboard(Activity activity) {
@@ -419,18 +502,6 @@ public class StepFragment extends Fragment {
 	            touchHandler(innerView);
 	        }
 	    }
-	}
-	
-	private void setTimeStartedForStep() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-		String now = sdf.format(new Date());
-		step.setTimeStarted(now);
-	}
-	
-	private void setTimeFinishedForStep() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-		String now = sdf.format(new Date());
-		step.setTimeFinished(now);
 	}
 	
 	private class RequiredExtrasDialogFrament extends DialogFragment {
@@ -471,30 +542,6 @@ public class StepFragment extends Fragment {
 	        // Create the AlertDialog object and return it
 	        return builder.create();
 		}
-	}
-	
-	private boolean checkIfRequiredComplete() {
-		if (step.getReqNote() && step.getReqPicture()) {
-			if (step.getExtraNote().isEmpty() || step.getExtraImageFilename().isEmpty()) {
-				RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
-				dialog.show(getFragmentManager(), "required");
-				return false;
-			}
-		}
-		
-		if (step.getReqNote() && step.getExtraNote().isEmpty()) {
-			RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
-			dialog.show(getFragmentManager(), "required");
-			return false;
-		}
-		
-		if (step.getReqPicture() && step.getExtraImageFilename().isEmpty()) {
-			RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
-			dialog.show(getFragmentManager(), "required");
-			return false;
-		}
-		
-		return true;
 	}
 	
 }

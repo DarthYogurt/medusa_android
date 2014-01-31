@@ -120,7 +120,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		}
 		else { holder.notesContainer.setVisibility(View.GONE); }
 
-        if (steps.get(position).getIsStepFinished()) { holder.finishedStepImageView.setVisibility(View.VISIBLE); }
+        if (steps.get(position).getIsAllFinished()) { holder.finishedStepImageView.setVisibility(View.VISIBLE); }
         else { holder.finishedStepImageView.setVisibility(View.GONE); }
         
         return convertView;
