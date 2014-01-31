@@ -105,12 +105,10 @@ public class StepFragment extends Fragment {
     }
 	
 	private void finishStep() {
-		if (checkIfRequiredComplete()) {
-			step.setIsStepFinished(true);
-			setTimeFinishedForStep();
-			ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
-			finishedStepImg.setVisibility(View.VISIBLE);
-		}
+		step.setIsStepFinished(true);
+		setTimeFinishedForStep();
+		ImageView finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
+		finishedStepImg.setVisibility(View.VISIBLE);
 	}
 	
 	private void unFinishStep() {
