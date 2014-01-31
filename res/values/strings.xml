@@ -29,9 +29,11 @@
     <string name="dialog_req_note">This step requires a note. Enter one now?</string>
     <string name="dialog_req_image">This step requires a picture. Take one now?</string>
     <string name="dialog_req_both">This step requires a note and a picture.</string>
+    <string name="dialog_not_complete">Some steps are not complete.</string>
     <string name="dialog_finish">Finish checklist?</string>
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
+    <string name="dialog_ok">Ok</string>
 	
 	<!-- CONTENT DESCRIPTIONS -->
 	<string name="logo_desc">Logo</string>

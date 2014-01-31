@@ -51,7 +51,7 @@ public class FinishChecklistActivity extends Activity {
 		
 		TextView mChecklistName = (TextView) findViewById(R.id.checklist_name);
 		Button mBtnFinishChecklist = (Button) findViewById(R.id.finish_checklist);
-		mChecklistName.setText(getChecklistName());
+		mChecklistName.setText(checklist.getName());
 		
 		ListView listView = (ListView)findViewById(R.id.finished_steps_listview);
         ReviewStepsAdapter adapter = new ReviewStepsAdapter(this, R.layout.listview_review_steps, stepsArray);
@@ -72,8 +72,15 @@ public class FinishChecklistActivity extends Activity {
         mBtnFinishChecklist.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				FinishChecklistDialogFrament dialog = new FinishChecklistDialogFrament();
-				dialog.show(getFragmentManager(), "finished");
+				if (checkIfAllFinished()) {
+					FinishChecklistDialogFrament dialog = new FinishChecklistDialogFrament();
+					dialog.show(getFragmentManager(), "finished");
+				}
+				else {
+					NotCompleteDialogFrament dialog = new NotCompleteDialogFrament();
+					dialog.show(getFragmentManager(), "notComplete");
+				}
+				
 			}
 		});
 	}
@@ -85,14 +92,12 @@ public class FinishChecklistActivity extends Activity {
 //		return true;
 //	}
 	
-	private int getChecklistId() {
-		Step step = stepsArray.get(0);
-		return step.getChecklistId();
-	}
-	
-	private String getChecklistName() {
-		Step step = stepsArray.get(0);
-		return step.getChecklistName();
+	private boolean checkIfAllFinished() {
+		for (int i = 0; i < stepsArray.size(); i++) {
+			Step step = stepsArray.get(i);
+			if (!step.getIsStepFinished()) { return false; }
+		}
+		return true;
 	}
 	
 	private void setTimeFinishedForChecklist() {
@@ -149,6 +154,23 @@ public class FinishChecklistActivity extends Activity {
 			Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
 			startActivity(intent);
 			finish();
+		}
+	}
+	
+	private class NotCompleteDialogFrament extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        // Use the Builder class for convenient dialog construction
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        builder.setMessage(R.string.dialog_not_complete)
+	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+						dismiss();
+	        		}
+	        	});
+	        
+	        // Create the AlertDialog object and return it
+	        return builder.create();
 		}
 	}
 	
