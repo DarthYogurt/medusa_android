@@ -59,7 +59,7 @@ public class SplashActivity extends Activity {
 	private class ShowLogo extends AsyncTask<Void, Void, Void> {
 
 	    protected Void doInBackground(Void... params) {
-	    	try { Thread.sleep(2000); } 
+	    	try { Thread.sleep(1000); } 
 			catch (Exception e) { e.printStackTrace(); }
 	    	
 	        return null;

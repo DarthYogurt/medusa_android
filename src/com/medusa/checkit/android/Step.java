@@ -25,8 +25,9 @@ public class Step implements Parcelable {
 	private String imageFilename;
 	private String extraNote;
 	private String extraImageFilename;
+	private boolean isReqNoteFinished;
+	private boolean isReqPictureFinished;
 	private boolean isStepFinished;
-	private boolean isRequiredFinished;
 	private boolean isAllFinished;
 	private String timeStarted;
 	private String timeFinished;
@@ -53,8 +54,9 @@ public class Step implements Parcelable {
 		this.imageFilename = "";
 		this.extraNote = "";
 		this.extraImageFilename = "";
+		this.isReqNoteFinished = false;
+		this.isReqPictureFinished = false;
 		this.isStepFinished = false;
-		this.isRequiredFinished = false;
 		this.isAllFinished = false;
 		this.timeStarted = "";
 		this.timeFinished = "";
@@ -113,11 +115,14 @@ public class Step implements Parcelable {
 	public String getExtraImageFilename() { return extraImageFilename; }
 	public void setExtraImageFilename(String s) { this.extraImageFilename = s; }
 	
+	public boolean getIsReqNoteFinished() { return isReqNoteFinished; }
+	public void setIsReqNoteFinished(boolean b) { this.isReqNoteFinished = b; }
+	
+	public boolean getIsReqPictureFinished() { return isReqPictureFinished; }
+	public void setIsReqPictureFinished(boolean b) { this.isReqPictureFinished = b; }
+	
 	public boolean getIsStepFinished() { return isStepFinished; }
 	public void setIsStepFinished(boolean b) { this.isStepFinished = b; }
-	
-	public boolean getIsRequiredFinished() { return isRequiredFinished; }
-	public void setIsRequiredFinished(boolean b) { this.isRequiredFinished = b; }
 	
 	public boolean getIsAllFinished() { return isAllFinished; }
 	public void setIsAllFinished(boolean b) { this.isAllFinished = b; }
@@ -157,8 +162,9 @@ public class Step implements Parcelable {
 		dest.writeString(imageFilename);
 		dest.writeString(extraNote);
 		dest.writeString(extraImageFilename);
+		dest.writeByte((byte)(isReqNoteFinished ? 1 : 0));
+		dest.writeByte((byte)(isReqPictureFinished ? 1 : 0));
 		dest.writeByte((byte)(isStepFinished ? 1 : 0));
-		dest.writeByte((byte)(isRequiredFinished ? 1 : 0));
 		dest.writeByte((byte)(isAllFinished ? 1 : 0));
 		dest.writeString(timeStarted);
 		dest.writeString(timeFinished);
@@ -201,8 +207,9 @@ public class Step implements Parcelable {
 		imageFilename = in.readString();
 		extraNote = in.readString();
 		extraImageFilename = in.readString();
+		isReqNoteFinished = in.readByte() != 0;
+		isReqPictureFinished = in.readByte() != 0;
 		isStepFinished = in.readByte() != 0;
-		isRequiredFinished = in.readByte() != 0;
 		isAllFinished = in.readByte() != 0;
 		timeStarted = in.readString();
 		timeFinished = in.readString();

@@ -24,13 +24,21 @@ public class ImageHandler {
 		this.imageFilenamesArray = null;
 	}
 	
-	public String writeToFile(Bitmap b, int checklistId, int stepOrder) {
+	public String writeToFile(Bitmap b, int checklistId, int stepOrder, boolean isExtra) {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
 		String timeStamp = sdf.format(new Date());
+		String filename = "";
 		
-		String filename = "cid" + Integer.toString(checklistId) + 
-						  "_so" + Integer.toString(stepOrder) + 
-						  "_" + timeStamp + ".jpg";	
+		if (!isExtra) {
+			filename = "cid" + Integer.toString(checklistId) + 
+					  "_so" + Integer.toString(stepOrder) + 
+					  "_" + timeStamp + ".jpg";	
+		}
+		else {
+			filename = "cid" + Integer.toString(checklistId) + 
+					  "_so" + Integer.toString(stepOrder) + 
+					  "_extra_" + timeStamp + ".jpg";	
+		}
 		
 		try {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
