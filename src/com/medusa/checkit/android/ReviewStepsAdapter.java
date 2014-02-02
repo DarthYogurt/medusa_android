@@ -136,6 +136,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
 	    	catch (IOException e) { e.printStackTrace(); }
 		}
+		else { holder.extraImageContainer.setVisibility(View.GONE); }
 
         if (steps.get(position).getIsAllFinished()) { holder.finishedStepImageView.setVisibility(View.VISIBLE); }
         else { holder.finishedStepImageView.setVisibility(View.GONE); }
