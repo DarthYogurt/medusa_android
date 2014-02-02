@@ -171,6 +171,9 @@ public class SelectChecklistActivity extends Activity {
 				noNetwork.show();
 			}
 			return true;
+		case R.id.action_notifications:
+			Intent intent = new Intent(context, NotificationsActivity.class);
+	    	startActivity(intent);
 		default:
 			return super.onOptionsItemSelected(item);
 		}

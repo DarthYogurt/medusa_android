@@ -7,8 +7,10 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
-    
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,37 +22,41 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
         <activity
             android:name="com.medusa.checkit.android.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.medusa.checkit.android.SelectChecklistActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name="com.medusa.checkit.android.StepActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:configChanges="orientation|screenSize" >
+            android:windowSoftInputMode="adjustNothing" >
         </activity>
-        
         <activity
             android:name="com.medusa.checkit.android.FinishChecklistActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
-        
+        <activity
+            android:name="com.medusa.checkit.android.NotificationsActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.medusa.checkit.android.SelectChecklistActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.medusa.checkit.android.SelectChecklistActivity" />
+        </activity>
     </application>
 
 </manifest>
