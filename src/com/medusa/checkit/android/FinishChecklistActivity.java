@@ -133,6 +133,13 @@ public class FinishChecklistActivity extends Activity {
 				catch (IOException e) { e.printStackTrace(); }
 				imageHandler.addFilenameToArray(step.getImageFilename());
 			}
+			addExtraImagesToArray(step);
+		}
+	}
+	
+	private void addExtraImagesToArray(Step step) {
+		if (!step.getExtraImageFilename().isEmpty()) {
+			imageHandler.addFilenameToArray(step.getExtraImageFilename());
 		}
 	}
 	

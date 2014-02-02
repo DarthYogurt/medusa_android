@@ -66,7 +66,6 @@ public class SelectChecklistActivity extends Activity {
 					intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 					intent.putExtra(KEY_CURRENT_STEP, 0);
 					startActivity(intent);
-					finish();
 				}
 				else {
 					Toast message = Toast.makeText(context, "No steps in checklist", Toast.LENGTH_SHORT);
@@ -111,7 +110,6 @@ public class SelectChecklistActivity extends Activity {
 
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
-	    	finish();
 	    	Intent intent = new Intent(context, SelectChecklistActivity.class);
 			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
 	    	startActivity(intent);

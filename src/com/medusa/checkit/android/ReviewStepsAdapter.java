@@ -40,8 +40,10 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		private TextView stepNameView;
 		private TextView resultTextView;
 		private ImageView resultImageView;
-		private LinearLayout notesContainer;
-		private TextView notesTextView;
+		private LinearLayout extraNoteContainer;
+		private TextView extraNoteTextView;
+		private LinearLayout extraImageContainer;
+		private ImageView extraImageView;
 		private ImageView finishedStepImageView;
 	}
 	
@@ -58,8 +60,10 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
             holder.stepNameView = (TextView) convertView.findViewById(R.id.step_name);
             holder.resultTextView = (TextView) convertView.findViewById(R.id.result_text);
             holder.resultImageView = (ImageView) convertView.findViewById(R.id.result_image);
-            holder.notesContainer = (LinearLayout) convertView.findViewById(R.id.notes_container);
-            holder.notesTextView = (TextView) convertView.findViewById(R.id.notes_text);
+            holder.extraNoteContainer = (LinearLayout) convertView.findViewById(R.id.extra_note_container);
+            holder.extraNoteTextView = (TextView) convertView.findViewById(R.id.extra_note_text);
+            holder.extraImageContainer = (LinearLayout) convertView.findViewById(R.id.extra_image_container);
+            holder.extraImageView = (ImageView) convertView.findViewById(R.id.extra_image);
             holder.finishedStepImageView = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
             convertView.setTag(holder);
@@ -115,10 +119,23 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		}
 		
 		if (!steps.get(position).getExtraNote().isEmpty()) {
-			holder.notesContainer.setVisibility(View.VISIBLE);
-			holder.notesTextView.setText(steps.get(position).getExtraNote());
+			holder.extraNoteContainer.setVisibility(View.VISIBLE);
+			holder.extraNoteTextView.setText(steps.get(position).getExtraNote());
 		}
-		else { holder.notesContainer.setVisibility(View.GONE); }
+		else { holder.extraNoteContainer.setVisibility(View.GONE); }
+		
+		if (!steps.get(position).getExtraImageFilename().isEmpty()) {
+			holder.extraImageContainer.setVisibility(View.VISIBLE);
+			try {
+				FileInputStream fis = context.openFileInput(steps.get(position).getExtraImageFilename());
+				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
+				fis.close();
+				holder.extraImageView.setImageBitmap(imgFromFile);
+				holder.extraImageView.invalidate();
+			} 
+	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+	    	catch (IOException e) { e.printStackTrace(); }
+		}
 
         if (steps.get(position).getIsAllFinished()) { holder.finishedStepImageView.setVisibility(View.VISIBLE); }
         else { holder.finishedStepImageView.setVisibility(View.GONE); }

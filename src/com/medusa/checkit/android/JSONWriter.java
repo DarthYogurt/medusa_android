@@ -89,6 +89,7 @@ public class JSONWriter {
 			writer.name(KEY_VALUE).value(step.getYesOrNo());
 			if (checkToNotifyBool(step)) { writer.name(KEY_NOTIFY_USER_ID).value(step.getNotifyUserId()); }
 			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
+			if (!step.getExtraImageFilename().isEmpty()) { writer.name(KEY_EXTRA_IMAGE).value(step.getExtraImageFilename()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();
@@ -103,6 +104,7 @@ public class JSONWriter {
 			writer.name(KEY_VALUE).value(step.getNumber());
 			if (checkToNotifyNumber(step)) { writer.name(KEY_NOTIFY_USER_ID).value(step.getNotifyUserId()); }
 			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
+			if (!step.getExtraImageFilename().isEmpty()) { writer.name(KEY_EXTRA_IMAGE).value(step.getExtraImageFilename()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();
@@ -116,6 +118,7 @@ public class JSONWriter {
 			writer.name(KEY_STEP_TYPE).value(TYPE_TEXT);
 			writer.name(KEY_VALUE).value(step.getText());
 			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
+			if (!step.getExtraImageFilename().isEmpty()) { writer.name(KEY_EXTRA_IMAGE).value(step.getExtraImageFilename()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();
@@ -129,6 +132,7 @@ public class JSONWriter {
 			writer.name(KEY_STEP_TYPE).value(TYPE_IMAGE);
 			writer.name(KEY_VALUE).value(step.getImageFilename());
 			if (!step.getExtraNote().isEmpty()) { writer.name(KEY_EXTRA_NOTE).value(step.getExtraNote()); }
+			if (!step.getExtraImageFilename().isEmpty()) { writer.name(KEY_EXTRA_IMAGE).value(step.getExtraImageFilename()); }
 			writer.name(KEY_TIME_STARTED).value(step.getTimeStarted());
 			writer.name(KEY_TIME_FINISHED).value(step.getTimeFinished());
 			writer.endObject();

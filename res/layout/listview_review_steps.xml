@@ -75,7 +75,7 @@
         android:contentDescription="@string/taken_img_desc" />
 	
 	<LinearLayout
-	    android:id="@+id/notes_container"
+	    android:id="@+id/extra_note_container"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal"
@@ -83,7 +83,7 @@
 	    android:visibility="gone" >
         
 	    <TextView
-	        android:id="@+id/notes_label"
+	        android:id="@+id/extra_note_label"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginRight="4dp"
@@ -92,11 +92,36 @@
 			android:text="@string/notes_label" />
 	    
 	    <TextView
-		    android:id="@+id/notes_text"
+		    android:id="@+id/extra_note_text"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:textSize="16sp"
 	        android:textColor="#cc0000" />
+	    
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:id="@+id/extra_image_container"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	   	android:layout_marginTop="10dp"
+	    android:visibility="gone" >
+        
+	    <TextView
+	        android:id="@+id/extra_image_label"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="4dp"
+	        android:textSize="16sp"
+	        android:textColor="#cc0000"
+			android:text="@string/extra_image_label" />
+	    
+	    <ImageView 
+	        android:id="@+id/extra_image"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:contentDescription="@string/taken_img_desc" />
 	    
 	</LinearLayout>
 	
