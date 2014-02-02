@@ -281,9 +281,23 @@ public class StepFragment extends Fragment {
 	}
 	
 	private void showRequiredText() {
-		if (step.getReqNote()) { requiredExtras.setText("note required"); }
-		if (step.getReqPicture()) { requiredExtras.setText("picture required"); }
-		if (step.getReqNote() && step.getReqPicture()) { requiredExtras.setText("note & picture required"); }
+		String threshold = "";
+		
+		if (step.getIfValueTrue()) { threshold = " if YES selected"; }
+		if (step.getIfValueFalse()) { threshold = " if NO selected"; }
+		if (step.getIfLessThan() != null) { 
+			threshold = " if value less than " + Double.toString(step.getIfLessThan()); 
+		}
+		if (step.getIfEqualTo() != null) { 
+			threshold = " if value equal to " + Double.toString(step.getIfEqualTo()); 
+		}
+		if (step.getIfGreaterThan() != null) { 
+			threshold = " if value greater than " + Double.toString(step.getIfGreaterThan()); 
+		}
+		
+		if (step.getReqNote()) { requiredExtras.setText("note required" + threshold); }
+		if (step.getReqPicture()) { requiredExtras.setText("picture required" + threshold); }
+		if (step.getReqNote() && step.getReqPicture()) { requiredExtras.setText("note & picture required" + threshold); }
 	}
 	
 	private void setExtraNoteButtonListeners() {
