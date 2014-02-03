@@ -25,6 +25,7 @@ public class HTTPPostRequest {
 	HttpClient client;
 	HttpPost post;
 	MultipartEntityBuilder multipartEntity;
+	int responseCode;
 	
 	public HTTPPostRequest(Context context) {
 		this.context = context;
@@ -45,7 +46,7 @@ public class HTTPPostRequest {
 		try {
 			HttpResponse response = client.execute(post);
 			
-			int responseCode = response.getStatusLine().getStatusCode();
+			responseCode = response.getStatusLine().getStatusCode();
 			Log.v("POST RESPONSE CODE", Integer.toString(responseCode));
 			
 			String responseBody = EntityUtils.toString(response.getEntity());
@@ -66,6 +67,10 @@ public class HTTPPostRequest {
 			File file = new File(context.getFilesDir() + File.separator + filename);
 			multipartEntity.addPart(filename, new FileBody(file));
 		}
+	}
+	
+	public int getResponseCode() {
+		return responseCode;
 	}
 
 }

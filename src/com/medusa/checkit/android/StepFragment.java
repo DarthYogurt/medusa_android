@@ -229,7 +229,8 @@ public class StepFragment extends Fragment {
 					RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
 					dialog.show(getFragmentManager(), "requiredExtras");
 				}
-//				((StepActivity)getActivity()).goToNextStep();
+				
+				if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
 			}
 		});
 		
@@ -246,7 +247,8 @@ public class StepFragment extends Fragment {
 					RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
 					dialog.show(getFragmentManager(), "requiredExtras");
 				}
-//				((StepActivity)getActivity()).goToNextStep();
+				
+				if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
 			}
 		});
 	}
@@ -399,6 +401,7 @@ public class StepFragment extends Fragment {
 			step.setExtraNote(input);
 			if (step.getReqNote()) { step.setIsReqNoteFinished(true); }
 			checkIfAllFinished();
+			if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
 		}
 		else {
 			step.setExtraNote(input);
@@ -593,6 +596,7 @@ public class StepFragment extends Fragment {
 		    	finishStep();
 		    	showResult();
 		    	checkIfAllFinished();
+		    	if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
 		    }
 			break;
 			
@@ -608,6 +612,7 @@ public class StepFragment extends Fragment {
 		    	if (step.getReqPicture()) { step.setIsReqPictureFinished(true); }
 		    	showExtraPicture();
 		    	checkIfAllFinished();
+		    	if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
 		    }
 			break;
 		

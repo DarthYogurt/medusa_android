@@ -1,12 +1,14 @@
 package com.medusa.checkit.android;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,11 +38,11 @@ public class FinishChecklistActivity extends Activity {
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
 	
+	private Preferences preferences;
 	private JSONWriter writer;
 	private ImageHandler imageHandler;
 	private Checklist checklist;
 	private ArrayList<Step> stepsArray;
-	private Preferences preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,12 +151,12 @@ public class FinishChecklistActivity extends Activity {
 		}
 	}
 	
-	private class PostToServerThread extends Thread {
+	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
+
 		String filename;
 		
-		@Override
-		public void run() {
-			try {
+	    protected Void doInBackground(Void... params) {
+	    	try {
 	        	writer = new JSONWriter(getApplicationContext());
 				filename = writer.startNewChecklist(checklist);
 				writeAllStepsToJSON();
@@ -163,11 +165,17 @@ public class FinishChecklistActivity extends Activity {
 			} catch (IOException e) { e.printStackTrace(); }
 			
 			if (isNetworkAvailable()) {
-				HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
+				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
 				post.createNewPost(); 
 				post.addJSON(filename);
 				if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
 				post.sendPost();
+				
+				runOnUiThread(new Runnable() {
+					public void run() {
+						showUploadMessage(post.getResponseCode());
+					}
+				});
 				
 				Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
 				startActivity(intent);
@@ -178,7 +186,13 @@ public class FinishChecklistActivity extends Activity {
 				NetworkErrorDialogFrament dialog = new NetworkErrorDialogFrament();
 				dialog.show(getFragmentManager(), "networkError");
 			}
-		}
+	        return null;
+	    }
+
+	    protected void onPostExecute(Void result) {
+	    	super.onPostExecute(result);
+	        return;
+	    }
 	}
 	
 	private class NetworkErrorDialogFrament extends DialogFragment {
@@ -227,7 +241,7 @@ public class FinishChecklistActivity extends Activity {
 	        		public void onClick(DialogInterface dialog, int id) {
 						setTimeFinishedForChecklist();
 						PostToServerThread post = new PostToServerThread();
-						post.start();
+						post.execute();
 	        		}
 	        	})
 	        	.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
@@ -247,8 +261,11 @@ public class FinishChecklistActivity extends Activity {
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
-	private void saveUnPostedJsonToPref() {
-		
+	private void showUploadMessage(int responseCode) {
+		if (responseCode == 200) {
+			Toast success = Toast.makeText(getApplicationContext(), "Checklist uploaded successfully!", Toast.LENGTH_SHORT);
+			success.show();
+		}
 	}
 
 }
