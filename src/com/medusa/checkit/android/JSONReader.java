@@ -31,7 +31,7 @@ public class JSONReader {
 			br = new BufferedReader(isr);
 			jsonString = br.readLine();
 			
-			Log.v("readFromJSON", jsonString);
+			Log.v("READ FROM JSON", jsonString);
 		} 
 		catch (FileNotFoundException e) { e.printStackTrace(); } 
 		finally {
@@ -42,6 +42,7 @@ public class JSONReader {
 	
 	public ArrayList<Checklist> getChecklistsArray() {
 		ArrayList<Checklist> checklistsArray = new ArrayList<Checklist>();
+		
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArray = jObject.getJSONArray("checklist");
@@ -65,6 +66,7 @@ public class JSONReader {
 	
 	public ArrayList<Step> getStepsArray() {
 		ArrayList<Step> stepsArray = new ArrayList<Step>();
+		
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArraySteps = jObject.getJSONArray("steps");
@@ -117,6 +119,28 @@ public class JSONReader {
         } 
 		catch (Exception e) { e.printStackTrace(); }
 		return stepsArray;
+	}
+	
+	public ArrayList<String> getImageFilenamesArray() {
+		ArrayList<String> array = new ArrayList<String>();
+		
+		try {
+            JSONObject jObject = new JSONObject(jsonString);
+            JSONArray jArraySteps = jObject.getJSONArray("steps");
+
+            for (int i = 0; i < jArraySteps.length(); i++) {
+            	String type = jArraySteps.getJSONObject(i).getString("stepType");
+            	if (type.equalsIgnoreCase("image")) {
+            		array.add(jArraySteps.getJSONObject(i).getString("value"));
+            	}
+            	
+                if (jArraySteps.getJSONObject(i).has("extraImage")) {
+                	array.add(jArraySteps.getJSONObject(i).getString("extraImage"));
+                }
+            }
+        } 
+		catch (Exception e) { e.printStackTrace(); }
+		return array;
 	}
 
 }

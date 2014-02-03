@@ -152,10 +152,11 @@ public class FinishChecklistActivity extends Activity {
 	}
 	
 	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
-
-		String filename;
-		
 	    protected Void doInBackground(Void... params) {
+	    	
+	    	String filename = "";
+	    	ArrayList<String> imgFilenames = null;
+	    	
 	    	try {
 	        	writer = new JSONWriter(getApplicationContext());
 				filename = writer.startNewChecklist(checklist);
@@ -168,7 +169,11 @@ public class FinishChecklistActivity extends Activity {
 				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
 				post.createNewPost(); 
 				post.addJSON(filename);
-				if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
+				if (imageHandler.getArrayList() != null) {
+					imgFilenames = new ArrayList<String>();
+					imgFilenames = imageHandler.getArrayList();
+					post.addPictures(imgFilenames);
+				}
 				post.sendPost();
 				
 				runOnUiThread(new Runnable() {
@@ -177,9 +182,16 @@ public class FinishChecklistActivity extends Activity {
 					}
 				});
 				
-				File fileToDelete = new File(getFilesDir(), filename);
-				boolean deleted = fileToDelete.delete();
-				if (deleted) { Log.v("CHECKLIST DELETED", filename); }
+				// Deletes checklist file after uploaded
+				Utilities.deleteFile(getApplicationContext(), filename);
+				
+				// Deletes images after uploaded
+				if (imgFilenames != null) {
+					for (int i = 0; i < imgFilenames.size(); i++) {
+						String imgFilename = imgFilenames.get(i);
+						Utilities.deleteFile(getApplicationContext(), imgFilename);
+					}
+				}
 				
 				Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
 				startActivity(intent);

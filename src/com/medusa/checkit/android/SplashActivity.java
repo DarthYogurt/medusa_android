@@ -162,17 +162,30 @@ public class SplashActivity extends Activity {
 		for (int i = 0; i < savedFiles.length; i++) {
 			String filename = savedFiles[i];
 			if (filename.contains("finished")) {
-				new PostToServerThread(filename).execute();
+				JSONReader jReader = new JSONReader(context);
+				ArrayList<String> imgFilenames = new ArrayList<String>();
+				
+				try { 
+					jReader.readFromInternal(filename);
+					imgFilenames = jReader.getImageFilenamesArray();
+				} 
+				catch (IOException e) { e.printStackTrace(); }
+				
+				new PostToServerThread(filename, imgFilenames).execute();
 			}
 		}
 	}
 	
+	
+	
 	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
 
 		String filename;
+		ArrayList<String> imgFilenames;
 		
-		PostToServerThread(String filename) {
+		PostToServerThread(String filename, ArrayList<String> imgFilenames) {
 			this.filename = filename;
+			this.imgFilenames = imgFilenames;
 		}
 		
 	    protected Void doInBackground(Void... params) {
@@ -180,7 +193,7 @@ public class SplashActivity extends Activity {
 				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
 				post.createNewPost(); 
 				post.addJSON(filename);
-//				if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
+				if (!imgFilenames.isEmpty()) { post.addPictures(imgFilenames); }
 				post.sendPost();
 				
 				runOnUiThread(new Runnable() {
@@ -189,9 +202,16 @@ public class SplashActivity extends Activity {
 					}
 				});
 				
-				File fileToDelete = new File(getFilesDir(), filename);
-				boolean deleted = fileToDelete.delete();
-				if (deleted) { Log.v("CHECKLIST DELETED", filename); }
+				// Deletes checklist file after uploaded
+				Utilities.deleteFile(getApplicationContext(), filename);
+				
+				// Deletes images after uploaded
+				if (!imgFilenames.isEmpty()) {
+					for (int i = 0; i < imgFilenames.size(); i++) {
+						String imgFilename = imgFilenames.get(i);
+						Utilities.deleteFile(getApplicationContext(), imgFilename);
+					}
+				}
 			}
 //			else {
 //				NetworkErrorDialogFrament dialog = new NetworkErrorDialogFrament();
