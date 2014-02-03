@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -300,7 +301,7 @@ public class StepFragment extends Fragment {
 			TextView resultBool = (TextView) view.findViewById(R.id.result_bool);
 			resultBool.setVisibility(View.VISIBLE);
 			
-			if (step.getIsStepFinished()) { 
+			if (step.getYesOrNo() != null) { 
 				if (step.getYesOrNo() == true) { resultBool.setText("Yes"); }
 				else { resultBool.setText("No"); }
 			}
@@ -308,13 +309,13 @@ public class StepFragment extends Fragment {
 		}
 		
 		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { 
-			if (step.getIsStepFinished()) {
+			if (step.getNumber() != null) {
 				numberInput.setText(Double.toString(step.getNumber()));
 			}
 		}
 		
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { 
-			if (step.getIsStepFinished()) {
+			if (!step.getText().isEmpty()) {
 				textInput.setText(step.getText());
 			}
 		}
@@ -332,7 +333,7 @@ public class StepFragment extends Fragment {
 //			resultImage.setMaxWidth(width);
 //			resultImage.setMaxHeight(height);
 			
-			if (step.getIsStepFinished()) {
+			if (!step.getImageFilename().isEmpty()) {
 		    	try {
 					FileInputStream fis = getActivity().openFileInput(step.getImageFilename());
 					Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
@@ -422,7 +423,7 @@ public class StepFragment extends Fragment {
 	
 	private void checkIfAllFinished() {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
-			if (step.getIfBoolValueIs() == step.getYesOrNo()) {
+			if (step.getIfBoolValueIs() != null && step.getIfBoolValueIs() == step.getYesOrNo()) {
 				// Required note and picture
 				if (step.getReqNote() && step.getReqPicture()) {
 					if (step.getIsStepFinished() && step.getIsReqNoteFinished() && step.getIsReqPictureFinished()) { 
@@ -468,6 +469,39 @@ public class StepFragment extends Fragment {
 					step.setIsAllFinished(false);
 					hideFinishedImage(); 
 				}
+			}
+		}
+		
+		if (step.getType().equalsIgnoreCase(TYPE_NUMBER)) { 
+			if (step.getIsStepFinished()) {
+				step.setIsAllFinished(true);
+				showFinishedImage(); 
+			}
+			else {
+				step.setIsAllFinished(false);
+				hideFinishedImage(); 
+			}
+		}
+		
+		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { 
+			if (step.getIsStepFinished()) {
+				step.setIsAllFinished(true);
+				showFinishedImage(); 
+			}
+			else {
+				step.setIsAllFinished(false);
+				hideFinishedImage(); 
+			}
+		}
+		
+		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { 
+			if (step.getIsStepFinished()) {
+				step.setIsAllFinished(true);
+				showFinishedImage(); 
+			}
+			else {
+				step.setIsAllFinished(false);
+				hideFinishedImage(); 
 			}
 		}
 	}

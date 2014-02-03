@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -161,6 +166,40 @@ public class StepActivity extends Activity {
 		intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 		startActivity(intent);
 		finish();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)  {
+	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+	    	QuitChecklistDialogFrament dialog = new QuitChecklistDialogFrament();
+	        dialog.show(getFragmentManager(), "quit");
+	        return true;
+	    }
+
+	    return super.onKeyDown(keyCode, event);
+	}
+	
+	private class QuitChecklistDialogFrament extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        // Use the Builder class for convenient dialog construction
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        
+        	builder.setMessage(R.string.dialog_quit)
+        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+        		public void onClick(DialogInterface dialog, int id) {
+        			finish();
+        		}
+        	})
+        	.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+        		public void onClick(DialogInterface dialog, int id) {
+					dismiss();
+        		}
+        	});
+	        
+	        // Create the AlertDialog object and return it
+	        return builder.create();
+		}
 	}
 //	
 //	private void finishStep() {

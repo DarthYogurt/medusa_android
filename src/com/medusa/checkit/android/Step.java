@@ -12,18 +12,18 @@ public class Step implements Parcelable {
 	private int notifyUserId;
 	private int checklistId;
 	private String checklistName;
-	private boolean reqNote;
-	private boolean reqPicture;
-	private Boolean ifBoolValueIs;
-	private Double ifLessThan;
-	private Double ifEqualTo;
-	private Double ifGreaterThan;
-	private boolean yesOrNo;
-	private double number;
+	private Boolean yesOrNo;
+	private Double number;
 	private String text;
 	private String imageFilename;
 	private String extraNote;
 	private String extraImageFilename;
+	private Boolean ifBoolValueIs;
+	private Double ifLessThan;
+	private Double ifEqualTo;
+	private Double ifGreaterThan;
+	private boolean reqNote;
+	private boolean reqPicture;
 	private boolean isReqNoteFinished;
 	private boolean isReqPictureFinished;
 	private boolean isStepFinished;
@@ -46,8 +46,8 @@ public class Step implements Parcelable {
 		this.ifLessThan = null;
 		this.ifEqualTo = null;
 		this.ifGreaterThan = null;
-		this.yesOrNo = false;
-		this.number = 0;
+		this.yesOrNo = null;
+		this.number = null;
 		this.text = "";
 		this.imageFilename = "";
 		this.extraNote = "";
@@ -92,10 +92,10 @@ public class Step implements Parcelable {
 	public Double getIfGreaterThan() { return ifGreaterThan; }
 	public void setIfGreaterThan(double d) { this.ifGreaterThan = d; }
 	
-	public boolean getYesOrNo() { return yesOrNo; }
+	public Boolean getYesOrNo() { return yesOrNo; }
 	public void setYesOrNo(boolean b) { this.yesOrNo = b; }
 	
-	public double getNumber() { return number; }
+	public Double getNumber() { return number; }
 	public void setNumber(double d) { this.number = d; }
 	
 	public String getText() { return text; }
@@ -150,8 +150,8 @@ public class Step implements Parcelable {
 		dest.writeValue(ifEqualTo);
 		dest.writeValue(ifGreaterThan);
 		
-		dest.writeByte((byte)(yesOrNo ? 1 : 0));
-		dest.writeDouble(number);
+		dest.writeValue(yesOrNo);
+		dest.writeValue(number);
 		dest.writeString(text);
 		dest.writeString(imageFilename);
 		dest.writeString(extraNote);
@@ -191,8 +191,14 @@ public class Step implements Parcelable {
 		if (ifGreaterThanObj == null) { ifGreaterThan = null; }
 		else { ifGreaterThan = (Double) ifGreaterThanObj; }
 		
-		yesOrNo = in.readByte() != 0;
-		number = in.readDouble();
+		Object yesOrNoObj = in.readValue(null);
+		if (yesOrNoObj == null) { yesOrNo = null; }
+		else { yesOrNo = (Boolean) yesOrNoObj; }
+		
+		Object numberObj = in.readValue(null);
+		if (numberObj == null) { number = null; }
+		else { number = (Double) numberObj; }
+		
 		text = in.readString();
 		imageFilename = in.readString();
 		extraNote = in.readString();
