@@ -5,11 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
@@ -37,12 +40,15 @@ public class FinishChecklistActivity extends Activity {
 	private ImageHandler imageHandler;
 	private Checklist checklist;
 	private ArrayList<Step> stepsArray;
+	private Preferences preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_finish_checklist);
 		getActionBar().setTitle("");
+		
+		preferences = new Preferences(getApplicationContext());
 		
 		checklist = getIntent().getParcelableExtra(KEY_CHECKLIST);
 		stepsArray = getIntent().getParcelableArrayListExtra(KEY_CHECKLIST_STEPS);
@@ -156,15 +162,41 @@ public class FinishChecklistActivity extends Activity {
 				writer.logPost(filename);
 			} catch (IOException e) { e.printStackTrace(); }
 			
-			HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
-			post.createNewPost(); 
-			post.addJSON(filename);
-			if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
-			post.sendPost();
-			
-			Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-			startActivity(intent);
-			finish();
+			if (isNetworkAvailable()) {
+				HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
+				post.createNewPost(); 
+				post.addJSON(filename);
+				if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
+				post.sendPost();
+				
+				Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+				startActivity(intent);
+				finish();
+			}
+			else {
+				preferences.saveUnPostedJson(filename);
+				NetworkErrorDialogFrament dialog = new NetworkErrorDialogFrament();
+				dialog.show(getFragmentManager(), "networkError");
+			}
+		}
+	}
+	
+	private class NetworkErrorDialogFrament extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        // Use the Builder class for convenient dialog construction
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        builder.setMessage(R.string.dialog_network_error)
+	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+	        		public void onClick(DialogInterface dialog, int id) {
+	        			Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+	        			startActivity(intent);
+	        			finish();
+	        		}
+	        	});
+	        
+	        // Create the AlertDialog object and return it
+	        return builder.create();
 		}
 	}
 	
@@ -207,6 +239,16 @@ public class FinishChecklistActivity extends Activity {
 	        // Create the AlertDialog object and return it
 	        return builder.create();
 		}
+	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+	
+	private void saveUnPostedJsonToPref() {
+		
 	}
 
 }

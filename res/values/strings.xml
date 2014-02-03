@@ -38,6 +38,7 @@
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
     <string name="dialog_ok">OK</string>
+    <string name="dialog_network_error">Network error. Checklist will be resent next time app is opened with internet connection.</string>
 
     <!-- CONTENT DESCRIPTIONS -->
     <string name="logo_desc">Logo</string>

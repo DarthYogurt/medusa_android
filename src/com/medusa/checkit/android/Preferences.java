@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 public class Preferences {
 	
 	private static final String FILENAME_PREF = "preferences";
 	private static final String KEY_UNPOSTED_JSON = "unPostedJson";
-	private static final String KEY_UNPOSTED_IMAGES = "unPostedImages";
 	
 	private SharedPreferences sharedPref;
 	private Editor prefEditor;
@@ -26,7 +26,7 @@ public class Preferences {
 	public void saveUnPostedJson(String filename) {
 		prefEditor.putString(KEY_UNPOSTED_JSON, filename);
 		prefEditor.commit();
+		Log.v("UNPOSTED JSON SAVED TO PREF", filename);
 	}
-
 
 }
