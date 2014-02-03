@@ -15,6 +15,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 public class HTTPPostRequest {
@@ -44,11 +46,15 @@ public class HTTPPostRequest {
 		
 		try {
 			HttpResponse response = client.execute(post);
+			
+			int responseCode = response.getStatusLine().getStatusCode();
+			Log.v("POST RESPONSE CODE", Integer.toString(responseCode));
+			
 			String responseBody = EntityUtils.toString(response.getEntity());
-			Log.v("HTTP POST Response", responseBody);
+			Log.v("POST RESPONSE BODY", responseBody);
 		} 
-		catch (ClientProtocolException e1) { e1.printStackTrace(); } 
-		catch (IOException e1) { e1.printStackTrace(); }
+		catch (ClientProtocolException e) { e.printStackTrace(); } 
+		catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	public void addJSON(String filename) {
@@ -62,6 +68,12 @@ public class HTTPPostRequest {
 			File file = new File(context.getFilesDir() + File.separator + filename);
 			multipartEntity.addPart(filename, new FileBody(file));
 		}
+	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 			
 }

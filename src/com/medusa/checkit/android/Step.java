@@ -14,8 +14,7 @@ public class Step implements Parcelable {
 	private String checklistName;
 	private boolean reqNote;
 	private boolean reqPicture;
-	private Boolean ifValueTrue;
-	private Boolean ifValueFalse;
+	private Boolean ifBoolValueIs;
 	private Double ifLessThan;
 	private Double ifEqualTo;
 	private Double ifGreaterThan;
@@ -43,8 +42,7 @@ public class Step implements Parcelable {
 		this.checklistName = checklistName;
 		this.reqNote = reqNote;
 		this.reqPicture = reqPicture;
-		this.ifValueTrue = null;
-		this.ifValueFalse = null;
+		this.ifBoolValueIs = null;
 		this.ifLessThan = null;
 		this.ifEqualTo = null;
 		this.ifGreaterThan = null;
@@ -82,11 +80,8 @@ public class Step implements Parcelable {
 	
 	public boolean getReqPicture() { return reqPicture; }
 	
-	public Boolean getIfValueTrue() { return ifValueTrue; }
-	public void setIfValueTrue(boolean b) { this.ifValueTrue = b; }
-	
-	public Boolean getIfValueFalse() { return ifValueFalse; }
-	public void setIfValueFalse(boolean b) { this.ifValueFalse = b; }
+	public Boolean getIfBoolValueIs() { return ifBoolValueIs; }
+	public void setIfBoolValueIs(boolean b) { this.ifBoolValueIs = b; }
 	
 	public Double getIfLessThan() { return ifLessThan; }
 	public void setIfLessThan(double d) { this.ifLessThan = d; }
@@ -150,8 +145,7 @@ public class Step implements Parcelable {
 		dest.writeByte((byte)(reqNote ? 1 : 0));
 		dest.writeByte((byte)(reqPicture ? 1 : 0));
 		
-		dest.writeValue(ifValueTrue);
-		dest.writeValue(ifValueFalse);
+		dest.writeValue(ifBoolValueIs);
 		dest.writeValue(ifLessThan);
 		dest.writeValue(ifEqualTo);
 		dest.writeValue(ifGreaterThan);
@@ -181,13 +175,9 @@ public class Step implements Parcelable {
 		reqNote = in.readByte() != 0;
 		reqPicture = in.readByte() != 0;
 		
-		Object ifValueTrueObj = in.readValue(null);
-		if (ifValueTrueObj == null) { ifValueTrue = null; }
-		else { ifValueTrue = (Boolean) ifValueTrueObj; }
-		
-		Object ifValueFalseObj = in.readValue(null);
-		if (ifValueFalseObj == null) { ifValueFalse = null; }
-		else { ifValueFalse = (Boolean) ifValueFalseObj; }
+		Object ifBoolValueIsObj = in.readValue(null);
+		if (ifBoolValueIsObj == null) { ifBoolValueIs = null; }
+		else { ifBoolValueIs = (Boolean) ifBoolValueIsObj; }
 		
 		Object ifLessThanObj = in.readValue(null);
 		if (ifLessThanObj == null) { ifLessThan = null; }

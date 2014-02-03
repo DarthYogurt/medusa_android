@@ -140,11 +140,8 @@ public class JSONWriter {
 	}
 	
 	private boolean checkToNotifyBool(Step step) {
-		if (step.getIfValueTrue() != null && step.getIfValueTrue()) {
-			if (step.getYesOrNo() == true) { return true; }
-		}
-		if (step.getIfValueFalse() != null && step.getIfValueFalse()) {
-			if (step.getYesOrNo() == false ) { return true; }
+		if (step.getIfBoolValueIs() != null) {
+			if (step.getYesOrNo() == step.getIfBoolValueIs()) { return true; }
 		}
 		return false;
 	}

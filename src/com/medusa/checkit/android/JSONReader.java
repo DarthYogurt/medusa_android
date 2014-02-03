@@ -93,10 +93,10 @@ public class JSONReader {
             	Step step = new Step(order, name, type, id, notifyUserId, checklistId, checklistName, reqNote, reqImage);
             	
                 if (jArraySteps.getJSONObject(i).has("ifValueTrue")) {
-                	step.setIfValueTrue(jArraySteps.getJSONObject(i).getBoolean("ifValueTrue"));
+                	step.setIfBoolValueIs(true);
                 }
                 if (jArraySteps.getJSONObject(i).has("ifValueFalse")) {
-                	step.setIfValueFalse(jArraySteps.getJSONObject(i).getBoolean("ifValueFalse"));
+                	step.setIfBoolValueIs(false);
                 }
                 if (jArraySteps.getJSONObject(i).has("ifLessThan")) {
                 	step.setIfLessThan(jArraySteps.getJSONObject(i).getDouble("ifLessThan"));
