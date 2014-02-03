@@ -20,13 +20,10 @@ import android.widget.Toast;
 
 public class SplashActivity extends Activity {
 	
-	private static final String FILENAME_PREFERENCES = "preferences";
-	private static final String KEY_UPDATED = "updated";
 	private static final String FILENAME_CHECKLISTS = "checklists.json";
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final int GROUP_ID = 1;
 
-	SharedPreferences prefs;
 	Context context;
 	HTTPGetRequest getRequest;
 	JSONReader reader;
@@ -44,8 +41,6 @@ public class SplashActivity extends Activity {
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
 				
 		setContentView(R.layout.activity_splash);
-//		prefs = this.getSharedPreferences(FILENAME_PREFERENCES, Context.MODE_PRIVATE);
-//		prefs.edit().putBoolean(KEY_UPDATED, true).commit();
 		
 		context = getApplicationContext();
 		getRequest = new HTTPGetRequest();
@@ -72,6 +67,8 @@ public class SplashActivity extends Activity {
 	    		Toast updatingFiles = Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT);
 	    		updatingFiles.show();
 	    		new UpdateFiles().execute(); 
+	    		
+	    		checkForNonUploadedChecklists();
     		}
 	    	else {
 	    		Toast noNetwork = Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT);
@@ -157,6 +154,62 @@ public class SplashActivity extends Activity {
 	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+	
+	private void checkForNonUploadedChecklists() {
+		String[] savedFiles = getApplicationContext().fileList();
+		
+		for (int i = 0; i < savedFiles.length; i++) {
+			String filename = savedFiles[i];
+			if (filename.contains("finished")) {
+				new PostToServerThread(filename).execute();
+			}
+		}
+	}
+	
+	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
+
+		String filename;
+		
+		PostToServerThread(String filename) {
+			this.filename = filename;
+		}
+		
+	    protected Void doInBackground(Void... params) {
+			if (isNetworkAvailable()) {
+				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
+				post.createNewPost(); 
+				post.addJSON(filename);
+//				if (imageHandler.getArrayList() != null) { post.addPictures(imageHandler.getArrayList()); }
+				post.sendPost();
+				
+				runOnUiThread(new Runnable() {
+					public void run() {
+						showUploadMessage(post.getResponseCode());
+					}
+				});
+				
+				File fileToDelete = new File(getFilesDir(), filename);
+				boolean deleted = fileToDelete.delete();
+				if (deleted) { Log.v("CHECKLIST DELETED", filename); }
+			}
+//			else {
+//				NetworkErrorDialogFrament dialog = new NetworkErrorDialogFrament();
+//				dialog.show(getFragmentManager(), "networkError");
+//			}
+	        return null;
+	    }
+
+	    protected void onPostExecute(Void result) {
+	    	super.onPostExecute(result);
+	        return;
+	    }
+	}
+	
+	private void showUploadMessage(int responseCode) {
+		if (responseCode == 200) {
+			Toast.makeText(getApplicationContext(), "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 }

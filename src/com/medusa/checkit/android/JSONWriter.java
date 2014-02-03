@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -44,12 +46,12 @@ public class JSONWriter {
 		catch (IOException e) { e.printStackTrace(); } 
 	}
 	
-	private String getFilename(int checklistId) {
-		return "cid" + Integer.toString(checklistId) + "_finished.json";
-	}
-	
-	public String startNewChecklist(Checklist checklist) throws IOException {		
-		String filename = getFilename(checklist.getId());
+	public String startNewChecklist(Checklist checklist) throws IOException {	
+		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
+		String now = sdf.format(new Date());
+		
+		String filename = "cid" + Integer.toString(checklist.getId()) + 
+						  "_finished_" + now + ".json";
 		
 		try {
 			fos = context.openFileOutput(filename, Context.MODE_PRIVATE);

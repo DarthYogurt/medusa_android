@@ -1,5 +1,6 @@
 package com.medusa.checkit.android;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
@@ -88,7 +89,6 @@ public class FinishChecklistActivity extends Activity {
 					NotCompleteDialogFrament dialog = new NotCompleteDialogFrament();
 					dialog.show(getFragmentManager(), "notComplete");
 				}
-				
 			}
 		});
 	}
@@ -112,10 +112,10 @@ public class FinishChecklistActivity extends Activity {
 		return finished;
 	}
 
-	private void setTimeFinishedForChecklist() {
+	private String getTimeStamp() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
 		String now = sdf.format(new Date());
-		checklist.setTimeFinished(now);
+		return now;
 	}
 	
 	private void writeAllStepsToJSON() {
@@ -177,12 +177,15 @@ public class FinishChecklistActivity extends Activity {
 					}
 				});
 				
+				File fileToDelete = new File(getFilesDir(), filename);
+				boolean deleted = fileToDelete.delete();
+				if (deleted) { Log.v("CHECKLIST DELETED", filename); }
+				
 				Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
 				startActivity(intent);
 				finish();
 			}
 			else {
-				preferences.saveUnPostedJson(filename);
 				NetworkErrorDialogFrament dialog = new NetworkErrorDialogFrament();
 				dialog.show(getFragmentManager(), "networkError");
 			}
@@ -239,7 +242,7 @@ public class FinishChecklistActivity extends Activity {
 	        builder.setMessage(R.string.dialog_finish)
 	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
-						setTimeFinishedForChecklist();
+	        			checklist.setTimeFinished(getTimeStamp());
 						PostToServerThread post = new PostToServerThread();
 						post.execute();
 	        		}
@@ -263,8 +266,7 @@ public class FinishChecklistActivity extends Activity {
 	
 	private void showUploadMessage(int responseCode) {
 		if (responseCode == 200) {
-			Toast success = Toast.makeText(getApplicationContext(), "Checklist uploaded successfully!", Toast.LENGTH_SHORT);
-			success.show();
+			Toast.makeText(getApplicationContext(), "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
 		}
 	}
 
