@@ -373,19 +373,25 @@ public class StepFragment extends Fragment {
 	
 	private void startRequiredExtra() {
 		if (step.getReqNote() && step.getReqPicture()) {
-			Toast.makeText(getActivity(), R.string.toast_req_both, Toast.LENGTH_SHORT).show();
+			Toast message = Toast.makeText(getActivity(), R.string.toast_req_both, Toast.LENGTH_SHORT);
+			message.setGravity(Gravity.CENTER, 0, 0);
+			message.show();
 			btnAddNoteExtra.performClick();
 			return;
         }
 		
 		if (step.getReqNote()) {
-			Toast.makeText(getActivity(), R.string.toast_req_note, Toast.LENGTH_SHORT).show();
+			Toast message = Toast.makeText(getActivity(), R.string.toast_req_note, Toast.LENGTH_SHORT);
+			message.setGravity(Gravity.CENTER, 0, 0);
+			message.show();
 			btnAddNoteExtra.performClick();
 			return;
         }
         
         if (step.getReqPicture()) {
-        	Toast.makeText(getActivity(), R.string.toast_req_image, Toast.LENGTH_SHORT).show();
+        	Toast message = Toast.makeText(getActivity(), R.string.toast_req_image, Toast.LENGTH_SHORT);
+			message.setGravity(Gravity.CENTER, 0, 0);
+			message.show();
 			btnAddPictureExtra.performClick();
 			return;
         }
