@@ -134,12 +134,12 @@ public class StepFragment extends Fragment {
 			            return false;
 			        }
 			    });
-				pwNotes.setWidth(500);
-				pwNotes.setHeight(700);
+				pwNotes.setWidth(550);
+				pwNotes.setHeight(450);
 				pwNotes.setContentView(pwViewNotes);
 				pwNotes.setBackgroundDrawable(new BitmapDrawable());
 				pwNotes.setAnimationStyle(R.style.AddNoteAnimation);
-				pwNotes.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
+				pwNotes.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, -120);
 				pwNotes.setOnDismissListener(new PopupWindow.OnDismissListener() {
 					@Override
 					public void onDismiss() { setExtraNote(); }
@@ -225,8 +225,7 @@ public class StepFragment extends Fragment {
 				updateReqExtrasMsg();
 				
 				if (step.getIfBoolValueIs() == true) {
-					RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
-					dialog.show(getFragmentManager(), "requiredExtras");
+					startRequiredExtra();
 				}
 				
 				if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
@@ -243,8 +242,7 @@ public class StepFragment extends Fragment {
 				updateReqExtrasMsg();
 				
 				if (step.getIfBoolValueIs() == false) {
-					RequiredExtrasDialogFrament dialog = new RequiredExtrasDialogFrament();
-					dialog.show(getFragmentManager(), "requiredExtras");
+					startRequiredExtra();
 				}
 				
 				if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
@@ -371,6 +369,26 @@ public class StepFragment extends Fragment {
 			}
 			else { unFinishStep(); checkIfAllFinished(); }
 		}
+	}
+	
+	private void startRequiredExtra() {
+		if (step.getReqNote() && step.getReqPicture()) {
+			Toast.makeText(getActivity(), R.string.toast_req_both, Toast.LENGTH_SHORT).show();
+			btnAddNoteExtra.performClick();
+			return;
+        }
+		
+		if (step.getReqNote()) {
+			Toast.makeText(getActivity(), R.string.toast_req_note, Toast.LENGTH_SHORT).show();
+			btnAddNoteExtra.performClick();
+			return;
+        }
+        
+        if (step.getReqPicture()) {
+        	Toast.makeText(getActivity(), R.string.toast_req_image, Toast.LENGTH_SHORT).show();
+			btnAddPictureExtra.performClick();
+			return;
+        }
 	}
 	
 	private void updateReqExtrasMsg() {
@@ -644,44 +662,6 @@ public class StepFragment extends Fragment {
 	            touchHandler(innerView);
 	        }
 	    }
-	}
-	
-	private class RequiredExtrasDialogFrament extends DialogFragment {
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-	        // Use the Builder class for convenient dialog construction
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        
-	        if (step.getReqNote()) {
-	        	builder.setMessage(R.string.dialog_req_note)
-	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-	        		public void onClick(DialogInterface dialog, int id) {
-						btnAddNoteExtra.performClick();
-	        		}
-	        	});
-	        }
-	        
-	        if (step.getReqPicture()) {
-	        	builder.setMessage(R.string.dialog_req_image)
-	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-	        		public void onClick(DialogInterface dialog, int id) {
-						btnAddPictureExtra.performClick();
-	        		}
-	        	});
-	        }
-	        
-	        if (step.getReqNote() && step.getReqPicture()) {
-	        	builder.setMessage(R.string.dialog_req_both)
-	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-	        		public void onClick(DialogInterface dialog, int id) {
-						dismiss();
-	        		}
-	        	});
-	        }
-	        
-	        // Create the AlertDialog object and return it
-	        return builder.create();
-		}
 	}
 	
 }

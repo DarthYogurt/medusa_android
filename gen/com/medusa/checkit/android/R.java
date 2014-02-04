@@ -129,18 +129,15 @@ public final class R {
         public static final int button_submit=0x7f060011;
         public static final int click_step_to_edit=0x7f06000c;
         public static final int continue_checklist=0x7f060004;
-        public static final int dialog_finish=0x7f060019;
-        public static final int dialog_network_error=0x7f06001d;
-        public static final int dialog_no=0x7f06001b;
-        public static final int dialog_not_complete=0x7f060018;
-        public static final int dialog_ok=0x7f06001c;
+        public static final int dialog_finish=0x7f060016;
+        public static final int dialog_network_error=0x7f06001a;
+        public static final int dialog_no=0x7f060018;
+        public static final int dialog_not_complete=0x7f060015;
+        public static final int dialog_ok=0x7f060019;
         /**  DIALOGS 
          */
         public static final int dialog_quit=0x7f060014;
-        public static final int dialog_req_both=0x7f060017;
-        public static final int dialog_req_image=0x7f060016;
-        public static final int dialog_req_note=0x7f060015;
-        public static final int dialog_yes=0x7f06001a;
+        public static final int dialog_yes=0x7f060017;
         /**  EDITTEXT HINTS 
          */
         public static final int double_hint=0x7f06000f;
@@ -164,6 +161,11 @@ public final class R {
         public static final int step_order_label=0x7f060007;
         public static final int taken_img_desc=0x7f060021;
         public static final int text_hint=0x7f060010;
+        public static final int toast_req_both=0x7f06001d;
+        public static final int toast_req_image=0x7f06001c;
+        /**  TOASTS 
+         */
+        public static final int toast_req_note=0x7f06001b;
     }
     public static final class style {
         public static final int AddNoteAnimation=0x7f070002;

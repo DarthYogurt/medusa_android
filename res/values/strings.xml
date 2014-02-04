@@ -30,15 +30,17 @@
 
     <!-- DIALOGS -->
     <string name="dialog_quit">Are you sure you want to quit? Your progress will not be saved.</string>
-    <string name="dialog_req_note">Additional note is required to complete step.</string>
-    <string name="dialog_req_image">Additional picture is required to complete step.</string>
-    <string name="dialog_req_both">Additional note and picture is required to complete step.</string>
     <string name="dialog_not_complete">Some steps are not complete.</string>
     <string name="dialog_finish">Finish checklist?</string>
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_network_error">Network error. Checklist will be resent next time app is opened with internet connection.</string>
+    
+    <!-- TOASTS -->
+    <string name="toast_req_note">Additional note is required to complete step.</string>
+    <string name="toast_req_image">Additional picture is required to complete step.</string>
+    <string name="toast_req_both">Additional note and picture is required to complete step.</string>
 
     <!-- CONTENT DESCRIPTIONS -->
     <string name="logo_desc">Logo</string>
