@@ -10,9 +10,11 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -64,9 +66,7 @@ public class SplashActivity extends Activity {
 	    	super.onPostExecute(result);
 	    	
 	    	if (isNetworkAvailable()) { 
-	    		Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT).show();
-	    		new UpdateFiles().execute(); 
-	    		
+	    		new UpdateFiles().execute();
 	    		checkForNonUploadedChecklists();
     		}
 	    	else {
@@ -88,6 +88,17 @@ public class SplashActivity extends Activity {
 
 	private class UpdateFiles extends AsyncTask<Void, Void, Void> {
 
+		ProgressDialog progressDialog;
+		
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(SplashActivity.this);
+			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setMessage("Updating files. Please wait.");
+			progressDialog.show();
+			progressDialog.setCanceledOnTouchOutside(false);
+		}
+		
 	    protected Void doInBackground(Void... params) {
 	    	
 	    	// Updates local JSON file containing checklists
@@ -121,6 +132,7 @@ public class SplashActivity extends Activity {
 
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
+	    	progressDialog.dismiss();
 	    	startActivity();
 	        return;
 	    }
@@ -175,12 +187,22 @@ public class SplashActivity extends Activity {
 	
 	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
 
+		ProgressDialog progressDialog;
 		String filename;
 		ArrayList<String> imgFilenames;
 		
 		PostToServerThread(String filename, ArrayList<String> imgFilenames) {
 			this.filename = filename;
 			this.imgFilenames = imgFilenames;
+		}
+		
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(SplashActivity.this);
+			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setMessage("Uploading files. Please wait.");
+			progressDialog.show();
+			progressDialog.setCanceledOnTouchOutside(false);
 		}
 		
 	    protected Void doInBackground(Void... params) {
@@ -218,6 +240,7 @@ public class SplashActivity extends Activity {
 
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
+	    	progressDialog.dismiss();
 	        return;
 	    }
 	}

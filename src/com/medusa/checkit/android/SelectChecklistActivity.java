@@ -11,12 +11,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -76,6 +78,17 @@ public class SelectChecklistActivity extends Activity {
 	
 	private class UpdateFiles extends AsyncTask<Void, Void, Void> {
 
+		ProgressDialog progressDialog;
+		
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(SelectChecklistActivity.this);
+			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setMessage("Updating files. Please wait.");
+			progressDialog.show();
+			progressDialog.setCanceledOnTouchOutside(false);
+		}
+		
 	    protected Void doInBackground(Void... params) {
 	    	HTTPGetRequest getRequest = new HTTPGetRequest();
 	    	JSONWriter writer = new JSONWriter(context);
@@ -109,6 +122,7 @@ public class SelectChecklistActivity extends Activity {
 
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
+	    	progressDialog.dismiss();
 	    	Intent intent = new Intent(context, SelectChecklistActivity.class);
 			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
 	    	startActivity(intent);
@@ -161,7 +175,6 @@ public class SelectChecklistActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_update:
 			if (isNetworkAvailable()) {
-				Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT).show();
 				updateFiles = new UpdateFiles();
 				updateFiles.execute();
 			}

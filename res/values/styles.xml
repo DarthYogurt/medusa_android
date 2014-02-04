@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -20,6 +20,11 @@
     <style name="AddNoteAnimation">
     	<item name="android:windowEnterAnimation">@anim/slide_down</item>
     	<item name="android:windowExitAnimation">@anim/slide_up</item>
+    </style>
+    
+    <style name="CustomProgressDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:background">#7bc047</item>
+        <item name="android:textColor">#fff</item>
     </style>
 
 </resources>

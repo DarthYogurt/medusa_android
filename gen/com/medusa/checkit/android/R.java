@@ -193,5 +193,6 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
+        public static final int CustomProgressDialog=0x7f070003;
     }
 }
