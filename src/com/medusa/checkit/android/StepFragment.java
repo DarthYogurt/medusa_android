@@ -424,19 +424,8 @@ public class StepFragment extends Fragment {
 	
 	private void checkIfAllFinished() {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
+			// Has a required extra if certain bool value is picked
 			if (step.getIfBoolValueIs() != null && step.getIfBoolValueIs() == step.getYesOrNo()) {
-				// Required note and picture
-				if (step.getReqNote() && step.getReqPicture()) {
-					if (step.getIsStepFinished() && step.getIsReqNoteFinished() && step.getIsReqPictureFinished()) { 
-						step.setIsAllFinished(true);
-						showFinishedImage(); 
-					}
-					else {
-						step.setIsAllFinished(false);
-						hideFinishedImage();
-					}
-				}
-				
 				// Required note only
 				if (step.getReqNote()) {
 					if (step.getIsStepFinished() && step.getIsReqNoteFinished()) { 
@@ -452,6 +441,18 @@ public class StepFragment extends Fragment {
 				// Required picture only
 				if (step.getReqPicture()) {
 					if (step.getIsStepFinished() && step.getIsReqPictureFinished()) { 
+						step.setIsAllFinished(true);
+						showFinishedImage(); 
+					}
+					else {
+						step.setIsAllFinished(false);
+						hideFinishedImage();
+					}
+				}
+				
+				// Required note and picture
+				if (step.getReqNote() && step.getReqPicture()) {
+					if (step.getIsStepFinished() && step.getIsReqNoteFinished() && step.getIsReqPictureFinished()) { 
 						step.setIsAllFinished(true);
 						showFinishedImage(); 
 					}

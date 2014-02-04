@@ -95,9 +95,7 @@ public class SelectChecklistActivity extends Activity {
 	    	
 	    	// Updates local JSON file containing checklists
 	    	String checklistsJsonString = "";
-			try { checklistsJsonString = getRequest.getChecklists(GROUP_ID); }
-			catch (MalformedURLException e) { e.printStackTrace(); } 
-			catch (IOException e) { e.printStackTrace(); }
+			checklistsJsonString = getRequest.getChecklists(GROUP_ID);
 			
 			try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
 			catch (IOException e) { e.printStackTrace(); }
@@ -109,9 +107,7 @@ public class SelectChecklistActivity extends Activity {
 			String stepsJsonString = "";
 			for (int i = 0; i < checklistsArray.size(); i++) { 
 				checklistHolder = checklistsArray.get(i);
-				try { stepsJsonString = getRequest.getSteps(checklistHolder.getId()); }
-				catch (MalformedURLException e) { e.printStackTrace(); }
-				catch (IOException e) { e.printStackTrace(); }
+				stepsJsonString = getRequest.getSteps(checklistHolder.getId());
 				
 				String filename = "cid" + Integer.toString(checklistHolder.getId()) + "_steps.json";
 				try { writer.writeToInternal(filename, stepsJsonString); }

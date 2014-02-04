@@ -12,14 +12,15 @@ import android.util.Log;
 
 public class HTTPGetRequest {
 	
-	static final String BASE_URL = "http://dev.darthyogurt.com:8000/checklist/";
-	static final String GROUP_ID_URL = "groupid/";
-	static final String CHECKLIST_ID_URL = "checklistid/";
+	private static final String BASE_URL = "http://dev.darthyogurt.com:8000/";
+	private static final String GROUP_ID_URL = "checklist/groupid/";
+	private static final String CHECKLIST_ID_URL = "checklist/checklistid/";
+	private static final String GET_SLATE_URL = "getSlate/";
 	
-	public String getJSONString(String JSONURL) throws MalformedURLException, IOException {
+	public String getJSONString(String url) throws MalformedURLException, IOException {
 		String JSONString = "";
 		String charset = "UTF-8";
-		URLConnection connection = new URL(JSONURL).openConnection();
+		URLConnection connection = new URL(url).openConnection();
 		InputStream response = connection.getInputStream();
 		String contentType = connection.getHeaderField("Content-Type");
 		for (String param : contentType.replace(" ", "").split(";")) {
@@ -43,14 +44,30 @@ public class HTTPGetRequest {
 		return JSONString;
 	}
 	
-	public String getChecklists(int groupId) throws MalformedURLException, IOException {
+	public String getChecklists(int groupId) {
 		String listOfChecklistsURL = BASE_URL + GROUP_ID_URL + Integer.toString(groupId);
-		return getJSONString(listOfChecklistsURL);
+		String jsonString = "";
+		try { jsonString = getJSONString(listOfChecklistsURL); } 
+		catch (MalformedURLException e) { e.printStackTrace(); } 
+		catch (IOException e) { e.printStackTrace(); }
+		return jsonString;
 	}
 	
-	public String getSteps(int checklistId) throws MalformedURLException, IOException {
+	public String getSteps(int checklistId) {
 		String checklistStepsURL = BASE_URL + CHECKLIST_ID_URL + Integer.toString(checklistId);
-		return getJSONString(checklistStepsURL);
+		String jsonString = "";
+		try { jsonString = getJSONString(checklistStepsURL); } 
+		catch (MalformedURLException e) { e.printStackTrace(); }
+		catch (IOException e) { e.printStackTrace(); }
+		return jsonString;
 	}
 	
+	public String getSlate() {
+		String slateURL = BASE_URL + GET_SLATE_URL;
+		String jsonString = "";
+		try { jsonString = getJSONString(slateURL); }
+		catch (MalformedURLException e) { e.printStackTrace(); }
+		catch (IOException e) { e.printStackTrace(); }
+		return jsonString;
+	}
 }
