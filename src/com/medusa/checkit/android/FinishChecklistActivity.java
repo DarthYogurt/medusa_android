@@ -162,7 +162,7 @@ public class FinishChecklistActivity extends Activity {
 				writer.logPost(filename);
 			} catch (IOException e) { e.printStackTrace(); }
 			
-			if (isNetworkAvailable()) {
+			if (Utilities.isNetworkAvailable(getApplicationContext())) {
 				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
 				post.createNewPost(); 
 				post.addJSON(filename);
@@ -266,12 +266,6 @@ public class FinishChecklistActivity extends Activity {
 	        // Create the AlertDialog object and return it
 	        return builder.create();
 		}
-	}
-	
-	private boolean isNetworkAvailable() {
-	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
 	private void showUploadMessage(int responseCode) {

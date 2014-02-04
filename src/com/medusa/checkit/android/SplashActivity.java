@@ -65,7 +65,7 @@ public class SplashActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	
-	    	if (isNetworkAvailable()) { 
+	    	if (Utilities.isNetworkAvailable(getApplicationContext())) { 
 	    		new UpdateFiles().execute();
 	    		checkForNonUploadedChecklists();
     		}
@@ -155,12 +155,6 @@ public class SplashActivity extends Activity {
 		finish();
 	}
 	
-	private boolean isNetworkAvailable() {
-	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-	
 	private void checkForNonUploadedChecklists() {
 		String[] savedFiles = getApplicationContext().fileList();
 		
@@ -202,7 +196,7 @@ public class SplashActivity extends Activity {
 		}
 		
 	    protected Void doInBackground(Void... params) {
-			if (isNetworkAvailable()) {
+			if (Utilities.isNetworkAvailable(getApplicationContext())) {
 				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
 				post.createNewPost(); 
 				post.addJSON(filename);

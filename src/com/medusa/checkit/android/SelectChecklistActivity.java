@@ -153,11 +153,7 @@ public class SelectChecklistActivity extends Activity {
 		return now;
 	}
 	
-	private boolean isNetworkAvailable() {
-	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -170,7 +166,7 @@ public class SelectChecklistActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
-			if (isNetworkAvailable()) {
+			if (Utilities.isNetworkAvailable(this)) {
 				updateFiles = new UpdateFiles();
 				updateFiles.execute();
 			}

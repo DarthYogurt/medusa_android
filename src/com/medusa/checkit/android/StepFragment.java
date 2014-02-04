@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
@@ -101,6 +102,7 @@ public class StepFragment extends Fragment {
 		
 		LinearLayout stepFragment = (LinearLayout) view.findViewById(R.id.step_fragment);
 		touchHandler(stepFragment);
+//		hideSoftKeyboard(getActivity());
 		
 		Bundle bundle = getArguments();
 		step = bundle.getParcelable(KEY_CURRENT_STEP);
@@ -151,9 +153,7 @@ public class StepFragment extends Fragment {
 			    noteInput.setText(step.getExtraNote());
 			    
 			    // Show keyboard when PopupWindow opens
-			    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                imm.showSoftInput(noteInput, InputMethodManager.SHOW_IMPLICIT);
+			    showSoftKeyboard(getActivity(), noteInput);
 			}
 		});
 		
@@ -647,9 +647,15 @@ public class StepFragment extends Fragment {
 		}
 	}
 	
+	private static void showSoftKeyboard(Activity activity, View view) {
+		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+	}
+	
 	private static void hideSoftKeyboard(Activity activity) {
-	    InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-	    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+	    InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 	}
 	
 	private void touchHandler(View view) {
