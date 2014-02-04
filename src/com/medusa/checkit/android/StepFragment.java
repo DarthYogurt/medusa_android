@@ -102,7 +102,6 @@ public class StepFragment extends Fragment {
 		
 		LinearLayout stepFragment = (LinearLayout) view.findViewById(R.id.step_fragment);
 		touchHandler(stepFragment);
-//		hideSoftKeyboard(getActivity());
 		
 		Bundle bundle = getArguments();
 		step = bundle.getParcelable(KEY_CURRENT_STEP);
@@ -147,7 +146,10 @@ public class StepFragment extends Fragment {
 				pwNotes.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, -120);
 				pwNotes.setOnDismissListener(new PopupWindow.OnDismissListener() {
 					@Override
-					public void onDismiss() { setExtraNote(); }
+					public void onDismiss() { 
+						setExtraNote(); 
+						getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+					}
 				});
 			    
 			    noteInput.setText(step.getExtraNote());
@@ -376,27 +378,43 @@ public class StepFragment extends Fragment {
 	
 	private void startRequiredExtra() {
 		if (step.getReqNote() && step.getReqPicture()) {
-			Toast message = Toast.makeText(getActivity(), R.string.toast_req_both, Toast.LENGTH_SHORT);
-			message.setGravity(Gravity.CENTER, 0, 0);
-			message.show();
-			btnAddNoteExtra.performClick();
-			return;
+			if (!step.getIsReqNoteFinished()) {
+				Toast message = Toast.makeText(getActivity(), R.string.toast_req_both, Toast.LENGTH_SHORT);
+				message.setGravity(Gravity.CENTER, 0, 0);
+				message.show();
+				btnAddNoteExtra.performClick();
+				return;
+			}
+			if (!step.getIsReqPictureFinished()) {
+        		Toast message = Toast.makeText(getActivity(), R.string.toast_req_both, Toast.LENGTH_SHORT);
+    			message.setGravity(Gravity.CENTER, 0, 0);
+    			message.show();
+    			btnAddPictureExtra.performClick();
+    			return;
+        	}
+			
         }
 		
 		if (step.getReqNote()) {
-			Toast message = Toast.makeText(getActivity(), R.string.toast_req_note, Toast.LENGTH_SHORT);
-			message.setGravity(Gravity.CENTER, 0, 0);
-			message.show();
-			btnAddNoteExtra.performClick();
+			if (!step.getIsReqNoteFinished()) {
+				Toast message = Toast.makeText(getActivity(), R.string.toast_req_note, Toast.LENGTH_SHORT);
+				message.setGravity(Gravity.CENTER, 0, 0);
+				message.show();
+				btnAddNoteExtra.performClick();
+				return;
+			}
 			return;
         }
         
         if (step.getReqPicture()) {
-        	Toast message = Toast.makeText(getActivity(), R.string.toast_req_image, Toast.LENGTH_SHORT);
-			message.setGravity(Gravity.CENTER, 0, 0);
-			message.show();
-			btnAddPictureExtra.performClick();
-			return;
+        	if (!step.getIsReqPictureFinished()) {
+        		Toast message = Toast.makeText(getActivity(), R.string.toast_req_image, Toast.LENGTH_SHORT);
+    			message.setGravity(Gravity.CENTER, 0, 0);
+    			message.show();
+    			btnAddPictureExtra.performClick();
+    			return;
+        	}
+        	return;
         }
 	}
 	
