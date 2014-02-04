@@ -54,7 +54,7 @@ public class SplashActivity extends Activity {
 	private class ShowLogo extends AsyncTask<Void, Void, Void> {
 
 	    protected Void doInBackground(Void... params) {
-	    	try { Thread.sleep(1000); } 
+	    	try { Thread.sleep(500); } 
 			catch (Exception e) { e.printStackTrace(); }
 	    	
 	        return null;
@@ -64,23 +64,20 @@ public class SplashActivity extends Activity {
 	    	super.onPostExecute(result);
 	    	
 	    	if (isNetworkAvailable()) { 
-	    		Toast updatingFiles = Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT);
-	    		updatingFiles.show();
+	    		Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT).show();
 	    		new UpdateFiles().execute(); 
 	    		
 	    		checkForNonUploadedChecklists();
     		}
 	    	else {
-	    		Toast noNetwork = Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT);
-	    		noNetwork.show();
+	    		Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
 				
 				if (checkIfFileExists(FILENAME_CHECKLISTS)) {
 					createChecklistArray();
 					startActivity();
 				}
 				else {
-					Toast noFileFound = Toast.makeText(context, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG);
-					noFileFound.show();
+					Toast.makeText(context, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG).show();
 					finish();
 				}
 	    	}
@@ -176,8 +173,6 @@ public class SplashActivity extends Activity {
 		}
 	}
 	
-	
-	
 	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
 
 		String filename;
@@ -196,6 +191,7 @@ public class SplashActivity extends Activity {
 				if (!imgFilenames.isEmpty()) { post.addPictures(imgFilenames); }
 				post.sendPost();
 				
+				// Show message from upload
 				runOnUiThread(new Runnable() {
 					public void run() {
 						showUploadMessage(post.getResponseCode());

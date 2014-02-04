@@ -39,7 +39,6 @@ public class FinishChecklistActivity extends Activity {
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
 	
-	private Preferences preferences;
 	private JSONWriter writer;
 	private ImageHandler imageHandler;
 	private Checklist checklist;
@@ -50,8 +49,6 @@ public class FinishChecklistActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_finish_checklist);
 		getActionBar().setTitle("");
-		
-		preferences = new Preferences(getApplicationContext());
 		
 		checklist = getIntent().getParcelableExtra(KEY_CHECKLIST);
 		stepsArray = getIntent().getParcelableArrayListExtra(KEY_CHECKLIST_STEPS);
@@ -176,6 +173,7 @@ public class FinishChecklistActivity extends Activity {
 				}
 				post.sendPost();
 				
+				// Show message from upload
 				runOnUiThread(new Runnable() {
 					public void run() {
 						showUploadMessage(post.getResponseCode());

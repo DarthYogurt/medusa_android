@@ -68,8 +68,7 @@ public class SelectChecklistActivity extends Activity {
 					startActivity(intent);
 				}
 				else {
-					Toast message = Toast.makeText(context, "No steps in checklist", Toast.LENGTH_SHORT);
-					message.show();
+					Toast.makeText(context, "No steps in checklist", Toast.LENGTH_SHORT).show();
 				}
 			}
         });
@@ -113,6 +112,7 @@ public class SelectChecklistActivity extends Activity {
 	    	Intent intent = new Intent(context, SelectChecklistActivity.class);
 			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
 	    	startActivity(intent);
+	    	finish();
 	        return;
 	    }
 	}
@@ -161,14 +161,12 @@ public class SelectChecklistActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_update:
 			if (isNetworkAvailable()) {
-				Toast updatingFiles = Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT);
-				updatingFiles.show();
+				Toast.makeText(context, "Updating files", Toast.LENGTH_SHORT).show();
 				updateFiles = new UpdateFiles();
 				updateFiles.execute();
 			}
 			else {
-				Toast noNetwork = Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT);
-				noNetwork.show();
+				Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.action_notifications:

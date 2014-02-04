@@ -185,8 +185,7 @@ public class StepFragment extends Fragment {
 				showExtraPicture();
 				
 			    if (step.getExtraImageFilename().isEmpty()) {
-					Toast message = Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT);
-					message.show();
+					Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT).show();
 					NewPictureThread newPicture = new NewPictureThread(REQUEST_PICTURE_EXTRA);
 					newPicture.start();
 				}
@@ -284,8 +283,7 @@ public class StepFragment extends Fragment {
 		showResult();
 		
 		if (!step.getIsStepFinished()) {
-			Toast message = Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT);
-			message.show();
+			Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT).show();
 			NewPictureThread newPicture = new NewPictureThread(REQUEST_PICTURE);
 			newPicture.start();
 		}
