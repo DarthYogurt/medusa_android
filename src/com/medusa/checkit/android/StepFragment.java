@@ -117,6 +117,9 @@ public class StepFragment extends Fragment {
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 			
+		// Show required extra note if not already finished
+		if (!step.getIsAllFinished()) { updateReqExtrasMsg(); }
+		
 		// Click listener for Extra Note PopupWindow
 		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
 			@SuppressWarnings("deprecation")
