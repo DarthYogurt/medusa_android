@@ -7,23 +7,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,14 +23,11 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -155,7 +144,7 @@ public class StepFragment extends Fragment {
 			    noteInput.setText(step.getExtraNote());
 			    
 			    // Show keyboard when PopupWindow opens
-			    showSoftKeyboard(getActivity(), noteInput);
+			    showSoftKeyboard(noteInput);
 			}
 		});
 		
@@ -683,15 +672,15 @@ public class StepFragment extends Fragment {
 		}
 	}
 	
-	private static void showSoftKeyboard(Activity activity, View view) {
-		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+	private void showSoftKeyboard(View view) {
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
 	}
 	
-	private static void hideSoftKeyboard(Activity activity) {
-	    InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-	    imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+	private void hideSoftKeyboard() {
+	    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 	}
 	
 	private void touchHandler(View view) {
@@ -699,7 +688,7 @@ public class StepFragment extends Fragment {
 	    if(!(view instanceof EditText)) {
 	        view.setOnTouchListener(new OnTouchListener() {
 	            public boolean onTouch(View v, MotionEvent event) {
-	                hideSoftKeyboard(getActivity());
+	                hideSoftKeyboard();
 	        	    setEditTextResult();
 	                return false;
 	            }
