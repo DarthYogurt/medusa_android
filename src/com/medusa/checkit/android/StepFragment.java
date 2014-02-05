@@ -229,7 +229,7 @@ public class StepFragment extends Fragment {
 				checkIfAllFinished();
 				updateReqExtrasMsg();
 				
-				if (step.getIfBoolValueIs() == true) {
+				if (step.getIfBoolValueIs() != null && step.getIfBoolValueIs() == true) {
 					startRequiredExtra();
 				}
 				
@@ -246,7 +246,7 @@ public class StepFragment extends Fragment {
 				checkIfAllFinished();
 				updateReqExtrasMsg();
 				
-				if (step.getIfBoolValueIs() == false) {
+				if (step.getIfBoolValueIs() != null && step.getIfBoolValueIs() == false) {
 					startRequiredExtra();
 				}
 				
@@ -420,19 +420,21 @@ public class StepFragment extends Fragment {
 	
 	private void updateReqExtrasMsg() {
 		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
-			if (step.getYesOrNo() == step.getIfBoolValueIs()) {
-				if (step.getReqNote()) { 
-					requiredExtrasMessage.setText("note required"); 
+			if (step.getIfBoolValueIs() != null) {
+				if (step.getYesOrNo() == step.getIfBoolValueIs()) {
+					if (step.getReqNote() && step.getReqPicture()) {
+						requiredExtrasMessage.setText("note & picture required");
+						return;
+					}
+					if (step.getReqNote()) { 
+						requiredExtrasMessage.setText("note required");
+						return;
+					}
+					if (step.getReqPicture()) { 
+						requiredExtrasMessage.setText("picture required");
+						return;
+					}
 				}
-				if (step.getReqPicture()) { 
-					requiredExtrasMessage.setText("picture required"); 
-				}
-				if (step.getReqNote() && step.getReqPicture()) {
-					requiredExtrasMessage.setText("note & picture required"); 
-				}
-			}
-			else {
-				requiredExtrasMessage.setText("");
 			}
 		}
 	}

@@ -36,13 +36,14 @@ public class NotificationsActivity extends Activity {
 		setContentView(R.layout.activity_notifications);
 		getActionBar().setTitle("");
 		
+		listView = (ListView)findViewById(R.id.notifications_listview);
+		
 		reader = new JSONReader(getApplicationContext());
 		
 		notificationsArray = new ArrayList<Notification>();
 		
-		listView = (ListView)findViewById(R.id.notifications_listview);
-//		adapter = new NotificationsAdapter(getApplicationContext(), R.layout.listview_notification_row, notificationsArray);
-//        listView.setAdapter(adapter);
+		adapter = new NotificationsAdapter(getApplicationContext(), R.layout.listview_notification_row, notificationsArray);
+        listView.setAdapter(adapter);
 
         if (Utilities.isNetworkAvailable(getApplicationContext())) { 
         	new UpdateNotifications().execute();
@@ -58,13 +59,12 @@ public class NotificationsActivity extends Activity {
 			}
     	}
         
-       
-//        listView.setOnItemClickListener(new OnItemClickListener() {
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//			}
-//        });
+        listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+			}
+        });
 	}
 
 	@Override
@@ -133,7 +133,6 @@ public class NotificationsActivity extends Activity {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
 	    	
-	    	listView = (ListView)findViewById(R.id.notifications_listview);
 			adapter = new NotificationsAdapter(NotificationsActivity.this, R.layout.listview_notification_row, notificationsArray);
 	        listView.setAdapter(adapter);
 
