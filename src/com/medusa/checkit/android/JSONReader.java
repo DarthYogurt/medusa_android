@@ -165,7 +165,7 @@ public class JSONReader {
             	stepName = jArray.getJSONObject(i).getString("stepName");
             	notifyName = jArray.getJSONObject(i).getString("notifyName");
                 note = jArray.getJSONObject(i).getString("addNote");
-                imgFilename = jObject.getString("addImage");
+                imgFilename = jArray.getJSONObject(i).getString("addImage");
                 
                 Notification notification = new Notification(slateId, userName, checklist, stepName, notifyName, note, imgFilename);
             	

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,8 @@ public class NotificationsActivity extends Activity {
 	
 	private static final String FILENAME_NOTIFICATIONS = "notifications.json";
 	
+	ListView listView;
+	NotificationsAdapter adapter;
 	private JSONReader reader;
 	private ArrayList<Notification> notificationsArray;
 
@@ -32,6 +35,14 @@ public class NotificationsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notifications);
 		getActionBar().setTitle("");
+		
+		reader = new JSONReader(getApplicationContext());
+		
+		notificationsArray = new ArrayList<Notification>();
+		
+		listView = (ListView)findViewById(R.id.notifications_listview);
+//		adapter = new NotificationsAdapter(getApplicationContext(), R.layout.listview_notification_row, notificationsArray);
+//        listView.setAdapter(adapter);
 
         if (Utilities.isNetworkAvailable(getApplicationContext())) { 
         	new UpdateNotifications().execute();
@@ -113,6 +124,8 @@ public class NotificationsActivity extends Activity {
 			
 			createNotificationsArray();
 			
+			Log.v("SIZE", Integer.toString(notificationsArray.size()));
+			
 	        return null;
 	    }
 
@@ -120,9 +133,10 @@ public class NotificationsActivity extends Activity {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
 	    	
-	    	ListView listView = (ListView)findViewById(R.id.notifications_listview);
-	        NotificationsAdapter adapter = new NotificationsAdapter(getApplicationContext(), R.layout.listview_notification_row, notificationsArray);
+	    	listView = (ListView)findViewById(R.id.notifications_listview);
+			adapter = new NotificationsAdapter(NotificationsActivity.this, R.layout.listview_notification_row, notificationsArray);
 	        listView.setAdapter(adapter);
+
 	        return;
 	    }
 	}

@@ -35,7 +35,7 @@ public class NotificationsAdapter extends ArrayAdapter<Notification> {
 		ViewHolder holder;
 		
 		if (convertView == null) {
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+			LayoutInflater inflater = LayoutInflater.from(context);
 			convertView = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
