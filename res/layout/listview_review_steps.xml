@@ -104,7 +104,7 @@
 	    android:id="@+id/extra_image_container"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
+	    android:orientation="vertical"
 	   	android:layout_marginTop="10dp"
 	    android:visibility="gone" >
         
@@ -112,15 +112,16 @@
 	        android:id="@+id/extra_image_label"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginRight="4dp"
+	        android:gravity="center_horizontal"
 	        android:textSize="16sp"
 	        android:textColor="#cc0000"
 			android:text="@string/extra_image_label" />
 	    
 	    <ImageView 
 	        android:id="@+id/extra_image"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="100dp"
+	        android:layout_height="100dp"
+	        android:gravity="center_horizontal"
 	        android:contentDescription="@string/taken_img_desc" />
 	    
 	</LinearLayout>

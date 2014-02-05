@@ -1,7 +1,9 @@
 package com.medusa.checkit.android;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
@@ -11,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -20,12 +23,15 @@ import android.util.Log;
 public class HTTPPostRequest {
 	
 	private static final String POST_URL = "http://dev.darthyogurt.com:8000/upload/";
+	private static final String ERROR_URL = "http://dev.darthyogurt.com:8000/uploadError/";
+	private static final String ERROR_FILENAME = "error.txt";
 	
 	Context context;
 	HttpClient client;
 	HttpPost post;
 	MultipartEntityBuilder multipartEntity;
 	int responseCode;
+	String responseBody;
 	
 	public HTTPPostRequest(Context context) {
 		this.context = context;
@@ -49,8 +55,10 @@ public class HTTPPostRequest {
 			responseCode = response.getStatusLine().getStatusCode();
 			Log.v("POST RESPONSE CODE", Integer.toString(responseCode));
 			
-			String responseBody = EntityUtils.toString(response.getEntity());
+			responseBody = EntityUtils.toString(response.getEntity());
 			Log.v("POST RESPONSE BODY", responseBody);
+			
+			checkIfError();
 		} 
 		catch (ClientProtocolException e) { e.printStackTrace(); } 
 		catch (IOException e) { e.printStackTrace(); }
@@ -71,6 +79,48 @@ public class HTTPPostRequest {
 	
 	public int getResponseCode() {
 		return responseCode;
+	}
+	
+	private void checkIfError() {
+		if (responseCode != 200) {
+			sendErrorPost();
+		}
+	}
+	
+	private void sendErrorPost() {
+		
+		FileWriter fw = null;
+		File errorFile = new File(context.getFilesDir() + File.separator + ERROR_FILENAME);
+		try {
+			fw = new FileWriter(errorFile);
+			fw.write(responseBody);
+			fw.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		HttpClient errorClient = new DefaultHttpClient();
+		HttpPost errorPost = new HttpPost(ERROR_URL);
+		errorPost.setHeader("enctype", "multipart/form-data");
+
+		MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+		entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+		
+		entity.addPart("error", new FileBody(errorFile));
+		
+		errorPost.setEntity(entity.build());
+		
+		try { 
+			HttpResponse errorResponse = errorClient.execute(errorPost);
+			
+			int errorResponseCode = errorResponse.getStatusLine().getStatusCode();
+			Log.v("ERROR RESPONSE CODE", Integer.toString(errorResponseCode));
+			
+			String errorResponseBody = EntityUtils.toString(errorResponse.getEntity());
+			Log.v("ERROR RESPONSE BODY", errorResponseBody);
+		} 
+		catch (ClientProtocolException e) { e.printStackTrace(); } 
+		catch (IOException e) { e.printStackTrace(); }
 	}
 
 }
