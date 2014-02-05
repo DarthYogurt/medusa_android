@@ -1,21 +1,14 @@
 package com.medusa.checkit.android;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -26,7 +19,6 @@ public class SplashActivity extends Activity {
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final int GROUP_ID = 1;
 
-	Context context;
 	HTTPGetRequest getRequest;
 	JSONReader reader;
 	JSONWriter writer;
@@ -44,10 +36,9 @@ public class SplashActivity extends Activity {
 				
 		setContentView(R.layout.activity_splash);
 		
-		context = getApplicationContext();
 		getRequest = new HTTPGetRequest();
-		reader = new JSONReader(context);
-		writer = new JSONWriter(context);
+		reader = new JSONReader(this);
+		writer = new JSONWriter(this);
 		checklistsArray = new ArrayList<Checklist>();
 		
 		new ShowLogo().execute();
@@ -70,14 +61,13 @@ public class SplashActivity extends Activity {
 	    		checkForNonUploadedChecklists();
     		}
 	    	else {
-	    		Toast.makeText(context, "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
-				
 				if (Utilities.checkIfFileExists(getApplicationContext(), FILENAME_CHECKLISTS)) {
+					Toast.makeText(SplashActivity.this, "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
 					createChecklistArray();
 					startActivity();
 				}
 				else {
-					Toast.makeText(context, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG).show();
+					Toast.makeText(SplashActivity.this, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG).show();
 					finish();
 				}
 	    	}
@@ -143,7 +133,7 @@ public class SplashActivity extends Activity {
 	}
 	
 	private void startActivity() {
-		Intent intent = new Intent(context, SelectChecklistActivity.class);
+		Intent intent = new Intent(this, SelectChecklistActivity.class);
 		intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
 		
 		startActivity(intent);
@@ -156,7 +146,7 @@ public class SplashActivity extends Activity {
 		for (int i = 0; i < savedFiles.length; i++) {
 			String filename = savedFiles[i];
 			if (filename.contains("finished")) {
-				JSONReader jReader = new JSONReader(context);
+				JSONReader jReader = new JSONReader(this);
 				ArrayList<String> imgFilenames = new ArrayList<String>();
 				
 				try { 
