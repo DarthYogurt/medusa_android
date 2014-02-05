@@ -34,7 +34,6 @@ public class SelectChecklistActivity extends Activity {
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final int GROUP_ID = 1;
 	
-	Context context;
 	JSONReader reader;
 	UpdateFiles updateFiles;
 	ArrayList<Checklist> checklistsArray;
@@ -46,8 +45,7 @@ public class SelectChecklistActivity extends Activity {
 		setContentView(R.layout.activity_select_checklist);
 		getActionBar().setTitle("");
 		
-		context = getApplicationContext();
-		reader = new JSONReader(context);
+		reader = new JSONReader(this);
 		
 		checklistsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_CHECKLISTS);
         
@@ -58,7 +56,7 @@ public class SelectChecklistActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(context, StepActivity.class);
+				Intent intent = new Intent(SelectChecklistActivity.this, StepActivity.class);
 				Checklist checklist = checklistsArray.get(position);
 				createStepsArray(getStepsFilename(checklist.getId()));
 				
@@ -70,7 +68,7 @@ public class SelectChecklistActivity extends Activity {
 					startActivity(intent);
 				}
 				else {
-					Toast.makeText(context, "No steps in checklist", Toast.LENGTH_SHORT).show();
+					Toast.makeText(SelectChecklistActivity.this, "No steps in checklist", Toast.LENGTH_SHORT).show();
 				}
 			}
         });
@@ -91,7 +89,7 @@ public class SelectChecklistActivity extends Activity {
 		
 	    protected Void doInBackground(Void... params) {
 	    	HTTPGetRequest getRequest = new HTTPGetRequest();
-	    	JSONWriter writer = new JSONWriter(context);
+	    	JSONWriter writer = new JSONWriter(SelectChecklistActivity.this);
 	    	
 	    	// Updates local JSON file containing checklists
 	    	String checklistsJsonString = "";
@@ -119,7 +117,7 @@ public class SelectChecklistActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
-	    	Intent intent = new Intent(context, SelectChecklistActivity.class);
+	    	Intent intent = new Intent(SelectChecklistActivity.this, SelectChecklistActivity.class);
 			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
 	    	startActivity(intent);
 	    	finish();
@@ -171,11 +169,11 @@ public class SelectChecklistActivity extends Activity {
 				updateFiles.execute();
 			}
 			else {
-				Toast.makeText(context, "No network connectivity", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "No network connectivity", Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.action_notifications:
-			Intent intent = new Intent(context, NotificationsActivity.class);
+			Intent intent = new Intent(this, NotificationsActivity.class);
 	    	startActivity(intent);
 		default:
 			return super.onOptionsItemSelected(item);

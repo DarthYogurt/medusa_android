@@ -1,25 +1,18 @@
 package com.medusa.checkit.android;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -66,7 +59,7 @@ public class FinishChecklistActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+				Intent intent = new Intent(FinishChecklistActivity.this, StepActivity.class);
 				intent.putExtra(KEY_CHECKLIST, checklist);
 				intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 				intent.putExtra(KEY_CURRENT_STEP, position);
@@ -92,7 +85,7 @@ public class FinishChecklistActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+		Intent intent = new Intent(this, StepActivity.class);
 		intent.putExtra(KEY_CHECKLIST, checklist);
 		intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 		intent.putExtra(KEY_CURRENT_STEP, 0);
@@ -158,15 +151,15 @@ public class FinishChecklistActivity extends Activity {
 	    	ArrayList<String> imgFilenames = null;
 	    	
 	    	try {
-	        	writer = new JSONWriter(getApplicationContext());
+	        	writer = new JSONWriter(FinishChecklistActivity.this);
 				filename = writer.startNewChecklist(checklist);
 				writeAllStepsToJSON();
 				writer.finishNewChecklist();
 				writer.logPost(filename);
 			} catch (IOException e) { e.printStackTrace(); }
 			
-			if (Utilities.isNetworkAvailable(getApplicationContext())) {
-				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
+			if (Utilities.isNetworkAvailable(FinishChecklistActivity.this)) {
+				final HTTPPostRequest post = new HTTPPostRequest(FinishChecklistActivity.this);
 				post.createNewPost(); 
 				post.addJSON(filename);
 				if (imageHandler.getArrayList() != null) {
@@ -184,17 +177,17 @@ public class FinishChecklistActivity extends Activity {
 				});
 				
 				// Deletes checklist file after uploaded
-				Utilities.deleteFile(getApplicationContext(), filename);
+				Utilities.deleteFile(FinishChecklistActivity.this, filename);
 				
 				// Deletes images after uploaded
 				if (imgFilenames != null) {
 					for (int i = 0; i < imgFilenames.size(); i++) {
 						String imgFilename = imgFilenames.get(i);
-						Utilities.deleteFile(getApplicationContext(), imgFilename);
+						Utilities.deleteFile(FinishChecklistActivity.this, imgFilename);
 					}
 				}
 				
-				Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+				Intent intent = new Intent(FinishChecklistActivity.this, SplashActivity.class);
 				startActivity(intent);
 				finish();
 			}
@@ -215,11 +208,11 @@ public class FinishChecklistActivity extends Activity {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 	        // Use the Builder class for convenient dialog construction
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        AlertDialog.Builder builder = new AlertDialog.Builder(FinishChecklistActivity.this);
 	        builder.setMessage(R.string.dialog_network_error)
 	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
-	        			Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+	        			Intent intent = new Intent(FinishChecklistActivity.this, SplashActivity.class);
 	        			startActivity(intent);
 	        			finish();
 	        		}
@@ -234,7 +227,7 @@ public class FinishChecklistActivity extends Activity {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 	        // Use the Builder class for convenient dialog construction
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        AlertDialog.Builder builder = new AlertDialog.Builder(FinishChecklistActivity.this);
 	        builder.setMessage(R.string.dialog_not_complete)
 	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
@@ -251,7 +244,7 @@ public class FinishChecklistActivity extends Activity {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 	        // Use the Builder class for convenient dialog construction
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        AlertDialog.Builder builder = new AlertDialog.Builder(FinishChecklistActivity.this);
 	        builder.setMessage(R.string.dialog_finish)
 	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
@@ -273,7 +266,7 @@ public class FinishChecklistActivity extends Activity {
 	
 	private void showUploadMessage(int responseCode) {
 		if (responseCode == 200) {
-			Toast.makeText(getApplicationContext(), "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
 		}
 	}
 

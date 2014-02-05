@@ -99,6 +99,12 @@ public class StepActivity extends Activity {
     }
 	
 	@Override
+	public void onBackPressed() {
+		QuitChecklistDialogFrament dialog = new QuitChecklistDialogFrament();
+        dialog.show(getFragmentManager(), "quit");
+	}
+	
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
@@ -161,29 +167,18 @@ public class StepActivity extends Activity {
 	}
 	
 	private void goToFinishChecklist() {
-		Intent intent = new Intent(getApplicationContext(), FinishChecklistActivity.class);
+		Intent intent = new Intent(this, FinishChecklistActivity.class);
 		intent.putExtra(KEY_CHECKLIST, checklist);
 		intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 		startActivity(intent);
 		finish();
 	}
 	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)  {
-	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-	    	QuitChecklistDialogFrament dialog = new QuitChecklistDialogFrament();
-	        dialog.show(getFragmentManager(), "quit");
-	        return true;
-	    }
-
-	    return super.onKeyDown(keyCode, event);
-	}
-	
 	private class QuitChecklistDialogFrament extends DialogFragment {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 	        // Use the Builder class for convenient dialog construction
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        AlertDialog.Builder builder = new AlertDialog.Builder(StepActivity.this);
 	        
         	builder.setMessage(R.string.dialog_quit)
         	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {

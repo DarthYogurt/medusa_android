@@ -56,12 +56,12 @@ public class SplashActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	
-	    	if (Utilities.isNetworkAvailable(getApplicationContext())) { 
+	    	if (Utilities.isNetworkAvailable(SplashActivity.this)) { 
 	    		new UpdateFiles().execute();
 	    		checkForNonUploadedChecklists();
     		}
 	    	else {
-				if (Utilities.checkIfFileExists(getApplicationContext(), FILENAME_CHECKLISTS)) {
+				if (Utilities.checkIfFileExists(SplashActivity.this, FILENAME_CHECKLISTS)) {
 					Toast.makeText(SplashActivity.this, "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
 					createChecklistArray();
 					startActivity();
@@ -141,7 +141,7 @@ public class SplashActivity extends Activity {
 	}
 	
 	private void checkForNonUploadedChecklists() {
-		String[] savedFiles = getApplicationContext().fileList();
+		String[] savedFiles = this.fileList();
 		
 		for (int i = 0; i < savedFiles.length; i++) {
 			String filename = savedFiles[i];
@@ -181,8 +181,8 @@ public class SplashActivity extends Activity {
 		}
 		
 	    protected Void doInBackground(Void... params) {
-			if (Utilities.isNetworkAvailable(getApplicationContext())) {
-				final HTTPPostRequest post = new HTTPPostRequest(getApplicationContext());
+			if (Utilities.isNetworkAvailable(SplashActivity.this)) {
+				final HTTPPostRequest post = new HTTPPostRequest(SplashActivity.this);
 				post.createNewPost(); 
 				post.addJSON(filename);
 				if (!imgFilenames.isEmpty()) { post.addPictures(imgFilenames); }
@@ -196,13 +196,13 @@ public class SplashActivity extends Activity {
 				});
 				
 				// Deletes checklist file after uploaded
-				Utilities.deleteFile(getApplicationContext(), filename);
+				Utilities.deleteFile(SplashActivity.this, filename);
 				
 				// Deletes images after uploaded
 				if (!imgFilenames.isEmpty()) {
 					for (int i = 0; i < imgFilenames.size(); i++) {
 						String imgFilename = imgFilenames.get(i);
-						Utilities.deleteFile(getApplicationContext(), imgFilename);
+						Utilities.deleteFile(SplashActivity.this, imgFilename);
 					}
 				}
 			}
@@ -222,7 +222,7 @@ public class SplashActivity extends Activity {
 	
 	private void showUploadMessage(int responseCode) {
 		if (responseCode == 200) {
-			Toast.makeText(getApplicationContext(), "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
