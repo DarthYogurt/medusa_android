@@ -90,12 +90,15 @@ public class FinishChecklistActivity extends Activity {
 		});
 	}
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.finish_checklist, menu);
-//		return true;
-//	}
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(getApplicationContext(), StepActivity.class);
+		intent.putExtra(KEY_CHECKLIST, checklist);
+		intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
+		intent.putExtra(KEY_CURRENT_STEP, 0);
+		startActivity(intent);
+		finish();
+	}
 	
 	private boolean checkIfAllFinished() {
 		boolean finished = false;
