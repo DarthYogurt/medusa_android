@@ -15,6 +15,11 @@ public class Utilities {
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
+	public static boolean checkIfFileExists(Context context, String filename) {
+		File file = context.getFileStreamPath(filename);
+		return file.exists(); 
+	}
+	
 	public static void deleteFile(Context context, String filename) {
 		File file = new File(context.getFilesDir(), filename);
 		boolean deleted = file.delete();

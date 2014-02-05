@@ -15,7 +15,7 @@ public class HTTPGetRequest {
 	private static final String BASE_URL = "http://dev.darthyogurt.com:8000/";
 	private static final String GROUP_ID_URL = "checklist/groupid/";
 	private static final String CHECKLIST_ID_URL = "checklist/checklistid/";
-	private static final String GET_SLATE_URL = "getSlate/";
+	private static final String NOTIFICATIONS_URL = "getSlate/";
 	
 	public String getJSONString(String url) throws MalformedURLException, IOException {
 		String JSONString = "";
@@ -62,10 +62,10 @@ public class HTTPGetRequest {
 		return jsonString;
 	}
 	
-	public String getSlate() {
-		String slateURL = BASE_URL + GET_SLATE_URL;
+	public String getNotifications() {
+		String notificationsURL = BASE_URL + NOTIFICATIONS_URL;
 		String jsonString = "";
-		try { jsonString = getJSONString(slateURL); }
+		try { jsonString = getJSONString(notificationsURL); }
 		catch (MalformedURLException e) { e.printStackTrace(); }
 		catch (IOException e) { e.printStackTrace(); }
 		return jsonString;

@@ -72,7 +72,7 @@ public class SplashActivity extends Activity {
 	    	else {
 	    		Toast.makeText(context, "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
 				
-				if (checkIfFileExists(FILENAME_CHECKLISTS)) {
+				if (Utilities.checkIfFileExists(getApplicationContext(), FILENAME_CHECKLISTS)) {
 					createChecklistArray();
 					startActivity();
 				}
@@ -132,11 +132,6 @@ public class SplashActivity extends Activity {
 	    	startActivity();
 	        return;
 	    }
-	}
-	
-	private boolean checkIfFileExists(String filename) {
-		File file = context.getFileStreamPath(filename);
-		return file.exists(); 
 	}
 	
 	private void createChecklistArray() {

@@ -142,5 +142,38 @@ public class JSONReader {
 		catch (Exception e) { e.printStackTrace(); }
 		return array;
 	}
+	
+	public ArrayList<Notification> getNotificationsArray() {
+		ArrayList<Notification> notificationsArray = new ArrayList<Notification>();
+		
+		try {
+            JSONObject jObject = new JSONObject(jsonString);
+            JSONArray jArray = jObject.getJSONArray("slate");
+            
+            int slateId;
+        	String userName;
+        	String checklist;
+        	String stepName;
+        	String notifyName;
+        	String note;
+        	String imgFilename;
+
+            for (int i = 0; i < jArray.length(); i++) {
+            	slateId = Integer.parseInt(jArray.getJSONObject(i).getString("slateId"));
+            	userName = jArray.getJSONObject(i).getString("userName");
+            	checklist = jArray.getJSONObject(i).getString("checklist");
+            	stepName = jArray.getJSONObject(i).getString("stepName");
+            	notifyName = jArray.getJSONObject(i).getString("notifyName");
+                note = jArray.getJSONObject(i).getString("addNote");
+                imgFilename = jObject.getString("addImage");
+                
+                Notification notification = new Notification(slateId, userName, checklist, stepName, notifyName, note, imgFilename);
+            	
+                notificationsArray.add(notification);
+            }
+        } 
+		catch (Exception e) { e.printStackTrace(); }
+		return notificationsArray;
+	}
 
 }
