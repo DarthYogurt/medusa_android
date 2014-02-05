@@ -3,7 +3,6 @@ package com.medusa.checkit.android;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
@@ -13,7 +12,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -88,16 +86,13 @@ public class HTTPPostRequest {
 	}
 	
 	private void sendErrorPost() {
-		
-		FileWriter fw = null;
 		File errorFile = new File(context.getFilesDir() + File.separator + ERROR_FILENAME);
+		
 		try {
-			fw = new FileWriter(errorFile);
+			FileWriter fw = new FileWriter(errorFile);
 			fw.write(responseBody);
 			fw.close();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		} catch (IOException e) { e.printStackTrace(); }
 		
 		HttpClient errorClient = new DefaultHttpClient();
 		HttpPost errorPost = new HttpPost(ERROR_URL);
