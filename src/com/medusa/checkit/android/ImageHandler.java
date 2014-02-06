@@ -52,6 +52,24 @@ public class ImageHandler {
 		return filename;
 	}
 	
+	public String getImageFilename(int checklistId, int stepOrder, boolean isExtra) {
+		String filename = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
+		String timeStamp = sdf.format(new Date());
+		
+		if (!isExtra) {
+			filename = "cid" + Integer.toString(checklistId) + 
+					  "_so" + Integer.toString(stepOrder) + 
+					  "_" + timeStamp + ".jpg";	
+		}
+		else {
+			filename = "cid" + Integer.toString(checklistId) + 
+					  "_so" + Integer.toString(stepOrder) + 
+					  "_extra_" + timeStamp + ".jpg";	
+		}
+		return filename;
+	}
+	
 	public void addFilenameToArray(String filename) {	
 		if (imageFilenamesArray == null) { imageFilenamesArray = new ArrayList<String>(); }
 		imageFilenamesArray.add(filename);

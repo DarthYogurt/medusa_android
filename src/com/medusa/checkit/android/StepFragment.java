@@ -1,7 +1,9 @@
 package com.medusa.checkit.android;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,8 +15,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -327,7 +332,8 @@ public class StepFragment extends Fragment {
 			
 			if (!step.getImageFilename().isEmpty()) {
 		    	try {
-					FileInputStream fis = getActivity().openFileInput(step.getImageFilename());
+		    		File file = new File(getActivity().getExternalFilesDir(null), step.getImageFilename());
+					FileInputStream fis = new FileInputStream(file);
 					Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
 					fis.close();
 					resultImage.setImageBitmap(imgFromFile);
@@ -446,7 +452,8 @@ public class StepFragment extends Fragment {
 	private void showExtraPicture() {
 		if (step.getIsReqPictureFinished()) {
 			try {
-				FileInputStream fis = getActivity().openFileInput(step.getExtraImageFilename());
+				File file = new File(getActivity().getExternalFilesDir(null), step.getExtraImageFilename());
+				FileInputStream fis = new FileInputStream(file);
 				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
 				extraImage.setImageBitmap(imgFromFile);
 				extraImage.invalidate();
@@ -623,7 +630,28 @@ public class StepFragment extends Fragment {
 	}
 	
 	private void startCameraActivity(int requestCode) {
+		ImageHandler imageHandler = new ImageHandler(getActivity());
+		String filename = "";
+		
+		switch (requestCode) {
+		case REQUEST_PICTURE:
+			filename = imageHandler.getImageFilename(step.getChecklistId(), step.getOrder(), false);
+			step.setImageFilename(filename);
+			break;
+		case REQUEST_PICTURE_EXTRA:
+			filename = imageHandler.getImageFilename(step.getChecklistId(), step.getOrder(), true);
+			step.setExtraImageFilename(filename);
+			break;
+		default:
+			break;
+		}
+		
+		File file = new File(getActivity().getExternalFilesDir(null), filename);
+		Uri outputFileUri = Uri.fromFile(file);
+		
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+		
 		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
 			startActivityForResult(intent, requestCode);
 		}
@@ -635,14 +663,10 @@ public class StepFragment extends Fragment {
 		
 		switch (requestCode) {
 		case REQUEST_PICTURE:
-			if (resultCode == Activity.RESULT_OK) {
-		    	Bundle extras = data.getExtras();
-		    	Bitmap image = (Bitmap) extras.get("data");
-		    	
-		    	ImageHandler imageHandler = new ImageHandler(getActivity());
-		    	String filename = imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder(), false);
-		    	step.setImageFilename(filename);
-		    	
+			if (resultCode == Activity.RESULT_OK) {	
+				Log.i("IMAGE FILE WRITTEN", step.getImageFilename());
+				compressAndScaleImage(step.getImageFilename());
+				
 		    	finishStep();
 		    	showResult();
 		    	checkIfAllFinished();
@@ -652,13 +676,9 @@ public class StepFragment extends Fragment {
 			
 		case REQUEST_PICTURE_EXTRA:
 			if (resultCode == Activity.RESULT_OK) {
-		    	Bundle extras = data.getExtras();
-		    	Bitmap image = (Bitmap) extras.get("data");
-		    	
-		    	ImageHandler imageHandler = new ImageHandler(getActivity());
-		    	String filename = imageHandler.writeToFile(image, step.getChecklistId(), step.getOrder(), true);
-		    	step.setExtraImageFilename(filename);
-		    	
+				Log.i("IMAGE FILE WRITTEN", step.getExtraImageFilename());
+				compressAndScaleImage(step.getExtraImageFilename());
+				
 		    	if (step.getReqPicture()) { step.setIsReqPictureFinished(true); }
 		    	showExtraPicture();
 		    	checkIfAllFinished();
@@ -669,6 +689,41 @@ public class StepFragment extends Fragment {
 		default:
 			break;
 		}
+	}
+	
+	private void compressAndScaleImage(String filename) {
+		File file = new File(getActivity().getExternalFilesDir(null), filename);
+		
+		try {
+		    // Decode image size
+		    BitmapFactory.Options o = new BitmapFactory.Options();
+		    o.inJustDecodeBounds = true;
+		    BitmapFactory.decodeStream(new FileInputStream(file), null, o);
+
+		    // The new size we want to scale to
+		    final int REQUIRED_SIZE = 300;
+
+		    // Find the correct scale value. It should be the power of 2.
+		    int scale = 1;
+		    while (o.outWidth/scale/2 >= REQUIRED_SIZE && o.outHeight/scale/2 >= REQUIRED_SIZE) {
+		    	scale*=2;
+		    }
+		        
+		    //Decode with inSampleSize
+		    BitmapFactory.Options o2 = new BitmapFactory.Options();
+		    o2.inSampleSize = scale;
+		    Bitmap image = BitmapFactory.decodeStream(new FileInputStream(file), null, o2);
+		    
+		    FileOutputStream fos = new FileOutputStream(file);
+		    image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+		    
+		    try { 
+		    	fos.flush(); 
+		    	fos.close(); 
+	    	} 
+		    catch (IOException e) { e.printStackTrace(); }
+		} 
+		catch (FileNotFoundException e) { e.printStackTrace(); }
 	}
 	
 	private void showSoftKeyboard(View view) {

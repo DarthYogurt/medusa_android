@@ -1,5 +1,6 @@
 package com.medusa.checkit.android;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +110,8 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_IMAGE)) {
 			holder.resultImageView.setVisibility(View.VISIBLE);
 			try {
-				FileInputStream fis = context.openFileInput(steps.get(position).getImageFilename());
+				File file = new File(context.getExternalFilesDir(null), steps.get(position).getImageFilename());
+				FileInputStream fis = new FileInputStream(file);
 				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
 				fis.close();
 				holder.resultImageView.setImageBitmap(imgFromFile);
@@ -127,7 +130,8 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		if (!steps.get(position).getExtraImageFilename().isEmpty()) {
 			holder.extraImageContainer.setVisibility(View.VISIBLE);
 			try {
-				FileInputStream fis = context.openFileInput(steps.get(position).getExtraImageFilename());
+				File file = new File(context.getExternalFilesDir(null), steps.get(position).getExtraImageFilename());
+				FileInputStream fis = new FileInputStream(file);
 				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
 				fis.close();
 				holder.extraImageView.setImageBitmap(imgFromFile);

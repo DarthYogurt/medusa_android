@@ -70,7 +70,7 @@ public class HTTPPostRequest {
 	public void addPictures(ArrayList<String> imageFilenamesArray) {
 		for (int i = 0; i < imageFilenamesArray.size(); i++) {
 			String filename = imageFilenamesArray.get(i);
-			File file = new File(context.getFilesDir() + File.separator + filename);
+			File file = new File(context.getExternalFilesDir(null) + File.separator + filename);
 			multipartEntity.addPart(filename, new FileBody(file));
 		}
 	}
