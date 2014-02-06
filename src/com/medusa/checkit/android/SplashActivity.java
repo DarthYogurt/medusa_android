@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.view.Window;
 import android.view.WindowManager;
@@ -62,12 +61,12 @@ public class SplashActivity extends Activity {
     		}
 	    	else {
 				if (Utilities.checkIfFileExists(SplashActivity.this, FILENAME_CHECKLISTS)) {
-					Toast.makeText(SplashActivity.this, "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
+					Toast.makeText(SplashActivity.this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 					createChecklistArray();
 					startActivity();
 				}
 				else {
-					Toast.makeText(SplashActivity.this, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG).show();
+					Toast.makeText(SplashActivity.this, R.string.msg_no_local_files, Toast.LENGTH_LONG).show();
 					finish();
 				}
 	    	}
@@ -84,7 +83,7 @@ public class SplashActivity extends Activity {
 			progressDialog = new ProgressDialog(SplashActivity.this);
 			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setMessage("Updating files. Please wait.");
+			progressDialog.setMessage(getResources().getString(R.string.msg_updating_files));
 			progressDialog.show();
 			progressDialog.setCanceledOnTouchOutside(false);
 		}
@@ -175,7 +174,7 @@ public class SplashActivity extends Activity {
 			progressDialog = new ProgressDialog(SplashActivity.this);
 			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setMessage("Uploading files. Please wait.");
+			progressDialog.setMessage(getResources().getString(R.string.msg_uploading_files));
 			progressDialog.show();
 			progressDialog.setCanceledOnTouchOutside(false);
 		}
@@ -222,7 +221,7 @@ public class SplashActivity extends Activity {
 	
 	private void showUploadMessage(int responseCode) {
 		if (responseCode == 200) {
-			Toast.makeText(this, "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.msg_checklist_upload_success, Toast.LENGTH_SHORT).show();
 		}
 	}
 	

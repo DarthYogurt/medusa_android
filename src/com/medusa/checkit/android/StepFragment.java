@@ -179,7 +179,7 @@ public class StepFragment extends Fragment {
 				showExtraPicture();
 				
 			    if (step.getExtraImageFilename().isEmpty()) {
-					Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.msg_starting_camera, Toast.LENGTH_SHORT).show();
 					NewPictureThread newPicture = new NewPictureThread(REQUEST_PICTURE_EXTRA);
 					newPicture.start();
 				}
@@ -275,7 +275,7 @@ public class StepFragment extends Fragment {
 		showResult();
 		
 		if (!step.getIsStepFinished()) {
-			Toast.makeText(getActivity(), "Starting Camera", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), R.string.msg_starting_camera, Toast.LENGTH_SHORT).show();
 			NewPictureThread newPicture = new NewPictureThread(REQUEST_PICTURE);
 			newPicture.start();
 		}
@@ -381,7 +381,6 @@ public class StepFragment extends Fragment {
     			btnAddPictureExtra.performClick();
     			return;
         	}
-			
         }
 		
 		if (step.getReqNote()) {

@@ -266,7 +266,7 @@ public class FinishChecklistActivity extends Activity {
 	
 	private void showUploadMessage(int responseCode) {
 		if (responseCode == 200) {
-			Toast.makeText(this, "Checklist uploaded successfully!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.msg_checklist_upload_success, Toast.LENGTH_SHORT).show();
 		}
 	}
 

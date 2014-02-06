@@ -68,7 +68,7 @@ public class SelectChecklistActivity extends Activity {
 					startActivity(intent);
 				}
 				else {
-					Toast.makeText(SelectChecklistActivity.this, "No steps in checklist", Toast.LENGTH_SHORT).show();
+					Toast.makeText(SelectChecklistActivity.this, R.string.msg_no_steps, Toast.LENGTH_SHORT).show();
 				}
 			}
         });
@@ -82,7 +82,7 @@ public class SelectChecklistActivity extends Activity {
 			progressDialog = new ProgressDialog(SelectChecklistActivity.this);
 			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setMessage("Updating files. Please wait.");
+			progressDialog.setMessage(getResources().getString(R.string.msg_updating_files));
 			progressDialog.show();
 			progressDialog.setCanceledOnTouchOutside(false);
 		}
@@ -169,7 +169,7 @@ public class SelectChecklistActivity extends Activity {
 				updateFiles.execute();
 			}
 			else {
-				Toast.makeText(this, "No network connectivity", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.action_notifications:

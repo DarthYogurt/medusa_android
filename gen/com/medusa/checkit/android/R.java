@@ -120,58 +120,67 @@ public final class R {
     public static final class string {
         public static final int action_notifications=0x7f060001;
         public static final int action_update=0x7f060002;
-        public static final int add_note_desc=0x7f060025;
-        public static final int add_notes=0x7f06000e;
-        public static final int add_picture=0x7f06000f;
-        public static final int add_picture_desc=0x7f060026;
+        public static final int add_note_desc=0x7f06002c;
+        public static final int add_notes=0x7f060015;
+        public static final int add_picture=0x7f060016;
+        public static final int add_picture_desc=0x7f06002d;
         public static final int app_name=0x7f060000;
-        public static final int btn_no_desc=0x7f060022;
-        public static final int btn_take_picture=0x7f060014;
-        public static final int btn_yes_desc=0x7f060021;
+        public static final int btn_no_desc=0x7f060029;
+        public static final int btn_take_picture=0x7f06001b;
+        public static final int btn_yes_desc=0x7f060028;
         /**  BUTTONS 
          */
-        public static final int button_submit=0x7f060013;
-        public static final int click_step_to_edit=0x7f06000d;
-        public static final int continue_checklist=0x7f060004;
-        public static final int dialog_finish=0x7f060018;
-        public static final int dialog_network_error=0x7f06001c;
-        public static final int dialog_no=0x7f06001a;
-        public static final int dialog_not_complete=0x7f060017;
-        public static final int dialog_ok=0x7f06001b;
+        public static final int button_submit=0x7f06001a;
+        public static final int click_step_to_edit=0x7f060014;
+        public static final int continue_checklist=0x7f06000b;
+        public static final int dialog_finish=0x7f06001f;
+        public static final int dialog_network_error=0x7f060023;
+        public static final int dialog_no=0x7f060021;
+        public static final int dialog_not_complete=0x7f06001e;
+        public static final int dialog_ok=0x7f060022;
         /**  DIALOGS 
          */
-        public static final int dialog_quit=0x7f060016;
-        public static final int dialog_yes=0x7f060019;
+        public static final int dialog_quit=0x7f06001d;
+        public static final int dialog_yes=0x7f060020;
         /**  EDITTEXT HINTS 
          */
-        public static final int double_hint=0x7f060011;
-        public static final int drawer_closed=0x7f060029;
-        public static final int drawer_open=0x7f060028;
-        public static final int extra_image_label=0x7f06000c;
-        public static final int finish_checklist=0x7f060015;
-        public static final int finished_step_img_desc=0x7f060027;
-        public static final int id_label=0x7f060006;
+        public static final int double_hint=0x7f060018;
+        public static final int drawer_closed=0x7f060030;
+        public static final int drawer_open=0x7f06002f;
+        public static final int extra_image_label=0x7f060013;
+        public static final int finish_checklist=0x7f06001c;
+        public static final int finished_step_img_desc=0x7f06002e;
+        public static final int id_label=0x7f06000d;
         /**  CONTENT DESCRIPTIONS 
          */
-        public static final int logo_desc=0x7f060020;
-        public static final int nav_btn_desc=0x7f060024;
-        public static final int notes_label=0x7f06000b;
-        public static final int notifications=0x7f060005;
-        public static final int notified_label=0x7f060010;
-        public static final int num_of_steps_label=0x7f060007;
-        public static final int out_of_label=0x7f060009;
-        public static final int result_label=0x7f06000a;
+        public static final int logo_desc=0x7f060027;
+        public static final int msg_checklist_upload_success=0x7f060005;
+        /**  MESSAGES 
+         */
+        public static final int msg_network_error=0x7f060003;
+        public static final int msg_no_local_files=0x7f060004;
+        public static final int msg_no_steps=0x7f060008;
+        public static final int msg_starting_camera=0x7f060009;
+        public static final int msg_updating_files=0x7f060006;
+        public static final int msg_uploading_files=0x7f060007;
+        public static final int nav_btn_desc=0x7f06002b;
+        public static final int notes_label=0x7f060012;
+        public static final int notifications=0x7f06000c;
+        public static final int notified_label=0x7f060017;
+        public static final int num_of_steps_label=0x7f06000e;
+        public static final int out_of_label=0x7f060010;
+        public static final int result_label=0x7f060011;
         /**  TEXTVIEWS 
          */
-        public static final int start_new_checklist=0x7f060003;
-        public static final int step_order_label=0x7f060008;
-        public static final int taken_img_desc=0x7f060023;
-        public static final int text_hint=0x7f060012;
-        public static final int toast_req_both=0x7f06001f;
-        public static final int toast_req_image=0x7f06001e;
+        public static final int start_new_checklist=0x7f06000a;
+        public static final int step_order_label=0x7f06000f;
+        public static final int taken_img_desc=0x7f06002a;
+        public static final int text_hint=0x7f060019;
+        public static final int toast_req_both=0x7f060026;
+        public static final int toast_req_image=0x7f060025;
         /**  TOASTS 
          */
-        public static final int toast_req_note=0x7f06001d;
+        public static final int toast_req_note=0x7f060024;
     }
     public static final class style {
         public static final int AddNoteAnimation=0x7f070002;
