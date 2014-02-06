@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,24 +33,26 @@ public class NotificationsActivity extends Activity {
 		
 		listView = (ListView)findViewById(R.id.notifications_listview);
 		
-		reader = new JSONReader(getApplicationContext());
+		reader = new JSONReader(this);
 		
 		notificationsArray = new ArrayList<Notification>();
 		
-		adapter = new NotificationsAdapter(getApplicationContext(), R.layout.listview_notification_row, notificationsArray);
+		adapter = new NotificationsAdapter(this, R.layout.listview_notification_row, notificationsArray);
         listView.setAdapter(adapter);
 
-        if (Utilities.isNetworkAvailable(getApplicationContext())) { 
+        if (Utilities.isNetworkAvailable(this)) { 
         	new UpdateNotifications().execute();
 		}
     	else {
-    		Toast.makeText(getApplicationContext(), "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 			
-			if (Utilities.checkIfFileExists(getApplicationContext(), FILENAME_NOTIFICATIONS)) {
+			if (Utilities.checkIfFileExists(this, FILENAME_NOTIFICATIONS)) {
 				createNotificationsArray();
+				adapter = new NotificationsAdapter(NotificationsActivity.this, R.layout.listview_notification_row, notificationsArray);
+		        listView.setAdapter(adapter);
 			}
 			else {
-				Toast.makeText(getApplicationContext(), "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG).show();
 			}
     	}
         
@@ -78,7 +79,7 @@ public class NotificationsActivity extends Activity {
 				new UpdateNotifications().execute();
 			}
 			else {
-				Toast.makeText(getApplicationContext(), "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		default:
@@ -109,7 +110,7 @@ public class NotificationsActivity extends Activity {
 		
 	    protected Void doInBackground(Void... params) {
 	    	HTTPGetRequest getRequest = new HTTPGetRequest();
-	    	JSONWriter writer = new JSONWriter(getApplicationContext());
+	    	JSONWriter writer = new JSONWriter(NotificationsActivity.this);
 	    	
 	    	// Updates local JSON file containing notifications
 	    	String notificationsJsonString = getRequest.getNotifications();
