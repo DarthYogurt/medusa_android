@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="libs/httpclient-cache-4.3.1.jar"/>
 	<classpathentry kind="lib" path="libs/httpcore-4.3.jar"/>
 	<classpathentry kind="lib" path="libs/httpmime-4.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/urlimageviewhelper-1.0.4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -8,17 +8,17 @@ public class Notification {
 	private String stepName;
 	private String notifyName;
 	private String note;
-	private String imgFilename;
+	private String imgUrl;
 	
 	public Notification(int slateId, String userName, String checklist, String stepName, String notifyName,
-						String note, String imgFilename) {
+						String note, String imgUrl) {
 		this.slateId = slateId;
 		this.userName = userName;
 		this.checklist = checklist;
 		this.stepName = stepName;
 		this.notifyName = notifyName;
 		this.note = note;
-		this.imgFilename = imgFilename;
+		this.imgUrl = imgUrl;
 	}
 	
 	public int getSlateId() { return slateId; }
@@ -33,6 +33,6 @@ public class Notification {
 	
 	public String getNote() { return note; }
 	
-	public String getImgFilename() { return imgFilename; }
+	public String getImgUrl() { return imgUrl; }
 	
 }

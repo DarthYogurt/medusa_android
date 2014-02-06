@@ -29,6 +29,8 @@
     <string name="add_notes">Add Notes</string>
     <string name="add_picture">Add Picture</string>
     <string name="notified_label">Notified:</string>
+    <string name="checklist_label">Checklist:</string>
+    <string name="step_label">Step:</string>
 
     <!-- EDITTEXT HINTS -->
     <string name="double_hint">Enter Number Here</string>
