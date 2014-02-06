@@ -665,7 +665,8 @@ public class StepFragment extends Fragment {
 		case REQUEST_PICTURE:
 			if (resultCode == Activity.RESULT_OK) {	
 				Log.i("IMAGE FILE WRITTEN", step.getImageFilename());
-				compressAndScaleImage(step.getImageFilename());
+				File file = new File(getActivity().getExternalFilesDir(null), step.getImageFilename());
+				ImageHandler.compressAndScaleImage(file);
 				
 		    	finishStep();
 		    	showResult();
@@ -677,7 +678,8 @@ public class StepFragment extends Fragment {
 		case REQUEST_PICTURE_EXTRA:
 			if (resultCode == Activity.RESULT_OK) {
 				Log.i("IMAGE FILE WRITTEN", step.getExtraImageFilename());
-				compressAndScaleImage(step.getExtraImageFilename());
+				File file = new File(getActivity().getExternalFilesDir(null), step.getExtraImageFilename());
+				ImageHandler.compressAndScaleImage(file);
 				
 		    	if (step.getReqPicture()) { step.setIsReqPictureFinished(true); }
 		    	showExtraPicture();
@@ -689,41 +691,6 @@ public class StepFragment extends Fragment {
 		default:
 			break;
 		}
-	}
-	
-	private void compressAndScaleImage(String filename) {
-		File file = new File(getActivity().getExternalFilesDir(null), filename);
-		
-		try {
-		    // Decode image size
-		    BitmapFactory.Options o = new BitmapFactory.Options();
-		    o.inJustDecodeBounds = true;
-		    BitmapFactory.decodeStream(new FileInputStream(file), null, o);
-
-		    // The new size we want to scale to
-		    final int REQUIRED_SIZE = 300;
-
-		    // Find the correct scale value. It should be the power of 2.
-		    int scale = 1;
-		    while (o.outWidth/scale/2 >= REQUIRED_SIZE && o.outHeight/scale/2 >= REQUIRED_SIZE) {
-		    	scale*=2;
-		    }
-		        
-		    //Decode with inSampleSize
-		    BitmapFactory.Options o2 = new BitmapFactory.Options();
-		    o2.inSampleSize = scale;
-		    Bitmap image = BitmapFactory.decodeStream(new FileInputStream(file), null, o2);
-		    
-		    FileOutputStream fos = new FileOutputStream(file);
-		    image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-		    
-		    try { 
-		    	fos.flush(); 
-		    	fos.close(); 
-	    	} 
-		    catch (IOException e) { e.printStackTrace(); }
-		} 
-		catch (FileNotFoundException e) { e.printStackTrace(); }
 	}
 	
 	private void showSoftKeyboard(View view) {
