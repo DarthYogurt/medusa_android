@@ -12,7 +12,6 @@ import java.util.Date;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.format.Time;
 import android.util.Log;
 
 public class ImageHandler {
@@ -79,7 +78,7 @@ public class ImageHandler {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 			fos.close();
-			Log.v("IMAGE FILE WRITTEN", filename);
+			Log.i("IMAGE FILE WRITTEN", filename);
 		} 
 		catch (FileNotFoundException e) { Log.d("ERROR", "File not found: " + e.getMessage()); }
 		catch (IOException e) { Log.d("ERROR", "Error accessing file: " + e.getMessage()); }
@@ -108,7 +107,7 @@ public class ImageHandler {
 	public void addFilenameToArray(String filename) {	
 		if (imageFilenamesArray == null) { imageFilenamesArray = new ArrayList<String>(); }
 		imageFilenamesArray.add(filename);
-		Log.v("ADDED IMAGE TO ARRAY", filename);
+		Log.i("ADDED IMAGE TO UPLOAD ARRAY", filename);
 	}
 	
 	public ArrayList<String> getArrayList() {

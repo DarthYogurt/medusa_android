@@ -16,14 +16,14 @@ import android.util.Log;
 public class JSONReader {
 
 	Context context;
-	String jsonString;
 	
 	public JSONReader(Context context) {
 		this.context = context;
 	}
 	
-	public void readFromInternal(String filename) throws IOException {
+	public String readFromInternal(String filename) throws IOException {
 		BufferedReader br = null;
+		String jsonString = "";
 		
 		try {
 			FileInputStream fis = context.openFileInput(filename);
@@ -31,16 +31,17 @@ public class JSONReader {
 			br = new BufferedReader(isr);
 			jsonString = br.readLine();
 			
-			Log.v("READ FROM JSON", jsonString);
+			Log.i("JSON STRING", jsonString);
 		} 
 		catch (FileNotFoundException e) { e.printStackTrace(); } 
 		finally {
 			try { if (br != null) { br.close(); } } 
 			catch (IOException e) { e.printStackTrace(); }
 		}
+		return jsonString;
 	}
 	
-	public ArrayList<Checklist> getChecklistsArray() {
+	public ArrayList<Checklist> getChecklistsArray(String jsonString) {
 		ArrayList<Checklist> checklistsArray = new ArrayList<Checklist>();
 		
 		try {
@@ -64,7 +65,7 @@ public class JSONReader {
 		return checklistsArray;
 	}
 	
-	public ArrayList<Step> getStepsArray() {
+	public ArrayList<Step> getStepsArray(String jsonString) {
 		ArrayList<Step> stepsArray = new ArrayList<Step>();
 		
 		try {
@@ -121,7 +122,7 @@ public class JSONReader {
 		return stepsArray;
 	}
 	
-	public ArrayList<String> getImageFilenamesArray() {
+	public ArrayList<String> getImageFilenamesArray(String jsonString) {
 		ArrayList<String> array = new ArrayList<String>();
 		
 		try {
@@ -143,7 +144,7 @@ public class JSONReader {
 		return array;
 	}
 	
-	public ArrayList<Notification> getNotificationsArray() {
+	public ArrayList<Notification> getNotificationsArray(String jsonString) {
 		ArrayList<Notification> notificationsArray = new ArrayList<Notification>();
 		
 		try {

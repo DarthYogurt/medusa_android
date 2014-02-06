@@ -13,14 +13,8 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -196,7 +190,7 @@ public class StepActivity extends Activity {
 	        return builder.create();
 		}
 	}
-//	
+
 //	private void finishStep() {
 //		step.setIsStepFinished(true);
 //		ImageView finishedStepImg = (ImageView) findViewById(R.id.finished_step_img);

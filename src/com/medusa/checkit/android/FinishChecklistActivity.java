@@ -11,9 +11,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -145,8 +147,18 @@ public class FinishChecklistActivity extends Activity {
 	}
 	
 	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
+		ProgressDialog progressDialog;
+		
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(FinishChecklistActivity.this);
+			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setMessage(getResources().getString(R.string.msg_uploading_files));
+			progressDialog.show();
+			progressDialog.setCanceledOnTouchOutside(false);
+		}
+		
 	    protected Void doInBackground(Void... params) {
-	    	
 	    	String filename = "";
 	    	ArrayList<String> imgFilenames = null;
 	    	
@@ -200,6 +212,7 @@ public class FinishChecklistActivity extends Activity {
 
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
+	    	progressDialog.dismiss();
 	        return;
 	    }
 	}

@@ -16,10 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.Build;
 
 public class NotificationsActivity extends Activity {
 	
@@ -92,8 +88,8 @@ public class NotificationsActivity extends Activity {
 	
 	private void createNotificationsArray() {
 		try { 
-			reader.readFromInternal(FILENAME_NOTIFICATIONS);
-			notificationsArray = reader.getNotificationsArray();
+			String jsonString = reader.readFromInternal(FILENAME_NOTIFICATIONS);
+			notificationsArray = reader.getNotificationsArray(jsonString);
 		} 
 		catch (IOException e) { e.printStackTrace(); }
 	}
@@ -116,15 +112,12 @@ public class NotificationsActivity extends Activity {
 	    	JSONWriter writer = new JSONWriter(getApplicationContext());
 	    	
 	    	// Updates local JSON file containing notifications
-	    	String notificationsJsonString = "";
-	    	notificationsJsonString = getRequest.getNotifications();
+	    	String notificationsJsonString = getRequest.getNotifications();
 			
 			try { writer.writeToInternal(FILENAME_NOTIFICATIONS, notificationsJsonString); } 
 			catch (IOException e) { e.printStackTrace(); }
 			
 			createNotificationsArray();
-			
-			Log.v("SIZE", Integer.toString(notificationsArray.size()));
 			
 	        return null;
 	    }

@@ -41,7 +41,7 @@ public class JSONWriter {
 			fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			fos.write(data.getBytes());
 			fos.close();
-			Log.v("FILE CREATED", filename + " has been written");
+			Log.i("FILE SAVED", filename);
 		} 
 		catch (IOException e) { e.printStackTrace(); } 
 	}
@@ -56,7 +56,7 @@ public class JSONWriter {
 		try {
 			fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			writer = new JsonWriter(new OutputStreamWriter(fos, "UTF-8"));
-			Log.v("FINISHED CHECKLIST", filename + " has been created");
+			Log.i("NEW CHECKLIST JSON CREATED", filename);
 		} catch (IOException e) { e.printStackTrace(); }
 		
 		try {

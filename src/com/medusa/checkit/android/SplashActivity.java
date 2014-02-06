@@ -122,8 +122,8 @@ public class SplashActivity extends Activity {
 	
 	private void createChecklistArray() {
 		try { 
-			reader.readFromInternal(FILENAME_CHECKLISTS);
-			checklistsArray = reader.getChecklistsArray();
+			String jsonString = reader.readFromInternal(FILENAME_CHECKLISTS);
+			checklistsArray = reader.getChecklistsArray(jsonString);
 		} 
 		catch (IOException e) { e.printStackTrace(); }
 	}
@@ -146,8 +146,8 @@ public class SplashActivity extends Activity {
 				ArrayList<String> imgFilenames = new ArrayList<String>();
 				
 				try { 
-					jReader.readFromInternal(filename);
-					imgFilenames = jReader.getImageFilenamesArray();
+					String jsonString = jReader.readFromInternal(filename);
+					imgFilenames = jReader.getImageFilenamesArray(jsonString);
 				} 
 				catch (IOException e) { e.printStackTrace(); }
 				

@@ -80,14 +80,13 @@ public class HTTPPostRequest {
 	}
 	
 	private void checkIfError() {
-		if (responseCode != 200) {
-			sendErrorPost();
-		}
+		if (responseCode != 200) { sendErrorPost(); }
 	}
 	
 	private void sendErrorPost() {
 		File errorFile = new File(context.getFilesDir() + File.separator + ERROR_FILENAME);
 		
+		// Writes error from regular post to text file
 		try {
 			FileWriter fw = new FileWriter(errorFile);
 			fw.write(responseBody);

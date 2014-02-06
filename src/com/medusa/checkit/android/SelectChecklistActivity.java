@@ -1,18 +1,14 @@
 package com.medusa.checkit.android;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -21,7 +17,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -127,16 +122,16 @@ public class SelectChecklistActivity extends Activity {
 	
 	private void createChecklistArray() {
 		try { 
-			reader.readFromInternal(FILENAME_CHECKLISTS);
-			checklistsArray = reader.getChecklistsArray();
+			String jsonString = reader.readFromInternal(FILENAME_CHECKLISTS);
+			checklistsArray = reader.getChecklistsArray(jsonString);
 		} 
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	private void createStepsArray(String filename) {
 		try {
-			reader.readFromInternal(filename);
-			stepsArray = reader.getStepsArray();
+			String jsonString = reader.readFromInternal(filename);
+			stepsArray = reader.getStepsArray(jsonString);
 		} 
 		catch (IOException e) { e.printStackTrace(); }
 	}
@@ -150,8 +145,6 @@ public class SelectChecklistActivity extends Activity {
 		String now = sdf.format(new Date());
 		return now;
 	}
-	
-	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
