@@ -51,10 +51,10 @@ public class HTTPPostRequest {
 			HttpResponse response = client.execute(post);
 			
 			responseCode = response.getStatusLine().getStatusCode();
-			Log.v("POST RESPONSE CODE", Integer.toString(responseCode));
+			Log.i("POST RESPONSE CODE", Integer.toString(responseCode));
 			
 			responseBody = EntityUtils.toString(response.getEntity());
-			Log.v("POST RESPONSE BODY", responseBody);
+			Log.i("POST RESPONSE BODY", responseBody);
 			
 			checkIfError();
 		} 
@@ -109,10 +109,10 @@ public class HTTPPostRequest {
 			HttpResponse errorResponse = errorClient.execute(errorPost);
 			
 			int errorResponseCode = errorResponse.getStatusLine().getStatusCode();
-			Log.v("ERROR RESPONSE CODE", Integer.toString(errorResponseCode));
+			Log.i("ERROR RESPONSE CODE", Integer.toString(errorResponseCode));
 			
 			String errorResponseBody = EntityUtils.toString(errorResponse.getEntity());
-			Log.v("ERROR RESPONSE BODY", errorResponseBody);
+			Log.i("ERROR RESPONSE BODY", errorResponseBody);
 		} 
 		catch (ClientProtocolException e) { e.printStackTrace(); } 
 		catch (IOException e) { e.printStackTrace(); }

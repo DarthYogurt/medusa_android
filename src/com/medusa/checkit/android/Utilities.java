@@ -25,10 +25,16 @@ public class Utilities {
 		return file.exists(); 
 	}
 	
-	public static void deleteFile(Context context, String filename) {
+	public static void deleteFileFromInternal(Context context, String filename) {
 		File file = new File(context.getFilesDir(), filename);
 		boolean deleted = file.delete();
-		if (deleted) { Log.v("FILE DELETED", filename); }
+		if (deleted) { Log.i("FILE DELETED", filename); }
+	}
+	
+	public static void deleteFileFromExternal(Context context, String filename) {
+		File file = new File(context.getExternalFilesDir(null), filename);
+		boolean deleted = file.delete();
+		if (deleted) { Log.i("FILE DELETED", filename); }
 	}
 	
 	public static void copyFile(File src, File dst) {

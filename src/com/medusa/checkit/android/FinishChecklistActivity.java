@@ -177,13 +177,13 @@ public class FinishChecklistActivity extends Activity {
 				});
 				
 				// Deletes checklist file after uploaded
-				Utilities.deleteFile(FinishChecklistActivity.this, filename);
+				Utilities.deleteFileFromInternal(FinishChecklistActivity.this, filename);
 				
 				// Deletes images after uploaded
 				if (imgFilenames != null) {
 					for (int i = 0; i < imgFilenames.size(); i++) {
 						String imgFilename = imgFilenames.get(i);
-						Utilities.deleteFile(FinishChecklistActivity.this, imgFilename);
+						Utilities.deleteFileFromExternal(FinishChecklistActivity.this, imgFilename);
 					}
 				}
 				

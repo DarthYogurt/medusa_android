@@ -18,7 +18,6 @@ public class SplashActivity extends Activity {
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final int GROUP_ID = 1;
 
-	HTTPGetRequest getRequest;
 	JSONReader reader;
 	JSONWriter writer;
 	ArrayList<Checklist> checklistsArray;
@@ -35,7 +34,6 @@ public class SplashActivity extends Activity {
 				
 		setContentView(R.layout.activity_splash);
 		
-		getRequest = new HTTPGetRequest();
 		reader = new JSONReader(this);
 		writer = new JSONWriter(this);
 		checklistsArray = new ArrayList<Checklist>();
@@ -91,9 +89,8 @@ public class SplashActivity extends Activity {
 	    protected Void doInBackground(Void... params) {
 	    	
 	    	// Updates local JSON file containing checklists
-	    	String checklistsJsonString = "";
-	    	
-			checklistsJsonString = getRequest.getChecklists(GROUP_ID);
+	    	HTTPGetRequest getRequest = new HTTPGetRequest();
+	    	String checklistsJsonString = getRequest.getChecklists(GROUP_ID);
 			
 			try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
 			catch (IOException e) { e.printStackTrace(); }
@@ -195,20 +192,19 @@ public class SplashActivity extends Activity {
 				});
 				
 				// Deletes checklist file after uploaded
-				Utilities.deleteFile(SplashActivity.this, filename);
+				Utilities.deleteFileFromInternal(SplashActivity.this, filename);
 				
 				// Deletes images after uploaded
 				if (!imgFilenames.isEmpty()) {
 					for (int i = 0; i < imgFilenames.size(); i++) {
 						String imgFilename = imgFilenames.get(i);
-						Utilities.deleteFile(SplashActivity.this, imgFilename);
+						Utilities.deleteFileFromExternal(SplashActivity.this, imgFilename);
 					}
 				}
 			}
-//			else {
-//				NetworkErrorDialogFrament dialog = new NetworkErrorDialogFrament();
-//				dialog.show(getFragmentManager(), "networkError");
-//			}
+			else {
+				Toast.makeText(SplashActivity.this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
+			}
 	        return null;
 	    }
 
