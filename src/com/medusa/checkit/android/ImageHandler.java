@@ -58,48 +58,18 @@ public class ImageHandler {
 		catch (FileNotFoundException e) { e.printStackTrace(); }
 	}
 	
-	public String writeToFile(Bitmap b, int checklistId, int stepOrder, boolean isExtra) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
-		String timeStamp = sdf.format(new Date());
-		String filename = "";
-		
-		if (!isExtra) {
-			filename = "cid" + Integer.toString(checklistId) + 
-					  "_so" + Integer.toString(stepOrder) + 
-					  "_" + timeStamp + ".jpg";	
-		}
-		else {
-			filename = "cid" + Integer.toString(checklistId) + 
-					  "_so" + Integer.toString(stepOrder) + 
-					  "_extra_" + timeStamp + ".jpg";	
-		}
-		
-		try {
-			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
-			b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-			fos.close();
-			Log.i("IMAGE FILE WRITTEN", filename);
-		} 
-		catch (FileNotFoundException e) { Log.d("ERROR", "File not found: " + e.getMessage()); }
-		catch (IOException e) { Log.d("ERROR", "Error accessing file: " + e.getMessage()); }
-		
-		return filename;
-	}
-	
 	public String getImageFilename(int checklistId, int stepOrder, boolean isExtra) {
 		String filename = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
-		String timeStamp = sdf.format(new Date());
 		
 		if (!isExtra) {
 			filename = "cid" + Integer.toString(checklistId) + 
 					  "_so" + Integer.toString(stepOrder) + 
-					  "_" + timeStamp + ".jpg";	
+					  "_" + Utilities.getTimeStampForFilename() + ".jpg";	
 		}
 		else {
 			filename = "cid" + Integer.toString(checklistId) + 
 					  "_so" + Integer.toString(stepOrder) + 
-					  "_extra_" + timeStamp + ".jpg";	
+					  "_extra_" + Utilities.getTimeStampForFilename() + ".jpg";	
 		}
 		return filename;
 	}

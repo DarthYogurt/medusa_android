@@ -52,7 +52,7 @@ public class NotificationsActivity extends Activity {
 		        listView.setAdapter(adapter);
 			}
 			else {
-				Toast.makeText(this, "No files found locally. Please connect to the internet and try again.", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, R.string.msg_no_local_files, Toast.LENGTH_LONG).show();
 			}
     	}
         
@@ -75,12 +75,8 @@ public class NotificationsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
-			if (Utilities.isNetworkAvailable(this)) {
-				new UpdateNotifications().execute();
-			}
-			else {
-				Toast.makeText(this, "Network Error: No Connectivity", Toast.LENGTH_SHORT).show();
-			}
+			if (Utilities.isNetworkAvailable(this)) { new UpdateNotifications().execute(); }
+			else { Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show(); }
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

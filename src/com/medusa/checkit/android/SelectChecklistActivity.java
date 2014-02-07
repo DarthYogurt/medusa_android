@@ -56,7 +56,7 @@ public class SelectChecklistActivity extends Activity {
 				createStepsArray(getStepsFilename(checklist.getId()));
 				
 				if (!stepsArray.isEmpty()) {
-					checklist.setTimeStarted(getTimeStartedForChecklist());
+					checklist.setTimeStarted(Utilities.getTimeStamp());
 					intent.putExtra(KEY_CHECKLIST, checklist);
 					intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 					intent.putExtra(KEY_CURRENT_STEP, 0);
@@ -138,12 +138,6 @@ public class SelectChecklistActivity extends Activity {
 	
 	private String getStepsFilename(int checklistId) {
 		return "cid" + Integer.toString(checklistId) + "_steps.json";
-	}
-	
-	private String getTimeStartedForChecklist() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-		String now = sdf.format(new Date());
-		return now;
 	}
 	
 	@Override

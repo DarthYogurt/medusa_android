@@ -105,13 +105,7 @@ public class FinishChecklistActivity extends Activity {
 		}
 		
 		return finished;
-	}
-
-	private String getTimeStamp() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-		String now = sdf.format(new Date());
-		return now;
-	}
+	}	
 	
 	private void writeAllStepsToJSON() {
 		Step step;
@@ -261,7 +255,7 @@ public class FinishChecklistActivity extends Activity {
 	        builder.setMessage(R.string.dialog_finish)
 	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
-	        			checklist.setTimeFinished(getTimeStamp());
+	        			checklist.setTimeFinished(Utilities.getTimeStamp());
 						PostToServerThread post = new PostToServerThread();
 						post.execute();
 	        		}

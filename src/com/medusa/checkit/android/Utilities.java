@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -59,6 +61,18 @@ public class Utilities {
 	        	catch (IOException e) { e.printStackTrace(); }
 	        }	
 	    }
+	}
+	
+	public static String getTimeStamp() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+		String now = sdf.format(new Date());
+		return now;
+	}
+	
+	public static String getTimeStampForFilename() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
+		String now = sdf.format(new Date());
+		return now;
 	}
 	
 }

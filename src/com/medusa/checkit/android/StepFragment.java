@@ -99,7 +99,7 @@ public class StepFragment extends Fragment {
 		step = bundle.getParcelable(KEY_CURRENT_STEP);
 		int numOfSteps = bundle.getInt(KEY_NUM_OF_STEPS);
 		
-		if (step.getTimeStarted().isEmpty()) { setTimeStartedForStep(); }
+		if (step.getTimeStarted().isEmpty()) { step.setTimeStarted(Utilities.getTimeStamp()); }
 		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
@@ -566,7 +566,7 @@ public class StepFragment extends Fragment {
 	
 	private void finishStep() {
 		step.setIsStepFinished(true);
-		setTimeFinishedForStep();
+		step.setTimeFinished(Utilities.getTimeStamp());
 	}
 	
 	private void unFinishStep() {
@@ -598,18 +598,6 @@ public class StepFragment extends Fragment {
 			@Override
 			public void onClick(View view) { ((StepActivity)getActivity()).goToPrevStep(); }
 		});
-	}
-	
-	private void setTimeStartedForStep() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-		String now = sdf.format(new Date());
-		step.setTimeStarted(now);
-	}
-	
-	private void setTimeFinishedForStep() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-		String now = sdf.format(new Date());
-		step.setTimeFinished(now);
 	}
 	
 	private class NewPictureThread extends Thread {

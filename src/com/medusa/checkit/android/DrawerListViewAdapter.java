@@ -44,9 +44,8 @@ public class DrawerListViewAdapter extends ArrayAdapter<Step> {
             holder.finishedStepImage = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
             convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder)convertView.getTag();
-        }
+        } 
+		else { holder = (ViewHolder)convertView.getTag(); }
 
 		String stepOrder = Integer.toString(steps.get(position).getOrder()); 
 		String stepName = steps.get(position).getName();
