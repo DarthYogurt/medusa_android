@@ -22,7 +22,6 @@ public class NotificationsActivity extends Activity {
 	
 	ListView listView;
 	NotificationsAdapter adapter;
-	private JSONReader reader;
 	private ArrayList<Notification> notificationsArray;
 
 	@Override
@@ -33,12 +32,9 @@ public class NotificationsActivity extends Activity {
 		
 		listView = (ListView)findViewById(R.id.notifications_listview);
 		
-		reader = new JSONReader(this);
-		
 		notificationsArray = new ArrayList<Notification>();
 		
-		adapter = new NotificationsAdapter(this, R.layout.listview_notification_row, notificationsArray);
-        listView.setAdapter(adapter);
+		refreshList();
 
         if (Utilities.isNetworkAvailable(this)) { 
         	new UpdateNotifications().execute();
@@ -48,8 +44,7 @@ public class NotificationsActivity extends Activity {
 			
 			if (Utilities.checkIfFileExists(this, FILENAME_NOTIFICATIONS)) {
 				createNotificationsArray();
-				adapter = new NotificationsAdapter(NotificationsActivity.this, R.layout.listview_notification_row, notificationsArray);
-		        listView.setAdapter(adapter);
+				refreshList();
 			}
 			else {
 				Toast.makeText(this, R.string.msg_no_local_files, Toast.LENGTH_LONG).show();
@@ -62,6 +57,11 @@ public class NotificationsActivity extends Activity {
 
 			}
         });
+	}
+	
+	private void refreshList() {
+		adapter = new NotificationsAdapter(this, R.layout.listview_notification_row, notificationsArray);
+        listView.setAdapter(adapter);
 	}
 
 	@Override
@@ -85,6 +85,7 @@ public class NotificationsActivity extends Activity {
 	
 	private void createNotificationsArray() {
 		try { 
+			JSONReader reader = new JSONReader(this);
 			String jsonString = reader.readFromInternal(FILENAME_NOTIFICATIONS);
 			notificationsArray = reader.getNotificationsArray(jsonString);
 		} 
@@ -105,12 +106,11 @@ public class NotificationsActivity extends Activity {
 		}
 		
 	    protected Void doInBackground(Void... params) {
-	    	HTTPGetRequest getRequest = new HTTPGetRequest();
-	    	JSONWriter writer = new JSONWriter(NotificationsActivity.this);
-	    	
 	    	// Updates local JSON file containing notifications
+	    	HTTPGetRequest getRequest = new HTTPGetRequest();
 	    	String notificationsJsonString = getRequest.getNotifications();
 			
+	    	JSONWriter writer = new JSONWriter(NotificationsActivity.this);
 			try { writer.writeToInternal(FILENAME_NOTIFICATIONS, notificationsJsonString); } 
 			catch (IOException e) { e.printStackTrace(); }
 			
@@ -122,10 +122,7 @@ public class NotificationsActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
-	    	
-			adapter = new NotificationsAdapter(NotificationsActivity.this, R.layout.listview_notification_row, notificationsArray);
-	        listView.setAdapter(adapter);
-
+			refreshList();
 	        return;
 	    }
 	}

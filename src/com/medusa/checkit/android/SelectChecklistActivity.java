@@ -29,6 +29,8 @@ public class SelectChecklistActivity extends Activity {
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final int GROUP_ID = 1;
 	
+	ListView listView;
+	ChecklistAdapter adapter;
 	JSONReader reader;
 	UpdateFiles updateFiles;
 	ArrayList<Checklist> checklistsArray;
@@ -44,9 +46,8 @@ public class SelectChecklistActivity extends Activity {
 		
 		checklistsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_CHECKLISTS);
         
-        ListView listView = (ListView)findViewById(R.id.checklist_listview);
-        ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
-        listView.setAdapter(adapter);
+        listView = (ListView)findViewById(R.id.checklist_listview);
+        refreshList();
         
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -67,6 +68,11 @@ public class SelectChecklistActivity extends Activity {
 				}
 			}
         });
+	}
+	
+	private void refreshList() {
+		adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
+        listView.setAdapter(adapter);
 	}
 	
 	private class UpdateFiles extends AsyncTask<Void, Void, Void> {
@@ -112,12 +118,10 @@ public class SelectChecklistActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
-	    	Intent intent = new Intent(SelectChecklistActivity.this, SelectChecklistActivity.class);
-			intent.putExtra(KEY_ALL_CHECKLISTS, checklistsArray);
-	    	startActivity(intent);
-	    	finish();
+	    	refreshList();
 	        return;
 	    }
+	    
 	}
 	
 	private void createChecklistArray() {
