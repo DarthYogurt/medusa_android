@@ -12,10 +12,11 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="#ccc"
+        android:background="#008a2e"
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textColor="#fff" />
     
     <TextView
 	    android:layout_width="fill_parent"
@@ -35,7 +36,7 @@
 	    android:layout_height="0dp"
 	    android:layout_weight="1"
 	    android:dividerHeight="1dp"
-	    android:divider="#0033cc" />
+	    android:divider="#008a2e" />
 
 	<Button
 	    android:id="@+id/finish_checklist"
