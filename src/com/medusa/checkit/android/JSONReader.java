@@ -47,17 +47,14 @@ public class JSONReader {
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArray = jObject.getJSONArray("checklist");
-            int checklistId;
-            String checklistName;
-            int numOfSteps;
-            int groupId;
-            
+
             for (int i = 0; i < jArray.length(); i++) {
-            	checklistId = Integer.parseInt(jArray.getJSONObject(i).getString("id"));
-                checklistName = jArray.getJSONObject(i).getString("name");
-                numOfSteps = Integer.parseInt(jArray.getJSONObject(i).getString("numOfSteps"));
-                groupId = Integer.parseInt(jObject.getString("groupId"));
-                Checklist checklist = new Checklist(checklistId, checklistName, numOfSteps, groupId);
+            	int groupId = Integer.parseInt(jObject.getString("groupId"));
+            	int checklistId = Integer.parseInt(jArray.getJSONObject(i).getString("id"));
+            	String checklistName = jArray.getJSONObject(i).getString("name");
+            	int numOfSteps = Integer.parseInt(jArray.getJSONObject(i).getString("numOfSteps"));
+                
+                Checklist checklist = new Checklist(groupId, checklistId, checklistName, numOfSteps);
                 checklistsArray.add(checklist);
             }
         } 
@@ -71,29 +68,29 @@ public class JSONReader {
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArraySteps = jObject.getJSONArray("steps");
+            JSONArray jArrayUsers = jObject.getJSONArray("users");
             
-            int order;
-            String name;
-            String type;
-            int id;
-            int notifyUserId;
-            boolean reqNote;
-            boolean reqImage;
-            int checklistId;
-            String checklistName;
+            int checklistId = Integer.parseInt(jObject.getString("checklistId"));
+            String checklistName = jObject.getString("checklistName");
+
+            ArrayList<User> usersArray = new ArrayList<User>();
+            for (int i = 0; i < jArrayUsers.length(); i++) {
+            	int userId = Integer.parseInt(jArrayUsers.getJSONObject(i).getString("userId"));
+            	String userName = jArrayUsers.getJSONObject(i).getString("name");
+            	
+            	User user = new User(userId, userName);
+            	usersArray.add(user);
+            }
 
             for (int i = 0; i < jArraySteps.length(); i++) {
-            	order = Integer.parseInt(jArraySteps.getJSONObject(i).getString("order"));
-            	name = jArraySteps.getJSONObject(i).getString("name");
-            	type = jArraySteps.getJSONObject(i).getString("type");
-            	id = Integer.parseInt(jArraySteps.getJSONObject(i).getString("id"));
-            	notifyUserId = Integer.parseInt(jArraySteps.getJSONObject(i).getString("notifyUserId"));
-                checklistId = Integer.parseInt(jObject.getString("checklistId"));
-                checklistName = jObject.getString("checklistName");
-                reqNote = jArraySteps.getJSONObject(i).getBoolean("requireText");
-            	reqImage = jArraySteps.getJSONObject(i).getBoolean("requireImage");
+            	int order = Integer.parseInt(jArraySteps.getJSONObject(i).getString("order"));
+            	String name = jArraySteps.getJSONObject(i).getString("name");
+            	String type = jArraySteps.getJSONObject(i).getString("type");
+            	int id = Integer.parseInt(jArraySteps.getJSONObject(i).getString("id"));
+            	boolean reqNote = jArraySteps.getJSONObject(i).getBoolean("requireText");
+            	boolean reqImage = jArraySteps.getJSONObject(i).getBoolean("requireImage");
             	
-            	Step step = new Step(order, name, type, id, notifyUserId, checklistId, checklistName, reqNote, reqImage);
+            	Step step = new Step(order, name, type, id, checklistId, checklistName, usersArray, reqNote, reqImage);
             	
                 if (jArraySteps.getJSONObject(i).has("ifValueTrue")) {
                 	if (jArraySteps.getJSONObject(i).getBoolean("ifValueTrue")) {
@@ -131,6 +128,7 @@ public class JSONReader {
 
             for (int i = 0; i < jArraySteps.length(); i++) {
             	String type = jArraySteps.getJSONObject(i).getString("stepType");
+            	
             	if (type.equalsIgnoreCase("image")) {
             		array.add(jArraySteps.getJSONObject(i).getString("value"));
             	}
@@ -150,23 +148,15 @@ public class JSONReader {
 		try {
             JSONObject jObject = new JSONObject(jsonString);
             JSONArray jArray = jObject.getJSONArray("slate");
-            
-            int slateId;
-        	String userName;
-        	String checklist;
-        	String stepName;
-        	String notifyName;
-        	String note;
-        	String imgFilename;
 
             for (int i = 0; i < jArray.length(); i++) {
-            	slateId = Integer.parseInt(jArray.getJSONObject(i).getString("slateId"));
-            	userName = jArray.getJSONObject(i).getString("userName");
-            	checklist = jArray.getJSONObject(i).getString("checklist");
-            	stepName = jArray.getJSONObject(i).getString("stepName");
-            	notifyName = jArray.getJSONObject(i).getString("notifyName");
-                note = jArray.getJSONObject(i).getString("addNote");
-                imgFilename = jArray.getJSONObject(i).getString("addImage");
+            	int slateId = Integer.parseInt(jArray.getJSONObject(i).getString("slateId"));
+            	String userName = jArray.getJSONObject(i).getString("userName");
+            	String checklist = jArray.getJSONObject(i).getString("checklist");
+            	String stepName = jArray.getJSONObject(i).getString("stepName");
+            	String notifyName = jArray.getJSONObject(i).getString("notifyName");
+                String note = jArray.getJSONObject(i).getString("addNote");
+                String imgFilename = jArray.getJSONObject(i).getString("addImage");
                 if (!imgFilename.contains(".jpg")) { imgFilename = ""; }
                 else { imgFilename = "http://" + imgFilename; }
                 

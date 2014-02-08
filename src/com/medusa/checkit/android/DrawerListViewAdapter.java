@@ -53,7 +53,7 @@ public class DrawerListViewAdapter extends ArrayAdapter<Step> {
 		holder.stepOrder.setText(stepOrder);
 		holder.stepName.setText(stepName);
         
-        if (steps.get(position).getIsStepFinished()) { holder.finishedStepImage.setVisibility(View.VISIBLE); }
+        if (steps.get(position).getIsAllFinished()) { holder.finishedStepImage.setVisibility(View.VISIBLE); }
         else { holder.finishedStepImage.setVisibility(View.GONE); }
 
         return convertView;

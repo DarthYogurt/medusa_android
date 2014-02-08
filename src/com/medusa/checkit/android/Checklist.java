@@ -5,18 +5,18 @@ import android.os.Parcelable;
 
 public class Checklist implements Parcelable {
 
+	private int groupId;
 	private int id;
 	private String name;
-	private int groupId;
 	private int numOfSteps;
 	private String timeStarted;
 	private String timeFinished;
 	
-	public Checklist(int id, String name, int numOfSteps, int groupId) {
+	public Checklist(int groupId, int id, String name, int numOfSteps) {
+		this.groupId = groupId;
 		this.id = id;
 		this.name = name;
 		this.numOfSteps = numOfSteps;
-		this.groupId = groupId;
 		this.timeStarted = "";
 		this.timeFinished = "";
 	}
@@ -25,13 +25,13 @@ public class Checklist implements Parcelable {
 		readFromParcel(in);
 	}
 	
+	public int getGroupId() { return groupId; }
+	
 	public int getId() { return id; }
 	
 	public String getName() { return name; }
 	
 	public int getNumOfSteps() { return numOfSteps; }
-	
-	public int getGroupId() { return groupId; }
 	
 	public String getTimeStarted() { return timeStarted; }
 	public void setTimeStarted(String s) { this.timeStarted = s; }

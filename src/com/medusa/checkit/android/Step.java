@@ -13,6 +13,7 @@ public class Step implements Parcelable {
 	private int id;
 	private int checklistId;
 	private String checklistName;
+	private ArrayList<User> users;
 	private Boolean yesOrNo;
 	private Double number;
 	private String text;
@@ -23,7 +24,6 @@ public class Step implements Parcelable {
 	private Double ifLessThan;
 	private Double ifEqualTo;
 	private Double ifGreaterThan;
-	private ArrayList<User> users;
 	private int notifyUserId;
 	private boolean reqNote;
 	private boolean reqPicture;
@@ -35,16 +35,16 @@ public class Step implements Parcelable {
 	private String timeFinished;
 	
 	public Step(int order, String name, String type, int id, int checklistId, String checklistName, 
-				boolean reqNote, boolean reqPicture, ArrayList<User> users) {
+				ArrayList<User> users, boolean reqNote, boolean reqPicture) {
 		this.order = order;
 		this.name = name;
 		this.type = type;
 		this.id = id;
 		this.checklistId = checklistId;
 		this.checklistName = checklistName;
+		this.users = users;
 		this.reqNote = reqNote;
 		this.reqPicture = reqPicture;
-		this.users = users;
 		this.notifyUserId = 0;
 		this.ifBoolValueIs = null;
 		this.ifLessThan = null;
@@ -64,7 +64,9 @@ public class Step implements Parcelable {
 		this.timeFinished = "";
 	}
 	
-	public Step(Parcel in) { readFromParcel(in); }
+	public Step(Parcel in) { 
+		readFromParcel(in); 
+	}
 	
 	public int getOrder() { return order; }
 	
@@ -78,11 +80,11 @@ public class Step implements Parcelable {
 	
 	public String getChecklistName() { return checklistName; }
 	
+	public ArrayList<User> getUsers() { return users; }
+	
 	public boolean getReqNote() { return reqNote; }
 	
 	public boolean getReqPicture() { return reqPicture; }
-	
-	public ArrayList<User> getUsers() { return users; }
 	
 	public int getNotifyUserId() { return notifyUserId; }
 	public void setNotifyUserId(int i) { this.notifyUserId = i; }
@@ -148,9 +150,10 @@ public class Step implements Parcelable {
 		dest.writeInt(id);
 		dest.writeInt(checklistId);
 		dest.writeString(checklistName);
+		dest.writeTypedList(users);
+		
 		dest.writeByte((byte)(reqNote ? 1 : 0));
 		dest.writeByte((byte)(reqPicture ? 1 : 0));
-		dest.writeTypedList(users);
 		dest.writeInt(notifyUserId);
 		
 		dest.writeValue(ifBoolValueIs);
@@ -179,9 +182,11 @@ public class Step implements Parcelable {
 		id = in.readInt();
 		checklistId = in.readInt();
 		checklistName = in.readString();
+		users = new ArrayList<User>();
+		in.readTypedList(users, User.CREATOR);
+		
 		reqNote = in.readByte() != 0;
 		reqPicture = in.readByte() != 0;
-		in.readTypedList(users, User.CREATOR);
 		notifyUserId = in.readInt();
 		
 		Object ifBoolValueIsObj = in.readValue(null);

@@ -13,8 +13,8 @@ import android.util.Log;
 public class HTTPGetRequest {
 	
 	private static final String BASE_URL = "http://dev.darthyogurt.com:8000/";
-	private static final String GROUP_ID_URL = "checklist/groupid/";
-	private static final String CHECKLIST_ID_URL = "checklist/checklistid/";
+	private static final String CHECKLISTS_URL = "checklist/groupid/";
+	private static final String STEPS_URL = "checklist/checklistid/";
 	private static final String NOTIFICATIONS_URL = "getSlate/";
 	
 	public String getJSONString(String url) throws MalformedURLException, IOException {
@@ -45,7 +45,7 @@ public class HTTPGetRequest {
 	}
 	
 	public String getChecklists(int groupId) {
-		String listOfChecklistsURL = BASE_URL + GROUP_ID_URL + Integer.toString(groupId);
+		String listOfChecklistsURL = BASE_URL + CHECKLISTS_URL + Integer.toString(groupId);
 		String jsonString = "";
 		try { jsonString = getJSONString(listOfChecklistsURL); } 
 		catch (MalformedURLException e) { e.printStackTrace(); } 
@@ -54,7 +54,7 @@ public class HTTPGetRequest {
 	}
 	
 	public String getSteps(int checklistId) {
-		String checklistStepsURL = BASE_URL + CHECKLIST_ID_URL + Integer.toString(checklistId);
+		String checklistStepsURL = BASE_URL + STEPS_URL + Integer.toString(checklistId);
 		String jsonString = "";
 		try { jsonString = getJSONString(checklistStepsURL); } 
 		catch (MalformedURLException e) { e.printStackTrace(); }
