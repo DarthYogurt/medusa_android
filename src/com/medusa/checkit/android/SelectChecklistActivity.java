@@ -30,9 +30,7 @@ public class SelectChecklistActivity extends Activity {
 	private static final int GROUP_ID = 1;
 	
 	ListView listView;
-	ChecklistAdapter adapter;
 	JSONReader reader;
-	UpdateFiles updateFiles;
 	ArrayList<Checklist> checklistsArray;
 	ArrayList<Step> stepsArray;
 	
@@ -42,9 +40,9 @@ public class SelectChecklistActivity extends Activity {
 		setContentView(R.layout.activity_select_checklist);
 		getActionBar().setTitle("");
 		
-		reader = new JSONReader(this);
-		
 		checklistsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_CHECKLISTS);
+		
+		reader = new JSONReader(this);
         
         listView = (ListView)findViewById(R.id.checklist_listview);
         refreshList();
@@ -71,7 +69,7 @@ public class SelectChecklistActivity extends Activity {
 	}
 	
 	private void refreshList() {
-		adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
+		ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
         listView.setAdapter(adapter);
 	}
 	
@@ -89,24 +87,20 @@ public class SelectChecklistActivity extends Activity {
 		}
 		
 	    protected Void doInBackground(Void... params) {
-	    	HTTPGetRequest getRequest = new HTTPGetRequest();
-	    	JSONWriter writer = new JSONWriter(SelectChecklistActivity.this);
-	    	
 	    	// Updates local JSON file containing checklists
-	    	String checklistsJsonString = "";
-			checklistsJsonString = getRequest.getChecklists(GROUP_ID);
+	    	HTTPGetRequest getRequest = new HTTPGetRequest();
+	    	String checklistsJsonString = getRequest.getChecklists(GROUP_ID);
 			
+			JSONWriter writer = new JSONWriter(SelectChecklistActivity.this);
 			try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
 			catch (IOException e) { e.printStackTrace(); }
 			
 			createChecklistArray();
 			
 			// Updates JSON file of steps for each checklist into individual files 
-			Checklist checklistHolder;
-			String stepsJsonString = "";
 			for (int i = 0; i < checklistsArray.size(); i++) { 
-				checklistHolder = checklistsArray.get(i);
-				stepsJsonString = getRequest.getSteps(checklistHolder.getId());
+				Checklist checklistHolder = checklistsArray.get(i);
+				String stepsJsonString = getRequest.getSteps(checklistHolder.getId());
 				
 				String filename = "cid" + Integer.toString(checklistHolder.getId()) + "_steps.json";
 				try { writer.writeToInternal(filename, stepsJsonString); }
@@ -156,8 +150,7 @@ public class SelectChecklistActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_update:
 			if (Utilities.isNetworkAvailable(this)) {
-				updateFiles = new UpdateFiles();
-				updateFiles.execute();
+				new UpdateFiles().execute();
 			}
 			else {
 				Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();

@@ -18,8 +18,6 @@ public class SplashActivity extends Activity {
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final int GROUP_ID = 1;
 
-	JSONReader reader;
-	JSONWriter writer;
 	ArrayList<Checklist> checklistsArray;
 	
 	@Override
@@ -31,11 +29,9 @@ public class SplashActivity extends Activity {
 				
 		// Removes notification bar
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
-				
+		
 		setContentView(R.layout.activity_splash);
 		
-		reader = new JSONReader(this);
-		writer = new JSONWriter(this);
 		checklistsArray = new ArrayList<Checklist>();
 		
 		new ShowLogo().execute();
@@ -87,23 +83,21 @@ public class SplashActivity extends Activity {
 		}
 		
 	    protected Void doInBackground(Void... params) {
-	    	
 	    	// Updates local JSON file containing checklists
 	    	HTTPGetRequest getRequest = new HTTPGetRequest();
 	    	String checklistsJsonString = getRequest.getChecklists(GROUP_ID);
 			
+	    	JSONWriter writer = new JSONWriter(SplashActivity.this);
 			try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
 			catch (IOException e) { e.printStackTrace(); }
 			
 	    	createChecklistArray();
 	    	
 			// Updates JSON file of steps for each checklist into individual files 
-			Checklist checklistHolder;
-			String stepsJsonString = "";
 			for (int i = 0; i < checklistsArray.size(); i++) { 
-				checklistHolder = checklistsArray.get(i);
+				Checklist checklistHolder = checklistsArray.get(i);
 
-				stepsJsonString = getRequest.getSteps(checklistHolder.getId());
+				String stepsJsonString = getRequest.getSteps(checklistHolder.getId());
 				
 				String filename = "cid" + Integer.toString(checklistHolder.getId()) + "_steps.json";
 				try { writer.writeToInternal(filename, stepsJsonString); }
@@ -122,6 +116,7 @@ public class SplashActivity extends Activity {
 	
 	private void createChecklistArray() {
 		try { 
+			JSONReader reader = new JSONReader(this);
 			String jsonString = reader.readFromInternal(FILENAME_CHECKLISTS);
 			checklistsArray = reader.getChecklistsArray(jsonString);
 		} 
@@ -141,6 +136,7 @@ public class SplashActivity extends Activity {
 		
 		for (int i = 0; i < savedFiles.length; i++) {
 			String filename = savedFiles[i];
+			
 			if (filename.contains("finished")) {
 				JSONReader jReader = new JSONReader(this);
 				ArrayList<String> imgFilenames = new ArrayList<String>();
@@ -157,7 +153,6 @@ public class SplashActivity extends Activity {
 	}
 	
 	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
-
 		ProgressDialog progressDialog;
 		String filename;
 		ArrayList<String> imgFilenames;

@@ -1,9 +1,7 @@
 package com.medusa.checkit.android;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -108,10 +106,8 @@ public class FinishChecklistActivity extends Activity {
 	}	
 	
 	private void writeAllStepsToJSON() {
-		Step step;
-		
 		for (int i = 0; i < stepsArray.size(); i++) {
-			step = stepsArray.get(i);
+			Step step = stepsArray.get(i);
 			
 			if (step.getType().equalsIgnoreCase(TYPE_BOOL)) {
 				try { writer.writeStepBoolean(step); } 
@@ -256,8 +252,7 @@ public class FinishChecklistActivity extends Activity {
 	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
 	        			checklist.setTimeFinished(Utilities.getTimeStamp());
-						PostToServerThread post = new PostToServerThread();
-						post.execute();
+	        			new PostToServerThread().execute();
 	        		}
 	        	})
 	        	.setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
