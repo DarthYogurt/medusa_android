@@ -293,8 +293,8 @@
 		    
 	<View
 	    android:layout_width="fill_parent"
-	    android:layout_height="2dp"
-	    android:background="#0033cc" />
+	    android:layout_height="1dp"
+	    android:background="#000" />
 	
 	<!-- NAV/EXTRA BUTTON CONTAINER -->
     <RelativeLayout
