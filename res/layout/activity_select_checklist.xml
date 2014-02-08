@@ -11,15 +11,17 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="#ccc"
+        android:background="#008a2e"
         android:gravity="center"
         android:textSize="20sp"
+        android:textColor="#fff"
         android:text="@string/start_new_checklist" />
 	
 	<ListView
 	    android:id="@+id/checklist_listview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:dividerHeight="2dp" />
+	    android:dividerHeight="1dp"
+	    android:divider="#008a2e" />
 
 </LinearLayout>
