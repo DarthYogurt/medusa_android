@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -27,15 +28,18 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class StepFragment extends Fragment {
 	
@@ -64,6 +68,8 @@ public class StepFragment extends Fragment {
 	private ImageButton btnPrev;
 	private TextView requiredExtrasMessage;
 	private ImageView extraImage;
+	private LinearLayout notifyPersonContainer;
+	private TextView notifyPerson;
 	private Step step;
 
 	static StepFragment newInstance() {
@@ -82,6 +88,8 @@ public class StepFragment extends Fragment {
 		TextView order = (TextView) view.findViewById(R.id.step_order);
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
+		notifyPersonContainer = (LinearLayout) view.findViewById(R.id.notify_person_container);
+		notifyPerson = (TextView) view.findViewById(R.id.notify_person);
 		requiredExtrasMessage = (TextView) view.findViewById(R.id.required_extras);
 		finishedStepImg = (ImageView) view.findViewById(R.id.finished_step_img);
 		btnNext = (ImageButton) view.findViewById(R.id.btn_next);
@@ -112,6 +120,9 @@ public class StepFragment extends Fragment {
 			
 		// Show required extra note if not already finished
 		if (!step.getIsAllFinished()) { updateReqExtrasMsg(); }
+		
+		// Show who will be notified
+		if (!step.getNotifyUserName().isEmpty()) { showNotifyPerson(); }
 		
 		// Click listener for Extra Note PopupWindow
 		btnAddNoteExtra.setOnClickListener(new OnClickListener() {
@@ -222,7 +233,8 @@ public class StepFragment extends Fragment {
 				updateReqExtrasMsg();
 				
 				if (step.getIfBoolValueIs() != null && step.getIfBoolValueIs() == true) {
-					startRequiredExtra();
+					showNotifyPersonList();
+//					startRequiredExtra();
 				}
 				
 				if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
@@ -239,7 +251,8 @@ public class StepFragment extends Fragment {
 				updateReqExtrasMsg();
 				
 				if (step.getIfBoolValueIs() != null && step.getIfBoolValueIs() == false) {
-					startRequiredExtra();
+					showNotifyPersonList();
+//					startRequiredExtra();
 				}
 				
 				if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
@@ -460,6 +473,38 @@ public class StepFragment extends Fragment {
 	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
 	    	catch (IOException e) { e.printStackTrace(); }
 		}
+	}
+	
+	private void showNotifyPersonList() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle("Person To Notify");
+
+		ListView notifyPersonList = new ListView(getActivity());
+		final ArrayList<User> usersArray = step.getUsers();
+		NotifyPersonAdapter adapter = new NotifyPersonAdapter(getActivity(), R.layout.listview_notify_person_row, usersArray);
+		notifyPersonList.setAdapter(adapter);
+
+		builder.setView(notifyPersonList);
+		final Dialog dialog = builder.create();
+
+		dialog.show();
+		
+		notifyPersonList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				dialog.dismiss();
+				User user = usersArray.get(position);
+				step.setNotifyUserId(user.getId());
+				step.setNotifyUserName(user.getName());
+				showNotifyPerson();
+				startRequiredExtra();
+			}
+        });
+	}
+	
+	private void showNotifyPerson() {
+		notifyPersonContainer.setVisibility(View.VISIBLE);
+		notifyPerson.setText(step.getNotifyUserName());
 	}
 	
 	private void checkIfAllFinished() {

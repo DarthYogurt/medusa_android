@@ -22,9 +22,9 @@
     	<item name="android:windowExitAnimation">@anim/slide_up</item>
     </style>
     
-    <style name="CustomProgressDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:background">#7bc047</item>
-        <item name="android:textColor">#fff</item>
+    <style name="NotifyPersonDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:background">#fff</item>
+        <item name="android:textColor">#000</item>
     </style>
 
 </resources>

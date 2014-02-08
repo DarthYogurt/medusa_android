@@ -102,6 +102,33 @@
 	    	    android:layout_width="fill_parent"
 	    	    android:layout_height="wrap_content"
 	    	    android:layout_marginBottom="6dp" >
+		        
+		        <LinearLayout
+		            android:id="@+id/notify_person_container"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:visibility="gone"
+		            android:orientation="horizontal" >
+		            
+		            <TextView 
+			    	    android:layout_width="wrap_content"
+			    	    android:layout_height="wrap_content"
+			    	    android:layout_marginRight="4dp"
+			    	    android:textSize="14sp"
+			    	    android:textStyle="bold"
+			    	    android:textColor="#cc0000"
+			    	    android:text="@string/notify_label" />
+		        
+			        <TextView 
+			    	    android:id="@+id/notify_person"
+			    	    android:layout_width="wrap_content"
+			    	    android:layout_height="wrap_content"
+			    	    android:textSize="14sp"
+			    	    android:textStyle="bold"
+			    	    android:textColor="#cc0000" />
+		        
+		        </LinearLayout>
 	    	
 		    	<TextView 
 		    	    android:id="@+id/required_extras"

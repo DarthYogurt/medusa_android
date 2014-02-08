@@ -25,6 +25,7 @@ public class Step implements Parcelable {
 	private Double ifEqualTo;
 	private Double ifGreaterThan;
 	private int notifyUserId;
+	private String notifyUserName;
 	private boolean reqNote;
 	private boolean reqPicture;
 	private boolean isReqNoteFinished;
@@ -46,6 +47,7 @@ public class Step implements Parcelable {
 		this.reqNote = reqNote;
 		this.reqPicture = reqPicture;
 		this.notifyUserId = 0;
+		this.notifyUserName = "";
 		this.ifBoolValueIs = null;
 		this.ifLessThan = null;
 		this.ifEqualTo = null;
@@ -88,6 +90,9 @@ public class Step implements Parcelable {
 	
 	public int getNotifyUserId() { return notifyUserId; }
 	public void setNotifyUserId(int i) { this.notifyUserId = i; }
+	
+	public String getNotifyUserName() { return notifyUserName; }
+	public void setNotifyUserName(String s) { this.notifyUserName = s; }
 	
 	public Boolean getIfBoolValueIs() { return ifBoolValueIs; }
 	public void setIfBoolValueIs(boolean b) { this.ifBoolValueIs = b; }
@@ -155,6 +160,7 @@ public class Step implements Parcelable {
 		dest.writeByte((byte)(reqNote ? 1 : 0));
 		dest.writeByte((byte)(reqPicture ? 1 : 0));
 		dest.writeInt(notifyUserId);
+		dest.writeString(notifyUserName);
 		
 		dest.writeValue(ifBoolValueIs);
 		dest.writeValue(ifLessThan);
@@ -188,6 +194,7 @@ public class Step implements Parcelable {
 		reqNote = in.readByte() != 0;
 		reqPicture = in.readByte() != 0;
 		notifyUserId = in.readInt();
+		notifyUserName = in.readString();
 		
 		Object ifBoolValueIsObj = in.readValue(null);
 		if (ifBoolValueIsObj == null) { ifBoolValueIs = null; }

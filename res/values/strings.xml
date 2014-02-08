@@ -29,6 +29,7 @@
     <string name="add_notes">Add Notes</string>
     <string name="add_picture">Add Picture</string>
     <string name="notified_label">Notified:</string>
+    <string name="notify_label">Notify:</string>
     <string name="checklist_label">Checklist:</string>
     <string name="step_label">Step:</string>
 
