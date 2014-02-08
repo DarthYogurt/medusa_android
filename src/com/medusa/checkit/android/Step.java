@@ -1,5 +1,7 @@
 package com.medusa.checkit.android;
 
+import java.util.ArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,7 +11,6 @@ public class Step implements Parcelable {
 	private String name;
 	private String type;
 	private int id;
-	private int notifyUserId;
 	private int checklistId;
 	private String checklistName;
 	private Boolean yesOrNo;
@@ -22,6 +23,8 @@ public class Step implements Parcelable {
 	private Double ifLessThan;
 	private Double ifEqualTo;
 	private Double ifGreaterThan;
+	private ArrayList<User> users;
+	private int notifyUserId;
 	private boolean reqNote;
 	private boolean reqPicture;
 	private boolean isReqNoteFinished;
@@ -31,17 +34,18 @@ public class Step implements Parcelable {
 	private String timeStarted;
 	private String timeFinished;
 	
-	public Step(int order, String name, String type, int id, int notifyUserId,
-				int checklistId, String checklistName, boolean reqNote, boolean reqPicture) {
+	public Step(int order, String name, String type, int id, int checklistId, String checklistName, 
+				boolean reqNote, boolean reqPicture, ArrayList<User> users) {
 		this.order = order;
 		this.name = name;
 		this.type = type;
 		this.id = id;
-		this.notifyUserId = notifyUserId;
 		this.checklistId = checklistId;
 		this.checklistName = checklistName;
 		this.reqNote = reqNote;
 		this.reqPicture = reqPicture;
+		this.users = users;
+		this.notifyUserId = 0;
 		this.ifBoolValueIs = null;
 		this.ifLessThan = null;
 		this.ifEqualTo = null;
@@ -70,8 +74,6 @@ public class Step implements Parcelable {
 	
 	public int getId() { return id; }
 	
-	public int getNotifyUserId() { return notifyUserId; }
-	
 	public int getChecklistId() { return checklistId; }
 	
 	public String getChecklistName() { return checklistName; }
@@ -79,6 +81,11 @@ public class Step implements Parcelable {
 	public boolean getReqNote() { return reqNote; }
 	
 	public boolean getReqPicture() { return reqPicture; }
+	
+	public ArrayList<User> getUsers() { return users; }
+	
+	public int getNotifyUserId() { return notifyUserId; }
+	public void setNotifyUserId(int i) { this.notifyUserId = i; }
 	
 	public Boolean getIfBoolValueIs() { return ifBoolValueIs; }
 	public void setIfBoolValueIs(boolean b) { this.ifBoolValueIs = b; }
@@ -139,11 +146,12 @@ public class Step implements Parcelable {
 		dest.writeString(name);
 		dest.writeString(type);
 		dest.writeInt(id);
-		dest.writeInt(notifyUserId);
 		dest.writeInt(checklistId);
 		dest.writeString(checklistName);
 		dest.writeByte((byte)(reqNote ? 1 : 0));
 		dest.writeByte((byte)(reqPicture ? 1 : 0));
+		dest.writeTypedList(users);
+		dest.writeInt(notifyUserId);
 		
 		dest.writeValue(ifBoolValueIs);
 		dest.writeValue(ifLessThan);
@@ -169,11 +177,12 @@ public class Step implements Parcelable {
 		name = in.readString();
 		type = in.readString();
 		id = in.readInt();
-		notifyUserId = in.readInt();
 		checklistId = in.readInt();
 		checklistName = in.readString();
 		reqNote = in.readByte() != 0;
 		reqPicture = in.readByte() != 0;
+		in.readTypedList(users, User.CREATOR);
+		notifyUserId = in.readInt();
 		
 		Object ifBoolValueIsObj = in.readValue(null);
 		if (ifBoolValueIsObj == null) { ifBoolValueIs = null; }
