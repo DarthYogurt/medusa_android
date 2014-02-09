@@ -39,7 +39,7 @@
         </activity>
         <activity
             android:name="com.medusa.checkit.android.StepActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" >

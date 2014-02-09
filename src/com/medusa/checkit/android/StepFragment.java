@@ -12,9 +12,12 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -696,8 +699,8 @@ public class StepFragment extends Fragment {
 		case REQUEST_PICTURE:
 			if (resultCode == Activity.RESULT_OK) {	
 				Log.i("IMAGE FILE WRITTEN", step.getImageFilename());
-				File file = new File(getActivity().getExternalFilesDir(null), step.getImageFilename());
-				ImageHandler.compressAndScaleImage(file);
+				
+				ImageHandler.getOrientation(getActivity(), step.getImageFilename());
 				
 		    	finishStep();
 		    	showResult();
@@ -709,8 +712,8 @@ public class StepFragment extends Fragment {
 		case REQUEST_PICTURE_EXTRA:
 			if (resultCode == Activity.RESULT_OK) {
 				Log.i("IMAGE FILE WRITTEN", step.getExtraImageFilename());
-				File file = new File(getActivity().getExternalFilesDir(null), step.getExtraImageFilename());
-				ImageHandler.compressAndScaleImage(file);
+//				ImageHandler.compressImage(getActivity().getExternalFilesDir(null) + "/" + step.getExtraImageFilename());
+
 				
 		    	if (step.getReqPicture()) { step.setIsReqPictureFinished(true); }
 		    	showExtraPicture();
@@ -723,6 +726,10 @@ public class StepFragment extends Fragment {
 			break;
 		}
 	}
+	
+	
+	
+	
 	
 	private void showSoftKeyboard(View view) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

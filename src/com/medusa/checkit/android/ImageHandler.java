@@ -1,17 +1,29 @@
 package com.medusa.checkit.android;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class ImageHandler {
@@ -25,8 +37,10 @@ public class ImageHandler {
 		this.imageFilenamesArray = null;
 	}
 	
-	public static void compressAndScaleImage(File file) {
+	public static void compressImage(String filepath) {
 		try {
+			File file = new File(filepath);
+			
 		    // Decode image size
 		    BitmapFactory.Options o = new BitmapFactory.Options();
 		    o.inJustDecodeBounds = true;
@@ -41,22 +55,30 @@ public class ImageHandler {
 		    	scale*=2;
 		    }
 		        
-		    //Decode with inSampleSize
+		    // Decode with inSampleSize
 		    BitmapFactory.Options o2 = new BitmapFactory.Options();
 		    o2.inSampleSize = scale;
-		    Bitmap image = BitmapFactory.decodeStream(new FileInputStream(file), null, o2);
+		    Bitmap bm = BitmapFactory.decodeStream(new FileInputStream(file), null, o2);
 		    
+	        // Save file
 		    FileOutputStream fos = new FileOutputStream(file);
-		    image.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+		    bm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 		    
-		    try { 
-		    	fos.flush(); 
-		    	fos.close(); 
-	    	} 
+		    try { fos.flush(); fos.close(); } 
 		    catch (IOException e) { e.printStackTrace(); }
+		    
+		    bm.recycle();
+		    System.gc();
 		} 
 		catch (FileNotFoundException e) { e.printStackTrace(); }
 	}
+	
+	public static void rotateImage(Context context, String filename) {
+		try {
+			ExifInterface exif = new ExifInterface(context.getExternalFilesDir(null) + "/" + filename);
+			int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+			Log.v("ORIENTATION", Integer.toString(orientation));
+		} catch (IOException e) { e.printStackTrace(); }
 	
 	public String getImageFilename(int checklistId, int stepOrder, boolean isExtra) {
 		String filename = "";
@@ -83,4 +105,5 @@ public class ImageHandler {
 	public ArrayList<String> getArrayList() {
 		return imageFilenamesArray;
 	}
+
 }
