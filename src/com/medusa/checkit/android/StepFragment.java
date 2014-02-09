@@ -699,8 +699,7 @@ public class StepFragment extends Fragment {
 		case REQUEST_PICTURE:
 			if (resultCode == Activity.RESULT_OK) {	
 				Log.i("IMAGE FILE WRITTEN", step.getImageFilename());
-				
-				ImageHandler.getOrientation(getActivity(), step.getImageFilename());
+				ImageHandler.compressAndRotateImage(getActivity(), step.getImageFilename());
 				
 		    	finishStep();
 		    	showResult();
@@ -712,9 +711,8 @@ public class StepFragment extends Fragment {
 		case REQUEST_PICTURE_EXTRA:
 			if (resultCode == Activity.RESULT_OK) {
 				Log.i("IMAGE FILE WRITTEN", step.getExtraImageFilename());
-//				ImageHandler.compressImage(getActivity().getExternalFilesDir(null) + "/" + step.getExtraImageFilename());
+				ImageHandler.compressAndRotateImage(getActivity(), step.getExtraImageFilename());
 
-				
 		    	if (step.getReqPicture()) { step.setIsReqPictureFinished(true); }
 		    	showExtraPicture();
 		    	checkIfAllFinished();

@@ -37,9 +37,9 @@ public class ImageHandler {
 		this.imageFilenamesArray = null;
 	}
 	
-	public static void compressImage(String filepath) {
+	public static void compressAndRotateImage(Context context, String filename) {
 		try {
-			File file = new File(filepath);
+			File file = new File(context.getExternalFilesDir(null), filename);
 			
 		    // Decode image size
 		    BitmapFactory.Options o = new BitmapFactory.Options();
@@ -60,6 +60,20 @@ public class ImageHandler {
 		    o2.inSampleSize = scale;
 		    Bitmap bm = BitmapFactory.decodeStream(new FileInputStream(file), null, o2);
 		    
+		    // Get orientation of picture
+		    ExifInterface exif = null;
+			try { exif = new ExifInterface(context.getExternalFilesDir(null) + "/" + filename); } 
+			catch (IOException e1) { e1.printStackTrace(); }
+			int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+			Log.i("ORIENTATION", Integer.toString(orientation));
+			
+			// Rotate image to portrait based on taken orientation
+			Matrix matrix = new Matrix();
+            if (orientation == 6) { matrix.postRotate(90); }
+            else if (orientation == 3) { matrix.postRotate(180); }
+            else if (orientation == 8) { matrix.postRotate(270); }
+            bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+		    
 	        // Save file
 		    FileOutputStream fos = new FileOutputStream(file);
 		    bm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -72,13 +86,6 @@ public class ImageHandler {
 		} 
 		catch (FileNotFoundException e) { e.printStackTrace(); }
 	}
-	
-	public static void rotateImage(Context context, String filename) {
-		try {
-			ExifInterface exif = new ExifInterface(context.getExternalFilesDir(null) + "/" + filename);
-			int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
-			Log.v("ORIENTATION", Integer.toString(orientation));
-		} catch (IOException e) { e.printStackTrace(); }
 	
 	public String getImageFilename(int checklistId, int stepOrder, boolean isExtra) {
 		String filename = "";
