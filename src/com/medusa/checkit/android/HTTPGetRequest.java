@@ -8,8 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import android.util.Log;
-
 public class HTTPGetRequest {
 	
 	private static final String BASE_URL = "http://dev.darthyogurt.com:8000/";
@@ -18,11 +16,11 @@ public class HTTPGetRequest {
 	private static final String NOTIFICATIONS_URL = "getSlate/";
 	
 	public String getJSONString(String url) throws MalformedURLException, IOException {
-		String JSONString = "";
 		String charset = "UTF-8";
 		URLConnection connection = new URL(url).openConnection();
 		InputStream response = connection.getInputStream();
 		String contentType = connection.getHeaderField("Content-Type");
+		
 		for (String param : contentType.replace(" ", "").split(";")) {
 			if (param.startsWith("charset=")) {
 				charset = param.split("=", 2)[1];
@@ -30,6 +28,7 @@ public class HTTPGetRequest {
 			}
 		}
 		
+		String JSONString = "";
 		if (charset != null) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(response, charset));
 			try {

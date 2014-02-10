@@ -102,7 +102,6 @@ public class FinishChecklistActivity extends Activity {
 			if (!step.getIsAllFinished()) { finished = false; break; }
 			else { finished = true; }
 		}
-		
 		return finished;
 	}	
 	
@@ -162,7 +161,7 @@ public class FinishChecklistActivity extends Activity {
 			} catch (IOException e) { e.printStackTrace(); }
 			
 			if (GlobalMethods.isNetworkAvailable(FinishChecklistActivity.this)) {
-				final HTTPPostRequest post = new HTTPPostRequest(FinishChecklistActivity.this);
+				HTTPPostRequest post = new HTTPPostRequest(FinishChecklistActivity.this);
 				post.createNewPost(); 
 				post.addJSON(filename);
 				if (imageHandler.getArrayList() != null) {
@@ -170,7 +169,7 @@ public class FinishChecklistActivity extends Activity {
 					imgFilenames = imageHandler.getArrayList();
 					post.addPictures(imgFilenames);
 				}
-				final int responseCode = post.sendPost();
+				int responseCode = post.sendPost();
 				
 				if (responseCode == HTTP_RESPONSE_SUCCESS) {
 					// Show message from upload
@@ -191,9 +190,6 @@ public class FinishChecklistActivity extends Activity {
 						}
 					}
 				}
-				
-//				Intent intent = new Intent(FinishChecklistActivity.this, SplashActivity.class);
-//				startActivity(intent);
 				finish();
 			}
 			else {
@@ -218,8 +214,6 @@ public class FinishChecklistActivity extends Activity {
 	        builder.setMessage(R.string.dialog_network_error)
 	        	.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
-	        			Intent intent = new Intent(FinishChecklistActivity.this, SplashActivity.class);
-	        			startActivity(intent);
 	        			finish();
 	        		}
 	        	});

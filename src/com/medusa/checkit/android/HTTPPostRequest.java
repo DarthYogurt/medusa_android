@@ -92,12 +92,10 @@ public class HTTPPostRequest {
 		HttpPost errorPost = new HttpPost(ERROR_URL);
 		errorPost.setHeader("enctype", "multipart/form-data");
 
-		MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-		entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-		
-		entity.addPart("error", new FileBody(errorFile));
-		
-		errorPost.setEntity(entity.build());
+		MultipartEntityBuilder errorEntity = MultipartEntityBuilder.create();
+		errorEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+		errorEntity.addPart("error", new FileBody(errorFile));
+		errorPost.setEntity(errorEntity.build());
 		
 		try { 
 			HttpResponse errorResponse = errorClient.execute(errorPost);

@@ -20,8 +20,7 @@ public class NotificationsActivity extends Activity {
 	
 	private static final String FILENAME_NOTIFICATIONS = "notifications.json";
 	
-	ListView listView;
-	NotificationsAdapter adapter;
+	private ListView listView;
 	private ArrayList<Notification> notificationsArray;
 
 	@Override
@@ -36,9 +35,7 @@ public class NotificationsActivity extends Activity {
 		
 		refreshList();
 
-        if (GlobalMethods.isNetworkAvailable(this)) { 
-        	new UpdateNotifications().execute();
-		}
+        if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotifications().execute(); }
     	else {
     		Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 			
@@ -60,7 +57,7 @@ public class NotificationsActivity extends Activity {
 	}
 	
 	private void refreshList() {
-		adapter = new NotificationsAdapter(this, R.layout.listview_notification_row, notificationsArray);
+		NotificationsAdapter adapter = new NotificationsAdapter(this, R.layout.listview_notification_row, notificationsArray);
         listView.setAdapter(adapter);
 	}
 

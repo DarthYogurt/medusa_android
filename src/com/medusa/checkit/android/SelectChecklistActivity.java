@@ -1,18 +1,13 @@
 package com.medusa.checkit.android;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +20,6 @@ import android.widget.AdapterView.OnItemClickListener;
 public class SelectChecklistActivity extends Activity {
 	
 	private static final String FILENAME_CHECKLISTS = "checklists.json";
-	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final String KEY_CHECKLIST = "checklist";
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";

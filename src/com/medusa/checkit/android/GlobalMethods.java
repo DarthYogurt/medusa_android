@@ -7,16 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Window;
 
 public class GlobalMethods {
 	
@@ -77,29 +73,6 @@ public class GlobalMethods {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy_HHmmss");
 		String now = sdf.format(new Date());
 		return now;
-	}
-	
-	public static boolean hasUnsentChecklist(Context context) {
-		String[] savedFiles = context.fileList();
-		
-		for (int i = 0; i < savedFiles.length; i++) {
-			String filename = savedFiles[i];			
-			if (filename.contains("finished")) { return true; }
-		}
-		return false;
-	}
-	
-	public static ArrayList<Checklist> createChecklistArray(Context context) {
-		final String FILENAME_CHECKLISTS = "checklists.json";
-		
-		ArrayList<Checklist> array = new ArrayList<Checklist>();
-		try { 
-			JSONReader reader = new JSONReader(context);
-			String jsonString = reader.readFromInternal(FILENAME_CHECKLISTS);
-			array = reader.getChecklistsArray(jsonString);
-		} 
-		catch (IOException e) { e.printStackTrace(); }
-		return array;
 	}
 	
 }
