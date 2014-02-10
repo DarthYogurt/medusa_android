@@ -40,6 +40,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		private TextView stepOrderView;
 		private TextView stepNameView;
 		private TextView resultTextView;
+		private LinearLayout resultImageContainer;
 		private ImageView resultImageView;
 		private LinearLayout extraNoteContainer;
 		private TextView extraNoteTextView;
@@ -60,6 +61,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
             holder.stepOrderView = (TextView) convertView.findViewById(R.id.step_order);
             holder.stepNameView = (TextView) convertView.findViewById(R.id.step_name);
             holder.resultTextView = (TextView) convertView.findViewById(R.id.result_text);
+            holder.resultImageContainer = (LinearLayout) convertView.findViewById(R.id.result_image_container);
             holder.resultImageView = (ImageView) convertView.findViewById(R.id.result_image);
             holder.extraNoteContainer = (LinearLayout) convertView.findViewById(R.id.extra_note_container);
             holder.extraNoteTextView = (TextView) convertView.findViewById(R.id.extra_note_text);
@@ -68,9 +70,8 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
             holder.finishedStepImageView = (ImageView) convertView.findViewById(R.id.finished_step_img);
 
             convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder)convertView.getTag();
-        }
+        } 
+		else { holder = (ViewHolder)convertView.getTag(); }
 
 		String stepOrder = Integer.toString(steps.get(position).getOrder()); 
 		holder.stepOrderView.setText(stepOrder);
@@ -87,7 +88,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 			holder.resultTextView.setVisibility(View.VISIBLE);
 			holder.resultTextView.setText(result);
 		}
-		
+
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_NUMBER)) {
 			String result = "";
 			if (steps.get(position).getIsStepFinished()) {
@@ -107,7 +108,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		}
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_IMAGE)) {
-			holder.resultImageView.setVisibility(View.VISIBLE);
+			holder.resultImageContainer.setVisibility(View.VISIBLE);
 			try {
 				File file = new File(context.getExternalFilesDir(null), steps.get(position).getImageFilename());
 				FileInputStream fis = new FileInputStream(file);
@@ -119,6 +120,7 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
 	    	catch (IOException e) { e.printStackTrace(); }
 		}
+		else { holder.resultImageContainer.setVisibility(View.GONE); }
 		
 		if (!steps.get(position).getExtraNote().isEmpty()) {
 			holder.extraNoteContainer.setVisibility(View.VISIBLE);

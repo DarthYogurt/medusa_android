@@ -713,6 +713,7 @@ public class StepFragment extends Fragment {
 				Log.i("IMAGE FILE WRITTEN", step.getExtraImageFilename());
 				ImageHandler.compressAndRotateImage(getActivity(), step.getExtraImageFilename());
 
+				pwPicture.dismiss();
 		    	if (step.getReqPicture()) { step.setIsReqPictureFinished(true); }
 		    	showExtraPicture();
 		    	checkIfAllFinished();
@@ -724,10 +725,6 @@ public class StepFragment extends Fragment {
 			break;
 		}
 	}
-	
-	
-	
-	
 	
 	private void showSoftKeyboard(View view) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

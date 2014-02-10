@@ -198,7 +198,8 @@
 			        android:layout_height="fill_parent"
 			        android:layout_gravity="center"
 			        android:visibility="gone"
-			        android:scaleType="fitXY"
+			        android:adjustViewBounds="true"
+			        android:scaleType="center"
 			        android:contentDescription="@string/taken_img_desc" />
 				    
 	    	</LinearLayout>
