@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -42,14 +43,12 @@ public class SelectChecklistActivity extends Activity {
 		setContentView(R.layout.activity_select_checklist);
 		getActionBar().setTitle("");
 		
-		checklistsArray = getIntent().getParcelableArrayListExtra(KEY_ALL_CHECKLISTS);
+		listView = (ListView)findViewById(R.id.checklist_listview);
 		
+		checklistsArray = new ArrayList<Checklist>();
 		reader = new JSONReader(this);
-        
-        listView = (ListView)findViewById(R.id.checklist_listview);
-        refreshList();
-        
-        listView.setOnItemClickListener(new OnItemClickListener() {
+		
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(SelectChecklistActivity.this, StepActivity.class);
@@ -68,6 +67,23 @@ public class SelectChecklistActivity extends Activity {
 				}
 			}
         });
+        
+        if (GlobalMethods.isNetworkAvailable(SelectChecklistActivity.this)) { 
+    		new UpdateFilesTask().execute();
+		}
+    	else {
+			if (GlobalMethods.checkIfFileExists(SelectChecklistActivity.this, FILENAME_CHECKLISTS)) {
+				Toast.makeText(SelectChecklistActivity.this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
+				createChecklistArray();
+				refreshList();
+			}
+			else {
+				Toast.makeText(SelectChecklistActivity.this, R.string.msg_no_local_files, Toast.LENGTH_LONG).show();
+				finish();
+			}
+    	}
+        
+        
 	}
 	
 	private void refreshList() {
@@ -107,7 +123,7 @@ public class SelectChecklistActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_update:
 			if (GlobalMethods.isNetworkAvailable(this)) {
-				new UpdateFilesThread().execute();
+				new UpdateFilesTask().execute();
 			}
 			else {
 				Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
@@ -142,9 +158,8 @@ public class SelectChecklistActivity extends Activity {
 		}
 	}
 	
-	private class UpdateFilesThread extends AsyncTask<Void, Void, Void> {
-
-		ProgressDialog progressDialog;
+	private class UpdateFilesTask extends AsyncTask<Void, Void, Void> {
+		private ProgressDialog progressDialog;
 		
 		protected void onPreExecute() {
 			progressDialog = new ProgressDialog(SelectChecklistActivity.this);
@@ -168,10 +183,10 @@ public class SelectChecklistActivity extends Activity {
 			
 			// Updates JSON file of steps for each checklist into individual files 
 			for (int i = 0; i < checklistsArray.size(); i++) { 
-				Checklist checklistHolder = checklistsArray.get(i);
-				String stepsJsonString = getRequest.getSteps(checklistHolder.getId());
+				Checklist checklist = checklistsArray.get(i);
+				String stepsJsonString = getRequest.getSteps(checklist.getId());
 				
-				String filename = "cid" + Integer.toString(checklistHolder.getId()) + "_steps.json";
+				String filename = "cid" + Integer.toString(checklist.getId()) + "_steps.json";
 				try { writer.writeToInternal(filename, stepsJsonString); }
 				catch (IOException e) { e.printStackTrace(); }
 			}
@@ -182,7 +197,6 @@ public class SelectChecklistActivity extends Activity {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
 	    	refreshList();
-	    	checkForNonUploadedChecklists();
 	        return;
 	    }
 	}

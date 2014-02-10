@@ -89,58 +89,6 @@ public class GlobalMethods {
 		return false;
 	}
 	
-	public static class UpdateFilesTask extends AsyncTask<Void, Void, Void> {
-		
-		private static final int GROUP_ID = 1;
-		private static final String FILENAME_CHECKLISTS = "checklists.json";
-		
-		private Context context;
-		private ProgressDialog progressDialog;
-		
-		public UpdateFilesTask(Context context) {
-			this.context = context;
-		}
-		
-		protected void onPreExecute() {
-			progressDialog = new ProgressDialog(context);
-			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setMessage(context.getResources().getString(R.string.msg_updating_files));
-			progressDialog.show();
-			progressDialog.setCanceledOnTouchOutside(false);
-		}
-		
-	    protected Void doInBackground(Void... params) {
-	    	// Updates local JSON file containing checklists
-	    	HTTPGetRequest getRequest = new HTTPGetRequest();
-	    	String checklistsJsonString = getRequest.getChecklists(GROUP_ID);
-			
-			JSONWriter writer = new JSONWriter(context);
-			try { writer.writeToInternal(FILENAME_CHECKLISTS, checklistsJsonString); } 
-			catch (IOException e) { e.printStackTrace(); }
-			
-			ArrayList<Checklist> checklistsArray = new ArrayList<Checklist>();
-			checklistsArray = createChecklistArray(context);
-			
-			// Updates JSON file of steps for each checklist into individual files 
-			for (int i = 0; i < checklistsArray.size(); i++) { 
-				Checklist checklist = checklistsArray.get(i);
-				String stepsJsonString = getRequest.getSteps(checklist.getId());
-				
-				String filename = "cid" + Integer.toString(checklist.getId()) + "_steps.json";
-				try { writer.writeToInternal(filename, stepsJsonString); }
-				catch (IOException e) { e.printStackTrace(); }
-			}
-	        return null;
-	    }
-
-	    protected void onPostExecute(Void result) {
-	    	super.onPostExecute(result);
-	    	progressDialog.dismiss();
-	        return;
-	    }
-	}
-	
 	public static ArrayList<Checklist> createChecklistArray(Context context) {
 		final String FILENAME_CHECKLISTS = "checklists.json";
 		
