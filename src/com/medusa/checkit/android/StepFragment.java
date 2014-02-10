@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -26,6 +28,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -179,7 +182,8 @@ public class StepFragment extends Fragment {
 		btnAddPictureExtra.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				startCameraActivity(REQUEST_PICTURE_EXTRA);
+				Toast.makeText(getActivity(), R.string.msg_starting_camera, Toast.LENGTH_SHORT).show();
+				new SleepBeforeCameraThread(REQUEST_PICTURE_EXTRA).start();
 				
 //				pwPicture.setTouchable(true);
 //				pwPicture.setFocusable(true);
@@ -298,14 +302,14 @@ public class StepFragment extends Fragment {
 		
 		if (!step.getIsStepFinished()) {
 			Toast.makeText(getActivity(), R.string.msg_starting_camera, Toast.LENGTH_SHORT).show();
-			NewPictureThread newPicture = new NewPictureThread(REQUEST_PICTURE);
-			newPicture.start();
+			new SleepBeforeCameraThread(REQUEST_PICTURE).start();
 		}
 		
 		btnTakePicture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				startCameraActivity(REQUEST_PICTURE);
+				Toast.makeText(getActivity(), R.string.msg_starting_camera, Toast.LENGTH_SHORT).show();
+				new SleepBeforeCameraThread(REQUEST_PICTURE).start();
 			}
 		});
 	}
@@ -335,17 +339,8 @@ public class StepFragment extends Fragment {
 		}
 		
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { 
-//			Display display = getActivity().getWindowManager().getDefaultDisplay();
-//			int width = display.getWidth();
-//			int height = display.getHeight();
-			
 			ImageView resultImage = (ImageView) view.findViewById(R.id.result_image);
 			resultImage.setVisibility(View.VISIBLE);
-			
-//			resultImage.setMinimumWidth(width);
-//			resultImage.setMinimumHeight(height);
-//			resultImage.setMaxWidth(width);
-//			resultImage.setMaxHeight(height);
 			
 			if (!step.getImageFilename().isEmpty()) {
 		    	try {
@@ -388,6 +383,27 @@ public class StepFragment extends Fragment {
 		}
 	}
 	
+	private void updateReqExtrasMsg() {
+		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
+			if (step.getIfBoolValueIs() != null) {
+				if (step.getYesOrNo() == step.getIfBoolValueIs()) {
+					if (step.getReqNote() && step.getReqPicture()) {
+						requiredExtrasMessage.setText("note & picture required");
+						return;
+					}
+					if (step.getReqNote()) { 
+						requiredExtrasMessage.setText("note required");
+						return;
+					}
+					if (step.getReqPicture()) { 
+						requiredExtrasMessage.setText("picture required");
+						return;
+					}
+				}
+			}
+		}
+	}
+	
 	private void startRequiredExtra() {
 		if (step.getReqNote() && step.getReqPicture()) {
 			if (!step.getIsReqNoteFinished()) {
@@ -427,27 +443,6 @@ public class StepFragment extends Fragment {
         	}
         	return;
         }
-	}
-	
-	private void updateReqExtrasMsg() {
-		if (step.getType().equalsIgnoreCase(TYPE_BOOL)) { 
-			if (step.getIfBoolValueIs() != null) {
-				if (step.getYesOrNo() == step.getIfBoolValueIs()) {
-					if (step.getReqNote() && step.getReqPicture()) {
-						requiredExtrasMessage.setText("note & picture required");
-						return;
-					}
-					if (step.getReqNote()) { 
-						requiredExtrasMessage.setText("note required");
-						return;
-					}
-					if (step.getReqPicture()) { 
-						requiredExtrasMessage.setText("picture required");
-						return;
-					}
-				}
-			}
-		}
 	}
 	
 	private void showExtras() {
@@ -666,18 +661,17 @@ public class StepFragment extends Fragment {
 		});
 	}
 	
-	private class NewPictureThread extends Thread {
-		
+	public class SleepBeforeCameraThread extends Thread {
 		int requestCode;
 		
-		private NewPictureThread(int requestCode) {
+		public SleepBeforeCameraThread(int requestCode) {
 			this.requestCode = requestCode;
 		}
 		
-		@Override
 		public void run() {
-			try { Thread.sleep(1000); startCameraActivity(requestCode); } 
-			catch (Exception e) { e.printStackTrace(); }
+			try { Thread.sleep(700); } 
+	    	catch (InterruptedException e) { e.printStackTrace(); } 
+			startCameraActivity(requestCode);
 		}
 	}
 	

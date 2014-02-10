@@ -115,7 +115,6 @@ public class SelectChecklistActivity extends Activity {
 	    	refreshList();
 	        return;
 	    }
-	    
 	}
 	
 	private void createChecklistArray() {
