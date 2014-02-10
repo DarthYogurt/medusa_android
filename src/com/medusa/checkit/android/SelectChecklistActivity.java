@@ -28,6 +28,7 @@ public class SelectChecklistActivity extends Activity {
 	private static final String KEY_CHECKLIST_STEPS = "checklistSteps";
 	private static final String KEY_CURRENT_STEP = "currentStep";
 	private static final int GROUP_ID = 1;
+	private static final int HTTP_RESPONSE_SUCCESS = 200;
 	
 	ListView listView;
 	JSONReader reader;
@@ -73,7 +74,74 @@ public class SelectChecklistActivity extends Activity {
         listView.setAdapter(adapter);
 	}
 	
-	private class UpdateFiles extends AsyncTask<Void, Void, Void> {
+	private void createChecklistArray() {
+		try { 
+			String jsonString = reader.readFromInternal(FILENAME_CHECKLISTS);
+			checklistsArray = reader.getChecklistsArray(jsonString);
+		} 
+		catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	private void createStepsArray(String filename) {
+		try {
+			String jsonString = reader.readFromInternal(filename);
+			stepsArray = reader.getStepsArray(jsonString);
+		} 
+		catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	private String getStepsFilename(int checklistId) {
+		return "cid" + Integer.toString(checklistId) + "_steps.json";
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.select_checklist, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_update:
+			if (Utilities.isNetworkAvailable(this)) {
+				new UpdateFilesThread().execute();
+			}
+			else {
+				Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		case R.id.action_notifications:
+			Intent intent = new Intent(this, NotificationsActivity.class);
+	    	startActivity(intent);
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private void checkForNonUploadedChecklists() {
+		String[] savedFiles = this.fileList();
+		
+		for (int i = 0; i < savedFiles.length; i++) {
+			String filename = savedFiles[i];
+			
+			if (filename.contains("finished")) {
+				ArrayList<String> imgFilenames = new ArrayList<String>();
+				
+				try { 
+					JSONReader reader = new JSONReader(this);
+					String jsonString = reader.readFromInternal(filename);
+					imgFilenames = reader.getImageFilenamesArray(jsonString);
+				} 
+				catch (IOException e) { e.printStackTrace(); }
+				
+				new PostToServerThread(filename, imgFilenames).execute();
+			}
+		}
+	}
+	
+	private class UpdateFilesThread extends AsyncTask<Void, Void, Void> {
 
 		ProgressDialog progressDialog;
 		
@@ -113,53 +181,73 @@ public class SelectChecklistActivity extends Activity {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
 	    	refreshList();
+	    	checkForNonUploadedChecklists();
 	        return;
 	    }
 	}
 	
-	private void createChecklistArray() {
-		try { 
-			String jsonString = reader.readFromInternal(FILENAME_CHECKLISTS);
-			checklistsArray = reader.getChecklistsArray(jsonString);
-		} 
-		catch (IOException e) { e.printStackTrace(); }
-	}
-	
-	private void createStepsArray(String filename) {
-		try {
-			String jsonString = reader.readFromInternal(filename);
-			stepsArray = reader.getStepsArray(jsonString);
-		} 
-		catch (IOException e) { e.printStackTrace(); }
-	}
-	
-	private String getStepsFilename(int checklistId) {
-		return "cid" + Integer.toString(checklistId) + "_steps.json";
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.select_checklist, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_update:
-			if (Utilities.isNetworkAvailable(this)) {
-				new UpdateFiles().execute();
+	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
+		ProgressDialog progressDialog;
+		String filename;
+		ArrayList<String> imgFilenames;
+		
+		PostToServerThread(String filename, ArrayList<String> imgFilenames) {
+			this.filename = filename;
+			this.imgFilenames = imgFilenames;
+		}
+		
+		protected void onPreExecute() {
+			progressDialog = new ProgressDialog(SelectChecklistActivity.this);
+			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progressDialog.setMessage(getResources().getString(R.string.msg_uploading_files));
+			progressDialog.show();
+			progressDialog.setCanceledOnTouchOutside(false);
+		}
+		
+	    protected Void doInBackground(Void... params) {
+			if (Utilities.isNetworkAvailable(SelectChecklistActivity.this)) {
+				final HTTPPostRequest post = new HTTPPostRequest(SelectChecklistActivity.this);
+				post.createNewPost(); 
+				post.addJSON(filename);
+				if (!imgFilenames.isEmpty()) { post.addPictures(imgFilenames); }
+				final int responseCode = post.sendPost();
+				
+				// Show message from upload
+				runOnUiThread(new Runnable() {
+					public void run() { showUploadMessage(responseCode); }
+				});
+				
+				// Delete files if successfully uploaded
+				if (responseCode == HTTP_RESPONSE_SUCCESS) {
+					// Deletes checklist file after uploaded
+					Utilities.deleteFileFromInternal(SelectChecklistActivity.this, filename);
+					
+					// Deletes images after uploaded
+					if (!imgFilenames.isEmpty()) {
+						for (int i = 0; i < imgFilenames.size(); i++) {
+							String imgFilename = imgFilenames.get(i);
+							Utilities.deleteFileFromExternal(SelectChecklistActivity.this, imgFilename);
+						}
+					}
+				}
 			}
 			else {
-				Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
+				Toast.makeText(SelectChecklistActivity.this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 			}
-			return true;
-		case R.id.action_notifications:
-			Intent intent = new Intent(this, NotificationsActivity.class);
-	    	startActivity(intent);
-		default:
-			return super.onOptionsItemSelected(item);
+	        return null;
+	    }
+
+	    protected void onPostExecute(Void result) {
+	    	super.onPostExecute(result);
+	    	progressDialog.dismiss();
+	        return;
+	    }
+	}
+	
+	private void showUploadMessage(int responseCode) {
+		if (responseCode == HTTP_RESPONSE_SUCCESS) {
+			Toast.makeText(this, R.string.msg_checklist_upload_success, Toast.LENGTH_SHORT).show();
 		}
 	}
 	

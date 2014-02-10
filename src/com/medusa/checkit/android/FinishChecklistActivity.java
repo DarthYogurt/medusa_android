@@ -31,6 +31,7 @@ public class FinishChecklistActivity extends Activity {
 	private static final String TYPE_NUMBER = "number";
 	private static final String TYPE_TEXT = "text";
 	private static final String TYPE_IMAGE = "image";
+	private static final int HTTP_RESPONSE_SUCCESS = 200;
 	
 	private JSONWriter writer;
 	private ImageHandler imageHandler;
@@ -169,23 +170,26 @@ public class FinishChecklistActivity extends Activity {
 					imgFilenames = imageHandler.getArrayList();
 					post.addPictures(imgFilenames);
 				}
-				post.sendPost();
+				final int responseCode = post.sendPost();
 				
 				// Show message from upload
 				runOnUiThread(new Runnable() {
 					public void run() {
-						showUploadMessage(post.getResponseCode());
+						showUploadMessage(responseCode);
 					}
 				});
 				
-				// Deletes checklist file after uploaded
-				Utilities.deleteFileFromInternal(FinishChecklistActivity.this, filename);
-				
-				// Deletes images after uploaded
-				if (imgFilenames != null) {
-					for (int i = 0; i < imgFilenames.size(); i++) {
-						String imgFilename = imgFilenames.get(i);
-						Utilities.deleteFileFromExternal(FinishChecklistActivity.this, imgFilename);
+				// Delete files if successfully uploaded
+				if (responseCode == HTTP_RESPONSE_SUCCESS) {
+					// Deletes checklist file after uploaded
+					Utilities.deleteFileFromInternal(FinishChecklistActivity.this, filename);
+					
+					// Deletes images after uploaded
+					if (imgFilenames != null) {
+						for (int i = 0; i < imgFilenames.size(); i++) {
+							String imgFilename = imgFilenames.get(i);
+							Utilities.deleteFileFromExternal(FinishChecklistActivity.this, imgFilename);
+						}
 					}
 				}
 				

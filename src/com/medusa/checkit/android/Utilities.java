@@ -75,4 +75,14 @@ public class Utilities {
 		return now;
 	}
 	
+	public static boolean hasUnsentChecklist(Context context) {
+		String[] savedFiles = context.fileList();
+		
+		for (int i = 0; i < savedFiles.length; i++) {
+			String filename = savedFiles[i];			
+			if (filename.contains("finished")) { return true; }
+		}
+		return false;
+	}
+	
 }

@@ -23,12 +23,12 @@ public class HTTPPostRequest {
 	private static final String POST_URL = "http://dev.darthyogurt.com:8000/upload/";
 	private static final String ERROR_URL = "http://dev.darthyogurt.com:8000/uploadError/";
 	private static final String ERROR_FILENAME = "error.txt";
+	private static final int HTTP_RESPONSE_SUCCESS = 200;
 	
 	Context context;
 	HttpClient client;
 	HttpPost post;
 	MultipartEntityBuilder multipartEntity;
-	int responseCode;
 	String responseBody;
 	
 	public HTTPPostRequest(Context context) {
@@ -44,9 +44,10 @@ public class HTTPPostRequest {
 		multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 	}
 	
-	public void sendPost() {
+	public int sendPost() {
 		post.setEntity(multipartEntity.build());
 		
+		int responseCode = 0;
 		try {
 			HttpResponse response = client.execute(post);
 			
@@ -56,10 +57,12 @@ public class HTTPPostRequest {
 			responseBody = EntityUtils.toString(response.getEntity());
 			Log.i("POST RESPONSE BODY", responseBody);
 			
-			checkIfError();
+			if (responseCode != HTTP_RESPONSE_SUCCESS) { sendErrorPost(); }
 		} 
 		catch (ClientProtocolException e) { e.printStackTrace(); } 
 		catch (IOException e) { e.printStackTrace(); }
+		
+		return responseCode;
 	}
 	
 	public void addJSON(String filename) {
@@ -73,14 +76,6 @@ public class HTTPPostRequest {
 			File file = new File(context.getExternalFilesDir(null) + File.separator + filename);
 			multipartEntity.addPart(filename, new FileBody(file));
 		}
-	}
-	
-	public int getResponseCode() {
-		return responseCode;
-	}
-	
-	private void checkIfError() {
-		if (responseCode != 200) { sendErrorPost(); }
 	}
 	
 	private void sendErrorPost() {

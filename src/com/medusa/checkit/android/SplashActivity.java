@@ -17,6 +17,7 @@ public class SplashActivity extends Activity {
 	private static final String FILENAME_CHECKLISTS = "checklists.json";
 	private static final String KEY_ALL_CHECKLISTS = "allChecklists";
 	private static final int GROUP_ID = 1;
+	private static final int HTTP_RESPONSE_SUCCESS = 200;
 
 	ArrayList<Checklist> checklistsArray;
 	
@@ -51,7 +52,6 @@ public class SplashActivity extends Activity {
 	    	
 	    	if (Utilities.isNetworkAvailable(SplashActivity.this)) { 
 	    		new UpdateFiles().execute();
-	    		checkForNonUploadedChecklists();
     		}
 	    	else {
 				if (Utilities.checkIfFileExists(SplashActivity.this, FILENAME_CHECKLISTS)) {
@@ -64,7 +64,6 @@ public class SplashActivity extends Activity {
 					finish();
 				}
 	    	}
-
 	        return;
 	    }
 	}
@@ -109,7 +108,9 @@ public class SplashActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
-	    	startActivity();
+	    	
+	    	if (Utilities.hasUnsentChecklist(SplashActivity.this)) { sendUnsentChecklists(); }
+	    	else { startActivity(); }
 	        return;
 	    }
 	}
@@ -131,7 +132,7 @@ public class SplashActivity extends Activity {
 		finish();
 	}
 	
-	private void checkForNonUploadedChecklists() {
+	private void sendUnsentChecklists() {
 		String[] savedFiles = this.fileList();
 		
 		for (int i = 0; i < savedFiles.length; i++) {
@@ -177,23 +178,23 @@ public class SplashActivity extends Activity {
 				post.createNewPost(); 
 				post.addJSON(filename);
 				if (!imgFilenames.isEmpty()) { post.addPictures(imgFilenames); }
-				post.sendPost();
+				final int responseCode = post.sendPost();
 				
 				// Show message from upload
 				runOnUiThread(new Runnable() {
-					public void run() {
-						showUploadMessage(post.getResponseCode());
-					}
+					public void run() { showUploadMessage(responseCode); }
 				});
 				
-				// Deletes checklist file after uploaded
-				Utilities.deleteFileFromInternal(SplashActivity.this, filename);
-				
-				// Deletes images after uploaded
-				if (!imgFilenames.isEmpty()) {
-					for (int i = 0; i < imgFilenames.size(); i++) {
-						String imgFilename = imgFilenames.get(i);
-						Utilities.deleteFileFromExternal(SplashActivity.this, imgFilename);
+				if (responseCode == HTTP_RESPONSE_SUCCESS) {
+					// Deletes checklist file after uploaded
+					Utilities.deleteFileFromInternal(SplashActivity.this, filename);
+					
+					// Deletes images after uploaded
+					if (!imgFilenames.isEmpty()) {
+						for (int i = 0; i < imgFilenames.size(); i++) {
+							String imgFilename = imgFilenames.get(i);
+							Utilities.deleteFileFromExternal(SplashActivity.this, imgFilename);
+						}
 					}
 				}
 			}
@@ -206,6 +207,7 @@ public class SplashActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
+	    	startActivity();
 	        return;
 	    }
 	}
