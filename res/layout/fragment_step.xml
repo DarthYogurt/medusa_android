@@ -145,66 +145,10 @@
 		        android:id="@+id/step_name"
 		        android:layout_width="wrap_content"
 		    	android:layout_height="wrap_content"
+		    	android:layout_marginBottom="20dp"
 		    	android:textSize="22sp"
 		    	android:textColor="#3366ff" />
 		    
-		    <!-- RESULT CONTAINER -->
-		   <LinearLayout
-		        android:layout_width="fill_parent"
-		    	android:layout_height="wrap_content"
-		    	android:orientation="vertical"
-		    	android:layout_marginTop="30dp"
-		    	android:layout_marginBottom="30dp"
-		    	android:padding="10dp"
-		    	android:background="@drawable/result_box" >
-			    
-			    <TextView
-			        android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:layout_marginBottom="10dp"
-			    	android:textSize="20sp"
-			    	android:text="@string/result_label" />
-			    
-			    <TextView
-			        android:id="@+id/result_bool"
-			        android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:visibility="gone"
-			    	android:textColor="#29a629"
-			    	android:textSize="20sp" />
-			    
-			    <EditText
-		            android:id="@+id/result_number"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:padding="10dp"
-		            android:visibility="gone"
-		            android:background="@drawable/edit_text_box"
-		            android:inputType="number|numberDecimal|numberSigned"
-		            android:hint="@string/double_hint" />
-			    
-			    <EditText
-		            android:id="@+id/result_text"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:padding="10dp"
-		            android:visibility="gone"
-		            android:background="@drawable/edit_text_box"
-		            android:hint="@string/text_hint" />
-			    
-			    <ImageView 
-			        android:id="@+id/result_image"
-			        android:layout_width="fill_parent"
-			        android:layout_height="fill_parent"
-			        android:layout_gravity="center"
-			        android:visibility="gone"
-			        android:adjustViewBounds="true"
-			        android:scaleType="center"
-			        android:contentDescription="@string/taken_img_desc" />
-				    
-	    	</LinearLayout>
-	    	<!-- END RESULT CONTAINER -->
-	    	
 	    	<!-- BOOL CONTAINER -->
 		    <RelativeLayout
 		        android:id="@+id/bool_container"
@@ -288,6 +232,123 @@
 		        
 		    </LinearLayout>
 		    <!-- END IMAGE CONTAINER -->
+		    
+		    <!-- RESULT CONTAINER -->
+		   	<LinearLayout
+		        android:layout_width="fill_parent"
+		    	android:layout_height="wrap_content"
+		    	android:orientation="vertical"
+		    	android:layout_marginTop="20dp"
+		    	android:layout_marginBottom="20dp"
+		    	android:padding="10dp"
+		    	android:background="@drawable/result_box" >
+			    
+			    <TextView
+			        android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:layout_marginBottom="6dp"
+			    	android:textSize="20sp"
+			    	android:text="@string/result_label" />
+			    
+			    <TextView
+			        android:id="@+id/result_bool"
+			        android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:visibility="gone"
+			    	android:textColor="#29a629"
+			    	android:textStyle="bold"
+			    	android:textSize="20sp" />
+			    
+			    <EditText
+		            android:id="@+id/result_number"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:padding="10dp"
+		            android:visibility="gone"
+		            android:background="@drawable/edit_text_box"
+		            android:inputType="number|numberDecimal|numberSigned"
+		            android:hint="@string/double_hint" />
+			    
+			    <EditText
+		            android:id="@+id/result_text"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:padding="10dp"
+		            android:visibility="gone"
+		            android:background="@drawable/edit_text_box"
+		            android:hint="@string/text_hint" />
+			    
+			    <ImageView 
+			        android:id="@+id/result_image"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent"
+			        android:layout_gravity="center"
+			        android:visibility="gone"
+			        android:adjustViewBounds="true"
+			        android:scaleType="center"
+			        android:contentDescription="@string/taken_img_desc" />
+				    
+	    	</LinearLayout>
+	    	<!-- END RESULT CONTAINER -->
+	    	
+	    	<!-- EXTRAS CONTAINER -->
+	    	<LinearLayout
+	    	    android:id="@+id/extras_container"
+		        android:layout_width="fill_parent"
+		    	android:layout_height="wrap_content"
+		    	android:orientation="vertical"
+		    	android:visibility="gone"
+		    	android:padding="10dp"
+		    	android:background="@drawable/result_box" >
+			    
+	    	    <TextView
+			        android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:textSize="20sp"
+			    	android:text="@string/extras_label" />
+	    	    
+	    	    <LinearLayout
+				    android:id="@+id/extra_note_container"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_marginTop="6dp"
+				    android:orientation="horizontal"
+				    android:visibility="gone" >
+			        
+				    <TextView
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginRight="4dp"
+				        android:textSize="16sp"
+				        android:textColor="#cc0000"
+						android:text="@string/notes_label" />
+				    
+				    <TextView
+					    android:id="@+id/extra_note_text"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:textSize="16sp"
+				        android:textColor="#cc0000" />
+				</LinearLayout>
+				
+	    	    <LinearLayout
+				    android:id="@+id/extra_image_container"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_marginTop="6dp"
+				    android:orientation="vertical"
+				    android:visibility="gone" >
+			    
+				    <ImageView 
+				        android:id="@+id/extra_image"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_horizontal"
+				        android:contentDescription="@string/taken_img_desc" />
+				</LinearLayout>
+			    
+    	    </LinearLayout>
+    	    <!-- END EXTRAS CONTAINER -->
 		    
 	    </LinearLayout>
 	</ScrollView>

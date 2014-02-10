@@ -70,9 +70,13 @@ public class StepFragment extends Fragment {
 	private ImageButton btnNext;
 	private ImageButton btnPrev;
 	private TextView requiredExtrasMessage;
-	private ImageView extraImage;
 	private LinearLayout notifyPersonContainer;
 	private TextView notifyPerson;
+	private LinearLayout extrasContainer;
+	private LinearLayout extraNoteContainer;
+	private TextView extraNote;
+	private LinearLayout extraImageContainer;
+	private ImageView extraImage;
 	private Step step;
 
 	static StepFragment newInstance() {
@@ -91,6 +95,11 @@ public class StepFragment extends Fragment {
 		TextView order = (TextView) view.findViewById(R.id.step_order);
 		TextView orderMax = (TextView) view.findViewById(R.id.step_order_max);
 		TextView name = (TextView) view.findViewById(R.id.step_name);
+		extrasContainer = (LinearLayout) view.findViewById(R.id.extras_container);
+		extraNoteContainer = (LinearLayout) view.findViewById(R.id.extra_note_container);
+		extraNote = (TextView)view.findViewById(R.id.extra_note_text);
+		extraImageContainer = (LinearLayout) view.findViewById(R.id.extra_image_container);
+		extraImage = (ImageView) view.findViewById(R.id.extra_image);
 		notifyPersonContainer = (LinearLayout) view.findViewById(R.id.notify_person_container);
 		notifyPerson = (TextView) view.findViewById(R.id.notify_person);
 		requiredExtrasMessage = (TextView) view.findViewById(R.id.required_extras);
@@ -101,7 +110,6 @@ public class StepFragment extends Fragment {
 		btnAddPictureExtra = (ImageButton) view.findViewById(R.id.btn_add_picture_extra);
 		btnTakePictureExtra = (Button) pwViewPicture.findViewById(R.id.btn_take_picture_extra);
 		noteInput = (EditText) pwViewNotes.findViewById(R.id.add_note_edittext);
-		extraImage = (ImageView) pwViewPicture.findViewById(R.id.extra_image);
 		
 		LinearLayout stepFragment = (LinearLayout) view.findViewById(R.id.step_fragment);
 		touchHandler(stepFragment);
@@ -121,6 +129,8 @@ public class StepFragment extends Fragment {
 		if (step.getType().equalsIgnoreCase(TYPE_TEXT)) { showTextElements(); }
 		if (step.getType().equalsIgnoreCase(TYPE_IMAGE)) { showImageElements(); }
 			
+		showExtras();
+		
 		// Show required extra note if not already finished
 		if (!step.getIsAllFinished()) { updateReqExtrasMsg(); }
 		
@@ -167,49 +177,42 @@ public class StepFragment extends Fragment {
 		
 		// Click listener for Extra Picture PopupWindow
 		btnAddPictureExtra.setOnClickListener(new OnClickListener() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void onClick(View view) {
-				pwPicture.setTouchable(true);
-				pwPicture.setFocusable(true);
-				pwPicture.setOutsideTouchable(true);
-				pwPicture.setTouchInterceptor(new OnTouchListener() {
-			        public boolean onTouch(View v, MotionEvent event) {
-			            if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-			            	pwPicture.dismiss();
-			                return true;
-			            }
-			            return false;
-			        }
-			    });
-				pwPicture.setWidth(500);
-				pwPicture.setHeight(600);
-				pwPicture.setContentView(pwViewPicture);
-				pwPicture.setBackgroundDrawable(new BitmapDrawable());
-				pwPicture.setAnimationStyle(R.style.AddNoteAnimation);
-				pwPicture.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
-				pwPicture.setOnDismissListener(new PopupWindow.OnDismissListener() {
-					@Override
-					public void onDismiss() {  }
-				});
-			    
-				showExtraPicture();
-				
-			    if (step.getExtraImageFilename().isEmpty()) {
-					Toast.makeText(getActivity(), R.string.msg_starting_camera, Toast.LENGTH_SHORT).show();
-					NewPictureThread newPicture = new NewPictureThread(REQUEST_PICTURE_EXTRA);
-					newPicture.start();
-				}
-			}
-		});
-		
-		// Click listener for Take Picture button in Extra Picture PopupWindow 
-		btnTakePictureExtra.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				startCameraActivity(REQUEST_PICTURE_EXTRA);
+				
+//				pwPicture.setTouchable(true);
+//				pwPicture.setFocusable(true);
+//				pwPicture.setOutsideTouchable(true);
+//				pwPicture.setTouchInterceptor(new OnTouchListener() {
+//			        public boolean onTouch(View v, MotionEvent event) {
+//			            if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+//			            	pwPicture.dismiss();
+//			                return true;
+//			            }
+//			            return false;
+//			        }
+//			    });
+//				pwPicture.setWidth(500);
+//				pwPicture.setHeight(600);
+//				pwPicture.setContentView(pwViewPicture);
+//				pwPicture.setBackgroundDrawable(new BitmapDrawable());
+//				pwPicture.setAnimationStyle(R.style.AddNoteAnimation);
+//				pwPicture.showAtLocation(getActivity().findViewById(R.id.step_fragment), Gravity.CENTER, 0, 0);
+//				pwPicture.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//					@Override
+//					public void onDismiss() {  }
+//				});
 			}
 		});
+		
+//		// Click listener for Take Picture button in Extra Picture PopupWindow 
+//		btnTakePictureExtra.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				
+//			}
+//		});
 		
 		showNextButton();
 		if (step.getOrder() > 1 && step.getOrder() <= numOfSteps) { showPrevButton(); }
@@ -447,34 +450,49 @@ public class StepFragment extends Fragment {
 		}
 	}
 	
+	private void showExtras() {
+		if (!step.getExtraNote().isEmpty() || !step.getExtraImageFilename().isEmpty()) {
+			extrasContainer.setVisibility(View.VISIBLE);
+			
+			if (!step.getExtraNote().isEmpty()) {
+				extraNoteContainer.setVisibility(View.VISIBLE);
+				extraNote.setText(step.getExtraNote());
+			}
+			else { extraNoteContainer.setVisibility(View.GONE); }
+			
+			if (!step.getExtraImageFilename().isEmpty()) {
+				extraImageContainer.setVisibility(View.VISIBLE);
+				try {
+					File file = new File(getActivity().getExternalFilesDir(null), step.getExtraImageFilename());
+					FileInputStream fis = new FileInputStream(file);
+					Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
+					extraImage.setImageBitmap(imgFromFile);
+					extraImage.invalidate();
+					fis.close();
+				} 
+		    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+		    	catch (IOException e) { e.printStackTrace(); }
+			}
+			else { extraImageContainer.setVisibility(View.GONE); }
+		}
+		else { extrasContainer.setVisibility(View.GONE); }
+	}
+	
 	private void setExtraNote() {
 		String input = noteInput.getText().toString().trim();
 		
 		if (!input.isEmpty()) {
 			step.setExtraNote(input);
+			showExtras();
 			if (step.getReqNote()) { step.setIsReqNoteFinished(true); }
 			checkIfAllFinished();
 			if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
 		}
 		else {
 			step.setExtraNote(input);
+			showExtras();
 			if (step.getReqNote()) { step.setIsReqNoteFinished(false); }
 			checkIfAllFinished(); 
-		}
-	}
-	
-	private void showExtraPicture() {
-		if (step.getIsReqPictureFinished()) {
-			try {
-				File file = new File(getActivity().getExternalFilesDir(null), step.getExtraImageFilename());
-				FileInputStream fis = new FileInputStream(file);
-				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
-				extraImage.setImageBitmap(imgFromFile);
-				extraImage.invalidate();
-				fis.close();
-			} 
-	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
-	    	catch (IOException e) { e.printStackTrace(); }
 		}
 	}
 	
@@ -712,10 +730,9 @@ public class StepFragment extends Fragment {
 			if (resultCode == Activity.RESULT_OK) {
 				Log.i("IMAGE FILE WRITTEN", step.getExtraImageFilename());
 				ImageHandler.compressAndRotateImage(getActivity(), step.getExtraImageFilename());
-
-				pwPicture.dismiss();
+				showExtras();
+				
 		    	if (step.getReqPicture()) { step.setIsReqPictureFinished(true); }
-		    	showExtraPicture();
 		    	checkIfAllFinished();
 		    	if (step.getIsAllFinished()) { ((StepActivity)getActivity()).goToNextStep(); }
 		    }
