@@ -121,7 +121,7 @@ public class StepFragment extends Fragment {
 		step = bundle.getParcelable(KEY_CURRENT_STEP);
 		int numOfSteps = bundle.getInt(KEY_NUM_OF_STEPS);
 		
-		if (step.getTimeStarted().isEmpty()) { step.setTimeStarted(Utilities.getTimeStamp()); }
+		if (step.getTimeStarted().isEmpty()) { step.setTimeStarted(GlobalMethods.getTimeStamp()); }
 		
 		order.setText(Integer.toString(step.getOrder()));
 		orderMax.setText(Integer.toString(numOfSteps));
@@ -627,7 +627,7 @@ public class StepFragment extends Fragment {
 	
 	private void finishStep() {
 		step.setIsStepFinished(true);
-		step.setTimeFinished(Utilities.getTimeStamp());
+		step.setTimeFinished(GlobalMethods.getTimeStamp());
 	}
 	
 	private void unFinishStep() {

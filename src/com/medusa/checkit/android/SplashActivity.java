@@ -50,11 +50,11 @@ public class SplashActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	
-	    	if (Utilities.isNetworkAvailable(SplashActivity.this)) { 
+	    	if (GlobalMethods.isNetworkAvailable(SplashActivity.this)) { 
 	    		new UpdateFiles().execute();
     		}
 	    	else {
-				if (Utilities.checkIfFileExists(SplashActivity.this, FILENAME_CHECKLISTS)) {
+				if (GlobalMethods.checkIfFileExists(SplashActivity.this, FILENAME_CHECKLISTS)) {
 					Toast.makeText(SplashActivity.this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 					createChecklistArray();
 					startActivity();
@@ -109,7 +109,7 @@ public class SplashActivity extends Activity {
 	    	super.onPostExecute(result);
 	    	progressDialog.dismiss();
 	    	
-	    	if (Utilities.hasUnsentChecklist(SplashActivity.this)) { sendUnsentChecklists(); }
+	    	if (GlobalMethods.hasUnsentChecklist(SplashActivity.this)) { sendUnsentChecklists(); }
 	    	else { startActivity(); }
 	        return;
 	    }
@@ -173,7 +173,7 @@ public class SplashActivity extends Activity {
 		}
 		
 	    protected Void doInBackground(Void... params) {
-			if (Utilities.isNetworkAvailable(SplashActivity.this)) {
+			if (GlobalMethods.isNetworkAvailable(SplashActivity.this)) {
 				final HTTPPostRequest post = new HTTPPostRequest(SplashActivity.this);
 				post.createNewPost(); 
 				post.addJSON(filename);
@@ -187,13 +187,13 @@ public class SplashActivity extends Activity {
 				
 				if (responseCode == HTTP_RESPONSE_SUCCESS) {
 					// Deletes checklist file after uploaded
-					Utilities.deleteFileFromInternal(SplashActivity.this, filename);
+					GlobalMethods.deleteFileFromInternal(SplashActivity.this, filename);
 					
 					// Deletes images after uploaded
 					if (!imgFilenames.isEmpty()) {
 						for (int i = 0; i < imgFilenames.size(); i++) {
 							String imgFilename = imgFilenames.get(i);
-							Utilities.deleteFileFromExternal(SplashActivity.this, imgFilename);
+							GlobalMethods.deleteFileFromExternal(SplashActivity.this, imgFilename);
 						}
 					}
 				}

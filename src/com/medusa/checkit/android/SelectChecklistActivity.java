@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -56,7 +57,7 @@ public class SelectChecklistActivity extends Activity {
 				createStepsArray(getStepsFilename(checklist.getId()));
 				
 				if (!stepsArray.isEmpty()) {
-					checklist.setTimeStarted(Utilities.getTimeStamp());
+					checklist.setTimeStarted(GlobalMethods.getTimeStamp());
 					intent.putExtra(KEY_CHECKLIST, checklist);
 					intent.putExtra(KEY_CHECKLIST_STEPS, stepsArray);
 					intent.putExtra(KEY_CURRENT_STEP, 0);
@@ -105,7 +106,7 @@ public class SelectChecklistActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
-			if (Utilities.isNetworkAvailable(this)) {
+			if (GlobalMethods.isNetworkAvailable(this)) {
 				new UpdateFilesThread().execute();
 			}
 			else {
@@ -206,7 +207,7 @@ public class SelectChecklistActivity extends Activity {
 		}
 		
 	    protected Void doInBackground(Void... params) {
-			if (Utilities.isNetworkAvailable(SelectChecklistActivity.this)) {
+			if (GlobalMethods.isNetworkAvailable(SelectChecklistActivity.this)) {
 				final HTTPPostRequest post = new HTTPPostRequest(SelectChecklistActivity.this);
 				post.createNewPost(); 
 				post.addJSON(filename);
@@ -221,13 +222,13 @@ public class SelectChecklistActivity extends Activity {
 				// Delete files if successfully uploaded
 				if (responseCode == HTTP_RESPONSE_SUCCESS) {
 					// Deletes checklist file after uploaded
-					Utilities.deleteFileFromInternal(SelectChecklistActivity.this, filename);
+					GlobalMethods.deleteFileFromInternal(SelectChecklistActivity.this, filename);
 					
 					// Deletes images after uploaded
 					if (!imgFilenames.isEmpty()) {
 						for (int i = 0; i < imgFilenames.size(); i++) {
 							String imgFilename = imgFilenames.get(i);
-							Utilities.deleteFileFromExternal(SelectChecklistActivity.this, imgFilename);
+							GlobalMethods.deleteFileFromExternal(SelectChecklistActivity.this, imgFilename);
 						}
 					}
 				}

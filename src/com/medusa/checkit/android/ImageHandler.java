@@ -93,12 +93,12 @@ public class ImageHandler {
 		if (!isExtra) {
 			filename = "cid" + Integer.toString(checklistId) + 
 					  "_so" + Integer.toString(stepOrder) + 
-					  "_" + Utilities.getTimeStampForFilename() + ".jpg";	
+					  "_" + GlobalMethods.getTimeStampForFilename() + ".jpg";	
 		}
 		else {
 			filename = "cid" + Integer.toString(checklistId) + 
 					  "_so" + Integer.toString(stepOrder) + 
-					  "_extra_" + Utilities.getTimeStampForFilename() + ".jpg";	
+					  "_extra_" + GlobalMethods.getTimeStampForFilename() + ".jpg";	
 		}
 		return filename;
 	}

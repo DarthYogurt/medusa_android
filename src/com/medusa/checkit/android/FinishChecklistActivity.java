@@ -161,7 +161,7 @@ public class FinishChecklistActivity extends Activity {
 				writer.logPost(filename);
 			} catch (IOException e) { e.printStackTrace(); }
 			
-			if (Utilities.isNetworkAvailable(FinishChecklistActivity.this)) {
+			if (GlobalMethods.isNetworkAvailable(FinishChecklistActivity.this)) {
 				final HTTPPostRequest post = new HTTPPostRequest(FinishChecklistActivity.this);
 				post.createNewPost(); 
 				post.addJSON(filename);
@@ -182,13 +182,13 @@ public class FinishChecklistActivity extends Activity {
 				// Delete files if successfully uploaded
 				if (responseCode == HTTP_RESPONSE_SUCCESS) {
 					// Deletes checklist file after uploaded
-					Utilities.deleteFileFromInternal(FinishChecklistActivity.this, filename);
+					GlobalMethods.deleteFileFromInternal(FinishChecklistActivity.this, filename);
 					
 					// Deletes images after uploaded
 					if (imgFilenames != null) {
 						for (int i = 0; i < imgFilenames.size(); i++) {
 							String imgFilename = imgFilenames.get(i);
-							Utilities.deleteFileFromExternal(FinishChecklistActivity.this, imgFilename);
+							GlobalMethods.deleteFileFromExternal(FinishChecklistActivity.this, imgFilename);
 						}
 					}
 				}
@@ -255,7 +255,7 @@ public class FinishChecklistActivity extends Activity {
 	        builder.setMessage(R.string.dialog_finish)
 	        	.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
 	        		public void onClick(DialogInterface dialog, int id) {
-	        			checklist.setTimeFinished(Utilities.getTimeStamp());
+	        			checklist.setTimeFinished(GlobalMethods.getTimeStamp());
 	        			new PostToServerThread().execute();
 	        		}
 	        	})

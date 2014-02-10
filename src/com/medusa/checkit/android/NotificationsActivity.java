@@ -36,13 +36,13 @@ public class NotificationsActivity extends Activity {
 		
 		refreshList();
 
-        if (Utilities.isNetworkAvailable(this)) { 
+        if (GlobalMethods.isNetworkAvailable(this)) { 
         	new UpdateNotifications().execute();
 		}
     	else {
     		Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 			
-			if (Utilities.checkIfFileExists(this, FILENAME_NOTIFICATIONS)) {
+			if (GlobalMethods.checkIfFileExists(this, FILENAME_NOTIFICATIONS)) {
 				createNotificationsArray();
 				refreshList();
 			}
@@ -75,7 +75,7 @@ public class NotificationsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
-			if (Utilities.isNetworkAvailable(this)) { new UpdateNotifications().execute(); }
+			if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotifications().execute(); }
 			else { Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show(); }
 			return true;
 		default:
