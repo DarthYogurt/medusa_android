@@ -319,7 +319,7 @@
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:layout_marginRight="4dp"
-				        android:textSize="16sp"
+				        android:textSize="20sp"
 				        android:textColor="#cc0000"
 						android:text="@string/notes_label" />
 				    
@@ -327,7 +327,7 @@
 					    android:id="@+id/extra_note_text"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:textSize="16sp"
+				        android:textSize="20sp"
 				        android:textColor="#cc0000" />
 				</LinearLayout>
 				
