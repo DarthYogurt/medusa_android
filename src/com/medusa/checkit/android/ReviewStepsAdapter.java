@@ -108,19 +108,21 @@ public class ReviewStepsAdapter extends ArrayAdapter<Step> {
 		}
 		
 		if (steps.get(position).getType().equalsIgnoreCase(TYPE_IMAGE)) {
-			holder.resultImageContainer.setVisibility(View.VISIBLE);
-			try {
-				File file = new File(context.getExternalFilesDir(null), steps.get(position).getImageFilename());
-				FileInputStream fis = new FileInputStream(file);
-				Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
-				fis.close();
-				holder.resultImageView.setImageBitmap(imgFromFile);
-				holder.resultImageView.invalidate();
-			} 
-	    	catch (FileNotFoundException e) { e.printStackTrace(); } 
-	    	catch (IOException e) { e.printStackTrace(); }
+			if (!steps.get(position).getImageFilename().isEmpty()) {
+				holder.resultImageContainer.setVisibility(View.VISIBLE);
+				try {
+					File file = new File(context.getExternalFilesDir(null), steps.get(position).getImageFilename());
+					FileInputStream fis = new FileInputStream(file);
+					Bitmap imgFromFile = BitmapFactory.decodeStream(fis);
+					fis.close();
+					holder.resultImageView.setImageBitmap(imgFromFile);
+					holder.resultImageView.invalidate();
+				} 
+		    	catch (FileNotFoundException e) { e.printStackTrace(); } 
+		    	catch (IOException e) { e.printStackTrace(); }
+			}
+			else { holder.resultImageContainer.setVisibility(View.GONE); }
 		}
-		else { holder.resultImageContainer.setVisibility(View.GONE); }
 		
 		if (!steps.get(position).getExtraNote().isEmpty()) {
 			holder.extraNoteContainer.setVisibility(View.VISIBLE);
