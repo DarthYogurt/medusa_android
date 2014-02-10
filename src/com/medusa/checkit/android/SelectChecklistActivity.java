@@ -69,6 +69,7 @@ public class SelectChecklistActivity extends Activity {
         });
         
         if (GlobalMethods.isNetworkAvailable(SelectChecklistActivity.this)) { 
+        	checkForUnsentChecklists();
     		new UpdateFilesTask().execute();
 		}
     	else {
@@ -82,8 +83,6 @@ public class SelectChecklistActivity extends Activity {
 				finish();
 			}
     	}
-        
-        
 	}
 	
 	private void refreshList() {
@@ -123,6 +122,7 @@ public class SelectChecklistActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_update:
 			if (GlobalMethods.isNetworkAvailable(this)) {
+				checkForUnsentChecklists();
 				new UpdateFilesTask().execute();
 			}
 			else {
@@ -137,7 +137,7 @@ public class SelectChecklistActivity extends Activity {
 		}
 	}
 	
-	private void checkForNonUploadedChecklists() {
+	private void checkForUnsentChecklists() {
 		String[] savedFiles = this.fileList();
 		
 		for (int i = 0; i < savedFiles.length; i++) {
@@ -153,7 +153,7 @@ public class SelectChecklistActivity extends Activity {
 				} 
 				catch (IOException e) { e.printStackTrace(); }
 				
-				new PostToServerThread(filename, imgFilenames).execute();
+				new PostToServerThread(filename, imgFilenames).start();
 			}
 		}
 	}
@@ -201,68 +201,48 @@ public class SelectChecklistActivity extends Activity {
 	    }
 	}
 	
-	private class PostToServerThread extends AsyncTask<Void, Void, Void> {
-		ProgressDialog progressDialog;
+	public class PostToServerThread extends Thread {
 		String filename;
 		ArrayList<String> imgFilenames;
 		
-		PostToServerThread(String filename, ArrayList<String> imgFilenames) {
+		public PostToServerThread(String filename, ArrayList<String> imgFilenames) {
 			this.filename = filename;
 			this.imgFilenames = imgFilenames;
 		}
 		
-		protected void onPreExecute() {
-			progressDialog = new ProgressDialog(SelectChecklistActivity.this);
-			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setMessage(getResources().getString(R.string.msg_uploading_files));
-			progressDialog.show();
-			progressDialog.setCanceledOnTouchOutside(false);
-		}
-		
-	    protected Void doInBackground(Void... params) {
-			if (GlobalMethods.isNetworkAvailable(SelectChecklistActivity.this)) {
-				final HTTPPostRequest post = new HTTPPostRequest(SelectChecklistActivity.this);
-				post.createNewPost(); 
-				post.addJSON(filename);
-				if (!imgFilenames.isEmpty()) { post.addPictures(imgFilenames); }
-				final int responseCode = post.sendPost();
-				
-				// Show message from upload
+		public void run() {
+			runOnUiThread(new Runnable() {
+				public void run() { 
+					Toast.makeText(getApplicationContext(), R.string.msg_uploading_unsent, Toast.LENGTH_SHORT).show();
+				}
+			});
+						
+			final HTTPPostRequest post = new HTTPPostRequest(SelectChecklistActivity.this);
+			post.createNewPost(); 
+			post.addJSON(filename);
+			if (!imgFilenames.isEmpty()) { post.addPictures(imgFilenames); }
+			final int responseCode = post.sendPost();
+			
+			// Delete files if successfully uploaded
+			if (responseCode == HTTP_RESPONSE_SUCCESS) {
+				// Show success message
 				runOnUiThread(new Runnable() {
-					public void run() { showUploadMessage(responseCode); }
+					public void run() { 
+						Toast.makeText(getApplicationContext(), R.string.msg_checklist_upload_success, Toast.LENGTH_SHORT).show();
+					}
 				});
 				
-				// Delete files if successfully uploaded
-				if (responseCode == HTTP_RESPONSE_SUCCESS) {
-					// Deletes checklist file after uploaded
-					GlobalMethods.deleteFileFromInternal(SelectChecklistActivity.this, filename);
-					
-					// Deletes images after uploaded
-					if (!imgFilenames.isEmpty()) {
-						for (int i = 0; i < imgFilenames.size(); i++) {
-							String imgFilename = imgFilenames.get(i);
-							GlobalMethods.deleteFileFromExternal(SelectChecklistActivity.this, imgFilename);
-						}
+				// Deletes checklist file after uploaded
+				GlobalMethods.deleteFileFromInternal(SelectChecklistActivity.this, filename);
+				
+				// Deletes images after uploaded
+				if (!imgFilenames.isEmpty()) {
+					for (int i = 0; i < imgFilenames.size(); i++) {
+						String imgFilename = imgFilenames.get(i);
+						GlobalMethods.deleteFileFromExternal(SelectChecklistActivity.this, imgFilename);
 					}
 				}
 			}
-			else {
-				Toast.makeText(SelectChecklistActivity.this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
-			}
-	        return null;
-	    }
-
-	    protected void onPostExecute(Void result) {
-	    	super.onPostExecute(result);
-	    	progressDialog.dismiss();
-	        return;
-	    }
-	}
-	
-	private void showUploadMessage(int responseCode) {
-		if (responseCode == HTTP_RESPONSE_SUCCESS) {
-			Toast.makeText(this, R.string.msg_checklist_upload_success, Toast.LENGTH_SHORT).show();
 		}
 	}
 	

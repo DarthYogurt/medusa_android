@@ -144,7 +144,7 @@ public class FinishChecklistActivity extends Activity {
 			progressDialog = new ProgressDialog(FinishChecklistActivity.this);
 			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setMessage(getResources().getString(R.string.msg_uploading_files));
+			progressDialog.setMessage(getResources().getString(R.string.msg_uploading_checklist));
 			progressDialog.show();
 			progressDialog.setCanceledOnTouchOutside(false);
 		}
@@ -172,15 +172,14 @@ public class FinishChecklistActivity extends Activity {
 				}
 				final int responseCode = post.sendPost();
 				
-				// Show message from upload
-				runOnUiThread(new Runnable() {
-					public void run() {
-						showUploadMessage(responseCode);
-					}
-				});
-				
-				// Delete files if successfully uploaded
 				if (responseCode == HTTP_RESPONSE_SUCCESS) {
+					// Show message from upload
+					runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(FinishChecklistActivity.this, R.string.msg_checklist_upload_success, Toast.LENGTH_SHORT).show();
+						}
+					});
+					
 					// Deletes checklist file after uploaded
 					GlobalMethods.deleteFileFromInternal(FinishChecklistActivity.this, filename);
 					
@@ -193,8 +192,8 @@ public class FinishChecklistActivity extends Activity {
 					}
 				}
 				
-				Intent intent = new Intent(FinishChecklistActivity.this, SplashActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(FinishChecklistActivity.this, SplashActivity.class);
+//				startActivity(intent);
 				finish();
 			}
 			else {
@@ -267,12 +266,6 @@ public class FinishChecklistActivity extends Activity {
 	        
 	        // Create the AlertDialog object and return it
 	        return builder.create();
-		}
-	}
-	
-	private void showUploadMessage(int responseCode) {
-		if (responseCode == 200) {
-			Toast.makeText(this, R.string.msg_checklist_upload_success, Toast.LENGTH_SHORT).show();
 		}
 	}
 
