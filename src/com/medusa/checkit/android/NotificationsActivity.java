@@ -35,7 +35,7 @@ public class NotificationsActivity extends Activity {
 		
 		refreshList();
 
-        if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotifications().execute(); }
+        if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotificationsTask().execute(); }
     	else {
     		Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 			
@@ -51,7 +51,14 @@ public class NotificationsActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+				if (GlobalMethods.isNetworkAvailable(NotificationsActivity.this)) { 
+					Notification notification = notificationsArray.get(position);
+					notification.setFinished(true);
+					new FinishNotificationTask(notification.getSlateId()).execute();
+				}
+		    	else {
+		    		Toast.makeText(NotificationsActivity.this, "Please retry when internet connection is available", Toast.LENGTH_SHORT).show();
+		    	}
 			}
         });
 	}
@@ -72,7 +79,7 @@ public class NotificationsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
-			if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotifications().execute(); }
+			if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotificationsTask().execute(); }
 			else { Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show(); }
 			return true;
 		default:
@@ -89,7 +96,7 @@ public class NotificationsActivity extends Activity {
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	private class UpdateNotifications extends AsyncTask<Void, Void, Void> {
+	private class UpdateNotificationsTask extends AsyncTask<Void, Void, Void> {
 
 		ProgressDialog progressDialog;
 		
@@ -123,4 +130,27 @@ public class NotificationsActivity extends Activity {
 	        return;
 	    }
 	}
+	
+	private class FinishNotificationTask extends AsyncTask<Void, Void, Void> {
+
+		int id;
+		
+		private FinishNotificationTask(int id) {
+			this.id = id;
+		}
+		
+	    protected Void doInBackground(Void... params) {
+	    	HTTPGetRequest getRequest = new HTTPGetRequest();
+			getRequest.finishNotification(id);
+	        return null;
+	    }
+
+	    protected void onPostExecute(Void result) {
+	    	super.onPostExecute(result);
+	    	Toast.makeText(getApplicationContext(), "Finish step success!", Toast.LENGTH_SHORT).show();
+			refreshList();
+	        return;
+	    }
+	}
+	
 }

@@ -9,6 +9,7 @@ public class Notification {
 	private String notifyName;
 	private String note;
 	private String imgUrl;
+	private boolean finished;
 	
 	public Notification(int slateId, String userName, String checklist, String stepName, String notifyName,
 						String note, String imgUrl) {
@@ -19,6 +20,7 @@ public class Notification {
 		this.notifyName = notifyName;
 		this.note = note;
 		this.imgUrl = imgUrl;
+		this.finished = false;
 	}
 	
 	public int getSlateId() { return slateId; }
@@ -34,5 +36,8 @@ public class Notification {
 	public String getNote() { return note; }
 	
 	public String getImgUrl() { return imgUrl; }
+	
+	public boolean getFinished() { return finished; }
+	public void setFinished(boolean b) { this.finished = b; }
 	
 }

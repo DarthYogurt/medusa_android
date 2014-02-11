@@ -14,6 +14,7 @@ public class HTTPGetRequest {
 	private static final String CHECKLISTS_URL = "checklist/groupid/";
 	private static final String STEPS_URL = "checklist/checklistid/";
 	private static final String NOTIFICATIONS_URL = "getSlate/";
+	private static final String FINISH_NOTIFICATION_URL = "checkOffSlate/";
 	
 	public String getJSONString(String url) throws MalformedURLException, IOException {
 		String charset = "UTF-8";
@@ -44,29 +45,36 @@ public class HTTPGetRequest {
 	}
 	
 	public String getChecklists(int groupId) {
-		String listOfChecklistsURL = BASE_URL + CHECKLISTS_URL + Integer.toString(groupId);
+		String url = BASE_URL + CHECKLISTS_URL + Integer.toString(groupId);
 		String jsonString = "";
-		try { jsonString = getJSONString(listOfChecklistsURL); } 
+		try { jsonString = getJSONString(url); } 
 		catch (MalformedURLException e) { e.printStackTrace(); } 
 		catch (IOException e) { e.printStackTrace(); }
 		return jsonString;
 	}
 	
 	public String getSteps(int checklistId) {
-		String checklistStepsURL = BASE_URL + STEPS_URL + Integer.toString(checklistId);
+		String url = BASE_URL + STEPS_URL + Integer.toString(checklistId);
 		String jsonString = "";
-		try { jsonString = getJSONString(checklistStepsURL); } 
+		try { jsonString = getJSONString(url); } 
 		catch (MalformedURLException e) { e.printStackTrace(); }
 		catch (IOException e) { e.printStackTrace(); }
 		return jsonString;
 	}
 	
 	public String getNotifications() {
-		String notificationsURL = BASE_URL + NOTIFICATIONS_URL;
+		String url = BASE_URL + NOTIFICATIONS_URL;
 		String jsonString = "";
-		try { jsonString = getJSONString(notificationsURL); }
+		try { jsonString = getJSONString(url); }
 		catch (MalformedURLException e) { e.printStackTrace(); }
 		catch (IOException e) { e.printStackTrace(); }
 		return jsonString;
+	}
+	
+	public void finishNotification(int id) {
+		String url = BASE_URL + FINISH_NOTIFICATION_URL + Integer.toString(id) + "/";
+		try { getJSONString(url); }
+		catch (MalformedURLException e) { e.printStackTrace(); }
+		catch (IOException e) { e.printStackTrace(); }
 	}
 }
