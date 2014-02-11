@@ -53,7 +53,6 @@ public class NotificationsActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (GlobalMethods.isNetworkAvailable(NotificationsActivity.this)) { 
 					Notification notification = notificationsArray.get(position);
-					notification.setFinished(true);
 					new FinishNotificationTask(notification.getSlateId()).execute();
 				}
 		    	else {
@@ -148,7 +147,7 @@ public class NotificationsActivity extends Activity {
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
 	    	Toast.makeText(getApplicationContext(), "Finish step success!", Toast.LENGTH_SHORT).show();
-			refreshList();
+	    	new UpdateNotificationsTask().execute();
 	        return;
 	    }
 	}

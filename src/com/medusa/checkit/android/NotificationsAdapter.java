@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class NotificationsAdapter extends ArrayAdapter<Notification> {
 		private LinearLayout noteContainer;
 		private TextView note;
 		private ImageView image;
+		private ImageView finishedImage;
 	}
 	
 	@Override
@@ -50,6 +52,7 @@ public class NotificationsAdapter extends ArrayAdapter<Notification> {
             holder.noteContainer = (LinearLayout)convertView.findViewById(R.id.notification_note_container);
             holder.note = (TextView)convertView.findViewById(R.id.notification_note);
             holder.image = (ImageView)convertView.findViewById(R.id.notification_image);
+            holder.finishedImage = (ImageView)convertView.findViewById(R.id.finished_img);
 
             convertView.setTag(holder);
         } 
@@ -60,6 +63,7 @@ public class NotificationsAdapter extends ArrayAdapter<Notification> {
 		String stepName = notifications.get(position).getStepName();
 		String note = notifications.get(position).getNote();
 		String imgUrl = notifications.get(position).getImgUrl();
+		boolean finished = notifications.get(position).getFinished();
 		
         holder.notifyName.setText(notifyName);
         holder.checklist.setText(checklist);
@@ -76,6 +80,9 @@ public class NotificationsAdapter extends ArrayAdapter<Notification> {
         	UrlImageViewHelper.setUrlDrawable(holder.image, imgUrl, R.drawable.placeholder); 
     	}
         else { holder.image.setVisibility(View.GONE); }
+        
+        if (finished) { holder.finishedImage.setVisibility(View.VISIBLE); }
+        else { holder.finishedImage.setVisibility(View.GONE); }
         
         return convertView;
 	}

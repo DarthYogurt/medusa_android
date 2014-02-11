@@ -159,8 +159,9 @@ public class JSONReader {
                 String imgFilename = jArray.getJSONObject(i).getString("addImage");
                 if (!imgFilename.contains(".jpg")) { imgFilename = ""; }
                 else { imgFilename = "http://" + imgFilename; }
+                boolean finished = jArray.getJSONObject(i).getBoolean("complete");
                 
-                Notification notification = new Notification(slateId, userName, checklist, stepName, notifyName, note, imgFilename);
+                Notification notification = new Notification(slateId, userName, checklist, stepName, notifyName, note, imgFilename, finished);
             	
                 notificationsArray.add(notification);
             }

@@ -20,7 +20,7 @@
 	    android:id="@+id/notifications_listview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:dividerHeight="1dp"
+	    android:dividerHeight="3dp"
 	    android:divider="#ecef94" />
 
 </LinearLayout>

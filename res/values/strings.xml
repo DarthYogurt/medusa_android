@@ -70,5 +70,6 @@
     <string name="finished_step_img_desc">Finished Step</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_closed">Drawer Closed</string>
+    <string name="finished_img">Finished</string>
 
 </resources>
