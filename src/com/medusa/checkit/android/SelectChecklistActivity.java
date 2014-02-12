@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ public class SelectChecklistActivity extends Activity {
 	private static final int GROUP_ID = 1;
 	private static final int HTTP_RESPONSE_SUCCESS = 200;
 	
+	Preferences prefs;
 	ListView listView;
 	JSONReader reader;
 	ArrayList<Checklist> checklistsArray;
@@ -38,6 +40,8 @@ public class SelectChecklistActivity extends Activity {
 		getActionBar().setTitle("");
 		
 		listView = (ListView)findViewById(R.id.checklist_listview);
+		
+		prefs = new Preferences(this);
 		
 		checklistsArray = new ArrayList<Checklist>();
 		reader = new JSONReader(this);
@@ -78,7 +82,7 @@ public class SelectChecklistActivity extends Activity {
 			}
     	}
 	}
-	
+
 	private void refreshList() {
 		ChecklistAdapter adapter = new ChecklistAdapter(this, R.layout.listview_checklist_row, checklistsArray);
         listView.setAdapter(adapter);

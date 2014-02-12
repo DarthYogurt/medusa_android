@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ public class NotificationsActivity extends Activity {
 	
 	private static final String FILENAME_NOTIFICATIONS = "notifications.json";
 	
+	private Preferences preferences;
 	private ListView listView;
 	private ArrayList<Notification> notificationsArray;
 
@@ -31,11 +33,15 @@ public class NotificationsActivity extends Activity {
 		
 		listView = (ListView)findViewById(R.id.notifications_listview);
 		
+		preferences = new Preferences(this);
 		notificationsArray = new ArrayList<Notification>();
 		
 		refreshList();
 
-        if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotificationsTask().execute(); }
+        if (GlobalMethods.isNetworkAvailable(this)) { 
+        	if (!preferences.getUnsentNotifications().isEmpty()) { new SendUnsentTask().execute(); }
+        	else { new UpdateNotificationsTask().execute(); }
+    	}
     	else {
     		Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show();
 			
@@ -56,7 +62,19 @@ public class NotificationsActivity extends Activity {
 					new FinishNotificationTask(notification.getSlateId()).execute();
 				}
 		    	else {
-		    		Toast.makeText(NotificationsActivity.this, "Please retry when internet connection is available", Toast.LENGTH_SHORT).show();
+		    		Notification notification = notificationsArray.get(position);
+		    		String idAsString = Integer.toString(notification.getSlateId());
+		    		
+		    		ArrayList<String> unsentArray = new ArrayList<String>(preferences.getUnsentNotifications());
+		    		
+		    		if (!unsentArray.contains(idAsString)) {
+		    			unsentArray.add(idAsString);
+			    		preferences.setUnsentNotifications(unsentArray);
+			    		Toast.makeText(NotificationsActivity.this, R.string.msg_unsent_notification, Toast.LENGTH_LONG).show();
+		    		}
+		    		else {
+		    			Toast.makeText(NotificationsActivity.this, R.string.msg_already_logged, Toast.LENGTH_SHORT).show();
+		    		}
 		    	}
 			}
         });
@@ -78,7 +96,10 @@ public class NotificationsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_update:
-			if (GlobalMethods.isNetworkAvailable(this)) { new UpdateNotificationsTask().execute(); }
+			if (GlobalMethods.isNetworkAvailable(this)) {
+				if (!preferences.getUnsentNotifications().isEmpty()) { new SendUnsentTask().execute(); }
+	        	else { new UpdateNotificationsTask().execute(); }
+			}
 			else { Toast.makeText(this, R.string.msg_network_error, Toast.LENGTH_SHORT).show(); }
 			return true;
 		default:
@@ -103,7 +124,7 @@ public class NotificationsActivity extends Activity {
 			progressDialog = new ProgressDialog(NotificationsActivity.this);
 			progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progressDialog.setMessage("Updating notifications. Please wait.");
+			progressDialog.setMessage(getResources().getString(R.string.msg_updating_notifications));
 			progressDialog.show();
 			progressDialog.setCanceledOnTouchOutside(false);
 		}
@@ -146,7 +167,34 @@ public class NotificationsActivity extends Activity {
 
 	    protected void onPostExecute(Void result) {
 	    	super.onPostExecute(result);
-	    	Toast.makeText(getApplicationContext(), "Finish step success!", Toast.LENGTH_SHORT).show();
+	    	new UpdateNotificationsTask().execute();
+	        return;
+	    }
+	}
+	
+	private class SendUnsentTask extends AsyncTask<Void, Void, Void> {
+		ArrayList<String> unsentArray = new ArrayList<String>();
+		
+		@Override
+		protected void onPreExecute(){
+			unsentArray = new ArrayList<String>(preferences.getUnsentNotifications());
+		}
+		
+	    protected Void doInBackground(Void... params) {
+	    	HTTPGetRequest getRequest = new HTTPGetRequest();
+	    	
+	    	for (int i = 0; i < unsentArray.size(); i++) {
+	    		int id = Integer.parseInt(unsentArray.get(i));
+	    		getRequest.finishNotification(id);
+	    		unsentArray.remove(i);
+	    	}
+	        return null;
+	    }
+
+	    protected void onPostExecute(Void result) {
+	    	super.onPostExecute(result);
+	    	Toast.makeText(NotificationsActivity.this, R.string.msg_unsent_notification_sent, Toast.LENGTH_SHORT).show();
+	    	preferences.setUnsentNotifications(unsentArray);
 	    	new UpdateNotificationsTask().execute();
 	        return;
 	    }

@@ -10,10 +10,14 @@
     <string name="msg_no_local_files">No local files. Please connect to internet and try again.</string>
     <string name="msg_checklist_upload_success">Checklist uploaded successfully!</string>
     <string name="msg_updating_files">Updating files. Please wait.</string>
+    <string name="msg_updating_notifications">Updating notifications. Please wait.</string>
     <string name="msg_uploading_checklist">Uploading checklist. Please wait.</string>
     <string name="msg_uploading_unsent">Uploading unsent checklist.</string>
     <string name="msg_no_steps">No steps in checklist.</string>
     <string name="msg_starting_camera">Starting Camera</string>
+    <string name="msg_unsent_notification">Will send next time connection to internet is available and notification page updates.</string>
+    <string name="msg_already_logged">Already logged</string>
+    <string name="msg_unsent_notification_sent">Unsent notifications successfully sent!</string>
 
     <!-- TEXTVIEWS -->
     <string name="start_new_checklist">Start New Checklist</string>
